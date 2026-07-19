@@ -1,1 +1,471 @@
-:root{--bg:#07111f;--panel:#0d1a2b;--panel2:#122238;--text:#edf5ff;--muted:#91a6bd;--accent:#58d6a7;--accent2:#6ea8ff;--line:#223750;--warn:#ffca6b}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#06101d,#0a1422 38%,#08111d);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}.hero{max-width:1220px;margin:auto;padding:42px 24px 22px;display:flex;justify-content:space-between;gap:24px;align-items:end}.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--accent);font-weight:800}.hero h1{font-size:clamp(30px,5vw,55px);margin:4px 0 5px;line-height:1.05}.hero p{color:var(--muted);margin:0}.privacy-pill{border:1px solid #2f614f;background:#10281f;color:#9df0ce;padding:8px 12px;border-radius:999px;white-space:nowrap}.tabs{max-width:1220px;margin:auto;padding:0 24px 18px;display:flex;gap:8px;overflow:auto}.tab,.chips button{border:1px solid var(--line);background:#0b1727;color:var(--muted);padding:10px 14px;border-radius:12px;cursor:pointer}.tab.active,.tab:hover,.chips button:hover{color:white;border-color:#3b6b89;background:#13263d}main{max-width:1220px;margin:auto;padding:0 24px 50px}.panel{display:none}.panel.active{display:block}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px}.card{background:linear-gradient(180deg,rgba(18,34,56,.96),rgba(11,25,42,.96));border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 14px 34px rgba(0,0,0,.18)}.metric .label{color:var(--muted);font-size:13px}.metric .value{font-size:29px;font-weight:800;margin-top:4px}.metric .sub{font-size:12px;color:#6f8ba6;margin-top:4px}.grid.two{display:grid;grid-template-columns:1.45fr 1fr;gap:14px;margin-bottom:14px}h2{margin:0 0 14px;font-size:20px}.chart-card{min-height:330px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.06em}.good{color:var(--accent)}.muted{color:var(--muted)}.section-head{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}.section-head p{margin:3px 0;color:var(--muted)}select,input{width:100%;background:#081523;color:var(--text);border:1px solid #29425d;border-radius:10px;padding:11px 12px}select{min-width:210px}.route-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.mini{background:#091827;border:1px solid var(--line);border-radius:14px;padding:15px}.mini span{display:block;color:var(--muted);font-size:12px}.mini strong{font-size:21px}.route-notes{margin-top:16px;padding:15px;border-radius:13px;background:#0a1c2c;color:#bdd0e2}.form-grid{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end}.form-grid label{color:var(--muted);font-size:12px}.form-grid button,.ask-row button{height:43px;border:0;border-radius:11px;padding:0 20px;font-weight:800;background:linear-gradient(135deg,var(--accent),#54a9ff);color:#05131d;cursor:pointer}.result-box{margin-top:18px;border:1px solid var(--line);border-radius:14px;padding:18px;background:#081624}.score{font-size:38px;font-weight:900}.score small{font-size:15px;color:var(--muted)}.food-row,.provider-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line)}.food-row:last-child,.provider-row:last-child{border-bottom:0}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.ask-row{display:grid;grid-template-columns:1fr auto;gap:10px}footer{color:#658099;text-align:center;padding:0 24px 32px}@media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}.grid.two{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.route-kpis{grid-template-columns:repeat(2,1fr)}.hero{align-items:start;flex-direction:column}.privacy-pill{align-self:flex-start}}@media(max-width:480px){.cards{grid-template-columns:1fr}.route-kpis{grid-template-columns:1fr}.hero{padding-top:28px}}
+:root {
+  --bg: #07111f;
+  --panel: #0d1a2b;
+  --panel2: #122238;
+  --text: #edf5ff;
+  --muted: #91a6bd;
+  --accent: #58d6a7;
+  --accent2: #6ea8ff;
+  --line: #223750;
+  --warn: #ffca6b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(
+    180deg,
+    #06101d,
+    #0a1422 38%,
+    #08111d
+  );
+  color: var(--text);
+  font: 15px/1.5 Inter, ui-sans-serif, system-ui,
+    -apple-system, Segoe UI, sans-serif;
+  min-height: 100vh;
+}
+
+/* ==================================================
+   HERO
+================================================== */
+
+.hero {
+  max-width: 1220px;
+  margin: auto;
+  padding: 42px 24px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: end;
+}
+
+.eyebrow {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 5vw, 55px);
+  margin: 4px 0 5px;
+  line-height: 1.05;
+}
+
+.hero p {
+  color: var(--muted);
+  margin: 0;
+}
+
+.privacy-pill {
+  border: 1px solid #2f614f;
+  background: #10281f;
+  color: #9df0ce;
+  padding: 8px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* ==================================================
+   TABS
+================================================== */
+
+.tabs {
+  max-width: 1220px;
+  margin: auto;
+  padding: 0 24px 18px;
+  display: flex;
+  gap: 8px;
+  overflow: auto;
+}
+
+.tab,
+.chips button {
+  border: 1px solid var(--line);
+  background: #0b1727;
+  color: var(--muted);
+  padding: 10px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.tab.active,
+.tab:hover,
+.chips button:hover {
+  color: white;
+  border-color: #3b6b89;
+  background: #13263d;
+}
+
+/* ==================================================
+   MAIN CONTENT
+================================================== */
+
+main {
+  max-width: 1220px;
+  margin: auto;
+  padding: 0 24px 50px;
+}
+
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+/* ==================================================
+   CARDS
+================================================== */
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.card {
+  background: linear-gradient(
+    180deg,
+    rgba(18, 34, 56, 0.96),
+    rgba(11, 25, 42, 0.96)
+  );
+
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+
+  box-shadow:
+    0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.metric .label {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.metric .value {
+  font-size: 29px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.metric .sub {
+  font-size: 12px;
+  color: #6f8ba6;
+  margin-top: 4px;
+}
+
+/* ==================================================
+   GRID
+================================================== */
+
+.grid.two {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+
+/* ==================================================
+   MONTHLY CHART
+   Fixed height prevents continuous page growth
+================================================== */
+
+.chart-card {
+  height: 380px;
+  min-height: 380px;
+  position: relative;
+  overflow: hidden;
+}
+
+#monthlyChart {
+  display: block;
+  width: 100% !important;
+  height: 290px !important;
+  max-height: 290px !important;
+}
+
+/* ==================================================
+   TABLES
+================================================== */
+
+.table-wrap {
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+th {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.good {
+  color: var(--accent);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+/* ==================================================
+   SECTION HEADERS
+================================================== */
+
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.section-head p {
+  margin: 3px 0;
+  color: var(--muted);
+}
+
+/* ==================================================
+   FORMS
+================================================== */
+
+select,
+input {
+  width: 100%;
+  background: #081523;
+  color: var(--text);
+  border: 1px solid #29425d;
+  border-radius: 10px;
+  padding: 11px 12px;
+}
+
+select {
+  min-width: 210px;
+}
+
+/* ==================================================
+   ROUTE DETAILS
+================================================== */
+
+.route-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.mini {
+  background: #091827;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 15px;
+}
+
+.mini span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.mini strong {
+  font-size: 21px;
+}
+
+.route-notes {
+  margin-top: 16px;
+  padding: 15px;
+  border-radius: 13px;
+  background: #0a1c2c;
+  color: #bdd0e2;
+}
+
+/* ==================================================
+   FARE CHECKER
+================================================== */
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.form-grid label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.form-grid button,
+.ask-row button {
+  height: 43px;
+  border: 0;
+  border-radius: 11px;
+  padding: 0 20px;
+  font-weight: 800;
+
+  background: linear-gradient(
+    135deg,
+    var(--accent),
+    #54a9ff
+  );
+
+  color: #05131d;
+  cursor: pointer;
+}
+
+.result-box {
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 18px;
+  background: #081624;
+}
+
+.score {
+  font-size: 38px;
+  font-weight: 900;
+}
+
+.score small {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+/* ==================================================
+   FOOD AND PROVIDER ROWS
+================================================== */
+
+.food-row,
+.provider-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.food-row:last-child,
+.provider-row:last-child {
+  border-bottom: 0;
+}
+
+/* ==================================================
+   ASK MY DATA
+================================================== */
+
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.ask-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+footer {
+  color: #658099;
+  text-align: center;
+  padding: 0 24px 32px;
+}
+
+/* ==================================================
+   TABLET / MOBILE
+================================================== */
+
+@media (max-width: 850px) {
+
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid.two {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .route-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .hero {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .privacy-pill {
+    align-self: flex-start;
+  }
+
+  .chart-card {
+    height: 350px;
+    min-height: 350px;
+  }
+
+  #monthlyChart {
+    height: 260px !important;
+    max-height: 260px !important;
+  }
+}
+
+/* ==================================================
+   SMALL MOBILE
+================================================== */
+
+@media (max-width: 480px) {
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .route-kpis {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding-top: 28px;
+  }
+
+  .chart-card {
+    height: 330px;
+    min-height: 330px;
+  }
+
+  #monthlyChart {
+    height: 240px !important;
+    max-height: 240px !important;
+  }
+}
