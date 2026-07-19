@@ -17,9 +17,9 @@
 
   --line: #223750;
 
-  --grab: #5da8ff;
-  --gojek: #55d6a5;
-  --food: #ffc96b;
+  --grab: #66a7ff;
+  --gojek: #62d5a7;
+  --food: #ffc963;
 }
 
 
@@ -37,7 +37,6 @@ html {
 
 body {
   margin: 0;
-
   min-height: 100vh;
 
   background:
@@ -72,7 +71,6 @@ body {
 
 .hero {
   max-width: 1220px;
-
   margin: 0 auto;
 
   padding:
@@ -82,18 +80,14 @@ body {
 
   display: flex;
 
-  justify-content:
-    space-between;
-
-  align-items:
-    flex-end;
+  justify-content: space-between;
+  align-items: flex-end;
 
   gap: 24px;
 }
 
 .eyebrow {
   font-size: 12px;
-
   letter-spacing: 0.2em;
 
   color: var(--accent);
@@ -102,10 +96,7 @@ body {
 }
 
 .hero h1 {
-  margin:
-    4px
-    0
-    6px;
+  margin: 4px 0 6px;
 
   font-size:
     clamp(
@@ -119,7 +110,6 @@ body {
 
 .hero p {
   margin: 0;
-
   color: var(--muted);
 }
 
@@ -225,8 +215,7 @@ body {
 ========================================================= */
 
 main {
-  max-width:
-    1220px;
+  max-width: 1220px;
 
   margin:
     0
@@ -257,18 +246,8 @@ main {
   background:
     linear-gradient(
       180deg,
-      rgba(
-        18,
-        34,
-        56,
-        0.98
-      ),
-      rgba(
-        11,
-        25,
-        42,
-        0.98
-      )
+      rgba(18, 34, 56, 0.98),
+      rgba(11, 25, 42, 0.98)
     );
 
   border:
@@ -285,12 +264,7 @@ main {
     0
     14px
     34px
-    rgba(
-      0,
-      0,
-      0,
-      0.18
-    );
+    rgba(0, 0, 0, 0.18);
 }
 
 
@@ -413,15 +387,13 @@ h2 {
 /* =========================================================
    MONTHLY SPEND CHART
    PURE HTML / CSS
-   NO CHART.JS
 ========================================================= */
 
 .chart-card {
-  min-height:
-    390px;
+  height: 390px;
+  min-height: 390px;
 
-  overflow:
-    hidden;
+  overflow: hidden;
 }
 
 #monthlyChart {
@@ -430,17 +402,12 @@ h2 {
 
 .monthly-chart {
   width: 100%;
-
-  height:
-    305px;
+  height: 310px;
 
   display: flex;
+  flex-direction: column;
 
-  flex-direction:
-    column;
-
-  overflow:
-    hidden;
+  overflow: hidden;
 }
 
 
@@ -449,8 +416,8 @@ h2 {
 ========================================================= */
 
 .monthly-legend {
-  min-height:
-    32px;
+  height: 34px;
+  min-height: 34px;
 
   display: flex;
 
@@ -464,7 +431,7 @@ h2 {
     16px;
 
   margin-bottom:
-    10px;
+    6px;
 
   color:
     var(--muted);
@@ -517,14 +484,11 @@ h2 {
 ========================================================= */
 
 .monthly-bars {
-  height:
-    255px;
+  width: 100%;
 
-  min-height:
-    255px;
-
-  max-height:
-    255px;
+  height: 265px;
+  min-height: 265px;
+  max-height: 265px;
 
   display: flex;
 
@@ -532,24 +496,15 @@ h2 {
     stretch;
 
   justify-content:
-    space-around;
+    space-between;
 
-  gap:
-    8px;
+  gap: 5px;
 
-  border-bottom:
-    1px solid
-    var(--line);
-
-  overflow-x:
-    auto;
-
-  overflow-y:
-    hidden;
+  overflow: hidden;
 
   padding:
     0
-    4px;
+    2px;
 }
 
 
@@ -561,23 +516,20 @@ h2 {
   flex:
     1
     1
-    70px;
+    0;
 
   min-width:
-    58px;
-
-  max-width:
-    110px;
+    0;
 
   height:
-    255px;
+    265px;
 
   display: grid;
 
   grid-template-rows:
-    24px
-    200px
-    30px;
+    25px
+    205px
+    35px;
 
   align-items:
     stretch;
@@ -592,20 +544,30 @@ h2 {
 ========================================================= */
 
 .month-value {
-  height:
-    24px;
+  height: 25px;
 
-  line-height:
-    24px;
+  display: flex;
+
+  align-items:
+    center;
+
+  justify-content:
+    center;
 
   color:
     #b7c9db;
 
   font-size:
-    11px;
+    10px;
+
+  font-weight:
+    600;
 
   white-space:
     nowrap;
+
+  overflow:
+    hidden;
 }
 
 
@@ -615,7 +577,7 @@ h2 {
 
 .month-bar-area {
   height:
-    200px;
+    205px;
 
   display: flex;
 
@@ -627,6 +589,15 @@ h2 {
 
   position:
     relative;
+
+  border-bottom:
+    1px solid
+    rgba(
+      145,
+      166,
+      189,
+      0.2
+    );
 }
 
 .month-bar-area::before {
@@ -642,7 +613,7 @@ h2 {
     0;
 
   bottom:
-    25%;
+    33%;
 
   border-top:
     1px solid
@@ -667,7 +638,7 @@ h2 {
     0;
 
   bottom:
-    50%;
+    66%;
 
   border-top:
     1px solid
@@ -687,8 +658,8 @@ h2 {
 .month-stack {
   width:
     min(
-      44px,
-      70%
+      34px,
+      72%
     );
 
   min-height:
@@ -706,10 +677,10 @@ h2 {
     flex-start;
 
   border-radius:
-    7px
-    7px
-    3px
-    3px;
+    6px
+    6px
+    2px
+    2px;
 
   overflow:
     hidden;
@@ -720,6 +691,9 @@ h2 {
   z-index:
     2;
 
+  cursor:
+    help;
+
   box-shadow:
     0
     3px
@@ -728,19 +702,27 @@ h2 {
       0,
       0,
       0,
-      0.28
+      0.25
     );
 
   transition:
     transform
-    0.2s
+    0.18s
+    ease,
+    filter
+    0.18s
     ease;
 }
 
 .month-stack:hover {
   transform:
     translateY(
-      -3px
+      -4px
+    );
+
+  filter:
+    brightness(
+      1.12
     );
 }
 
@@ -773,20 +755,30 @@ h2 {
 ========================================================= */
 
 .month-label {
-  height:
-    30px;
+  min-width: 0;
 
-  line-height:
-    30px;
+  height: 35px;
+
+  padding-top:
+    7px;
 
   color:
     var(--muted);
 
   font-size:
-    11px;
+    9px;
+
+  font-weight:
+    600;
+
+  line-height:
+    1.15;
 
   white-space:
-    nowrap;
+    normal;
+
+  overflow:
+    hidden;
 }
 
 
@@ -798,7 +790,8 @@ h2 {
   min-height:
     240px;
 
-  display: flex;
+  display:
+    flex;
 
   align-items:
     center;
@@ -817,7 +810,8 @@ h2 {
 
 .provider-row,
 .food-row {
-  display: flex;
+  display:
+    flex;
 
   justify-content:
     space-between;
@@ -825,7 +819,8 @@ h2 {
   align-items:
     center;
 
-  gap: 12px;
+  gap:
+    12px;
 
   padding:
     11px
@@ -970,7 +965,8 @@ select {
 ========================================================= */
 
 .route-kpis {
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     repeat(
@@ -1039,7 +1035,8 @@ select {
 ========================================================= */
 
 .form-grid {
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     minmax(
@@ -1154,7 +1151,8 @@ select {
 ========================================================= */
 
 .chips {
-  display: flex;
+  display:
+    flex;
 
   flex-wrap:
     wrap;
@@ -1200,7 +1198,8 @@ select {
 }
 
 .ask-row {
-  display: grid;
+  display:
+    grid;
 
   grid-template-columns:
     minmax(
@@ -1286,6 +1285,16 @@ footer {
     align-self:
       flex-start;
   }
+
+  .month-value {
+    font-size:
+      9px;
+  }
+
+  .month-label {
+    font-size:
+      8px;
+  }
 }
 
 
@@ -1353,41 +1362,36 @@ footer {
   }
 
   .chart-card {
+    height:
+      390px;
+
     min-height:
-      360px;
+      390px;
+
+    overflow-x:
+      auto;
   }
 
   .monthly-chart {
+    min-width:
+      650px;
+
     height:
-      280px;
+      310px;
   }
 
   .monthly-bars {
-    height:
-      230px;
-
-    min-height:
-      230px;
-
-    max-height:
-      230px;
-  }
-
-  .month-column {
     min-width:
-      64px;
-
-    height:
-      230px;
-
-    grid-template-rows:
-      24px
-      175px
-      30px;
+      650px;
   }
 
-  .month-bar-area {
-    height:
-      175px;
+  .month-value {
+    font-size:
+      10px;
+  }
+
+  .month-label {
+    font-size:
+      9px;
   }
 }
