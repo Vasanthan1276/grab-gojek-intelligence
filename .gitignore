@@ -1,0 +1,10 @@
+# Never commit original personal exports
+local_data/
+local_private/
+config/private_aliases.json
+*.pdf
+
+# Python
+.venv/
+__pycache__/
+*.pyc
