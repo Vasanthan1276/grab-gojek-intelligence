@@ -16,7 +16,9 @@ function label(value) {
   return String(value)
     .replaceAll("_", " ")
     .toLowerCase()
-    .replace(/\b\w/g, (character) => character.toUpperCase());
+    .replace(/\b\w/g, (character) =>
+      character.toUpperCase()
+    );
 }
 
 
@@ -36,176 +38,350 @@ function formatMonth(value) {
     1
   );
 
-  return date.toLocaleDateString("en-SG", {
-    month: "short",
-    year: "2-digit"
-  });
+  return date.toLocaleDateString(
+    "en-SG",
+    {
+      month: "short",
+      year: "2-digit"
+    }
+  );
+}
+
+
+function formatHour(hour) {
+  const number = Number(hour);
+
+  if (!Number.isFinite(number)) {
+    return hour;
+  }
+
+  const start =
+    String(number).padStart(
+      2,
+      "0"
+    );
+
+  const end =
+    String(number).padStart(
+      2,
+      "0"
+    );
+
+  return `${start}:00–${end}:59`;
 }
 
 
 function escapeHTML(value) {
   return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-
-/* =========================================================
-   DATA HELPERS
-========================================================= */
-
-function reliableEntries(object, minimumCount = 3) {
-  if (!object) return [];
-
-  return Object.entries(object)
-    .filter(
-      ([, stats]) =>
-        stats &&
-        Number(stats.count || 0) >= minimumCount
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+    .replaceAll(
+      "'",
+      "&#039;"
     );
 }
 
 
-function cheapestEntry(object, minimumCount = 3) {
+/* =========================================================
+   STATISTICS HELPERS
+========================================================= */
+
+function minimumTimingSample() {
+
+  return Number(
+    DATA?.analysis_config
+      ?.timing_minimum_reliable_sample
+      || 5
+  );
+}
+
+
+function confidenceLevel(count) {
+
+  if (count >= 30) {
+
+    return {
+      text:
+        "High confidence",
+
+      className:
+        "confidence-high"
+    };
+  }
+
+
+  if (count >= 10) {
+
+    return {
+      text:
+        "Good confidence",
+
+      className:
+        "confidence-medium"
+    };
+  }
+
+
+  if (count >= 5) {
+
+    return {
+      text:
+        "Early pattern",
+
+      className:
+        "confidence-low"
+    };
+  }
+
+
+  return {
+    text:
+      "Limited history",
+
+    className:
+      "confidence-low"
+  };
+}
+
+
+function sortedHourlyEntries(hourly) {
+
+  if (!hourly) {
+    return [];
+  }
+
+
+  return Object.entries(
+    hourly
+  ).sort(
+    (
+      [hourA],
+      [hourB]
+    ) =>
+      Number(hourA) -
+      Number(hourB)
+  );
+}
+
+
+function reliableEntries(
+  object,
+  minimumCount =
+    minimumTimingSample()
+) {
+
+  if (!object) {
+    return [];
+  }
+
+
+  return Object.entries(
+    object
+  ).filter(
+    ([, stats]) =>
+      stats &&
+      Number(
+        stats.count || 0
+      ) >=
+        minimumCount
+  );
+}
+
+
+function cheapestEntry(
+  object,
+  minimumCount =
+    minimumTimingSample()
+) {
+
   const entries =
     reliableEntries(
       object,
       minimumCount
     );
 
-  if (!entries.length) return null;
+
+  if (!entries.length) {
+    return null;
+  }
+
 
   return entries.reduce(
-    (best, current) =>
-      current[1].average <
-      best[1].average
+    (
+      cheapest,
+      current
+    ) =>
+
+      Number(
+        current[1].average
+      ) <
+
+      Number(
+        cheapest[1].average
+      )
+
         ? current
-        : best
+
+        : cheapest
   );
 }
 
 
 function mostExpensiveEntry(
   object,
-  minimumCount = 3
+  minimumCount =
+    minimumTimingSample()
 ) {
+
   const entries =
     reliableEntries(
       object,
       minimumCount
     );
 
-  if (!entries.length) return null;
+
+  if (!entries.length) {
+    return null;
+  }
+
 
   return entries.reduce(
-    (worst, current) =>
-      current[1].average >
-      worst[1].average
+    (
+      highest,
+      current
+    ) =>
+
+      Number(
+        current[1].average
+      ) >
+
+      Number(
+        highest[1].average
+      )
+
         ? current
-        : worst
+
+        : highest
   );
-}
-
-
-function confidenceLevel(count) {
-  if (count >= 30) {
-    return {
-      text: "High confidence",
-      className: "confidence-high"
-    };
-  }
-
-  if (count >= 10) {
-    return {
-      text: "Good confidence",
-      className: "confidence-medium"
-    };
-  }
-
-  if (count >= 5) {
-    return {
-      text: "Early pattern",
-      className: "confidence-low"
-    };
-  }
-
-  return {
-    text: "Limited history",
-    className: "confidence-low"
-  };
 }
 
 
 /* =========================================================
-   INITIALISE DASHBOARD
+   INITIALISE
 ========================================================= */
 
 async function init() {
-  const response = await fetch(
-    `data/analytics.json?v=${Date.now()}`,
-    {
-      cache: "no-store"
-    }
-  );
+
+  const response =
+    await fetch(
+      `data/analytics.json?v=${Date.now()}`,
+      {
+        cache:
+          "no-store"
+      }
+    );
+
 
   if (!response.ok) {
+
     throw new Error(
       `Unable to load analytics.json. HTTP ${response.status}`
     );
   }
 
-  DATA = await response.json();
+
+  DATA =
+    await response.json();
+
 
   renderSummary();
+
   renderProviders();
+
   renderMonthly();
+
   renderCoreRoutes();
+
   fillRoutes();
+
   renderFood();
 
+
   wireTabs();
+
   wireFareChecker();
+
   wireAgent();
 }
 
 
 /* =========================================================
-   SUMMARY CARDS
+   SUMMARY
 ========================================================= */
 
 function renderSummary() {
-  const summary = DATA.summary;
+
+  const summary =
+    DATA.summary;
+
 
   const cards = [
+
     {
-      title: "Total spend",
-      value: money(
-        summary.total_spend_sgd
-      ),
+      title:
+        "Total spend",
+
+      value:
+        money(
+          summary.total_spend_sgd
+        ),
+
       subtitle:
         "SGD across both reports"
     },
 
+
     {
-      title: "Ride spend",
-      value: money(
-        summary.ride_spend_sgd
-      ),
+      title:
+        "Ride spend",
+
+      value:
+        money(
+          summary.ride_spend_sgd
+        ),
+
       subtitle:
         `${summary.ride_transactions} rides`
     },
 
+
     {
-      title: "Food spend",
-      value: money(
-        summary.food_spend_sgd
-      ),
+      title:
+        "Food spend",
+
+      value:
+        money(
+          summary.food_spend_sgd
+        ),
+
       subtitle:
         `${summary.food_orders} GrabFood orders`
     },
+
 
     {
       title:
@@ -219,32 +395,50 @@ function renderSummary() {
       subtitle:
         "Historical average"
     }
+
   ];
 
 
   document.querySelector(
     "#summaryCards"
-  ).innerHTML = cards
-    .map(
-      (card) => `
-        <article class="card metric">
+  ).innerHTML =
 
-          <div class="label">
-            ${card.title}
-          </div>
+    cards
+      .map(
+        (card) => `
 
-          <div class="value">
-            ${card.value}
-          </div>
+          <article
+            class="
+              card
+              metric
+            "
+          >
 
-          <div class="sub">
-            ${card.subtitle}
-          </div>
+            <div class="label">
 
-        </article>
-      `
-    )
-    .join("");
+              ${card.title}
+
+            </div>
+
+
+            <div class="value">
+
+              ${card.value}
+
+            </div>
+
+
+            <div class="sub">
+
+              ${card.subtitle}
+
+            </div>
+
+          </article>
+
+        `
+      )
+      .join("");
 }
 
 
@@ -253,27 +447,45 @@ function renderSummary() {
 ========================================================= */
 
 function renderProviders() {
+
   const container =
     document.querySelector(
       "#providerSnapshot"
     );
 
-  if (!container) return;
+
+  if (!container) {
+    return;
+  }
 
 
   container.innerHTML =
+
     Object.entries(
       DATA.providers
     )
       .map(
-        ([provider, values]) => `
-          <div class="provider-row">
+        (
+          [
+            provider,
+            values
+          ]
+        ) => `
+
+          <div
+            class="
+              provider-row
+            "
+          >
 
             <div>
 
               <strong>
+
                 ${provider}
+
               </strong>
+
 
               <div class="muted">
 
@@ -281,6 +493,7 @@ function renderProviders() {
                 rides
 
                 · avg
+
                 ${money(
                   values.average_ride
                 )}
@@ -291,12 +504,15 @@ function renderProviders() {
 
 
             <strong>
+
               ${money(
                 values.spend_sgd
               )}
+
             </strong>
 
           </div>
+
         `
       )
       .join("");
@@ -305,32 +521,45 @@ function renderProviders() {
 
 /* =========================================================
    MONTHLY SPEND
-   PURE HTML / CSS
 ========================================================= */
 
 function renderMonthly() {
+
   const placeholder =
     document.querySelector(
       "#monthlyChart"
     );
 
-  if (!placeholder) return;
+
+  if (!placeholder) {
+    return;
+  }
 
 
   const monthlyData =
     Array.isArray(
       DATA.monthly
     )
+
       ? DATA.monthly
+
       : [];
 
 
   if (!monthlyData.length) {
 
     placeholder.innerHTML = `
-      <div class="monthly-empty">
+
+      <div
+        class="
+          monthly-empty
+        "
+      >
+
         No monthly data available.
+
       </div>
+
     `;
 
     return;
@@ -338,26 +567,32 @@ function renderMonthly() {
 
 
   const totals =
+
     monthlyData.map(
       (month) => {
 
         const grab =
           Number(
-            month["Grab rides"] ||
-            0
+            month[
+              "Grab rides"
+            ] || 0
           );
+
 
         const gojek =
           Number(
-            month["Gojek rides"] ||
-            0
+            month[
+              "Gojek rides"
+            ] || 0
           );
+
 
         const food =
           Number(
             month.GrabFood ||
             0
           );
+
 
         return (
           grab +
@@ -377,11 +612,26 @@ function renderMonthly() {
 
   placeholder.innerHTML = `
 
-    <div class="monthly-chart">
+    <div
+      class="
+        monthly-chart
+      "
+    >
 
-      <div class="monthly-legend">
 
-        <div class="legend-item">
+      <div
+        class="
+          monthly-legend
+        "
+      >
+
+
+        <div
+          class="
+            legend-item
+          "
+        >
+
           <span
             class="
               legend-dot
@@ -390,10 +640,15 @@ function renderMonthly() {
           ></span>
 
           Grab rides
+
         </div>
 
 
-        <div class="legend-item">
+        <div
+          class="
+            legend-item
+          "
+        >
 
           <span
             class="
@@ -403,10 +658,15 @@ function renderMonthly() {
           ></span>
 
           Gojek rides
+
         </div>
 
 
-        <div class="legend-item">
+        <div
+          class="
+            legend-item
+          "
+        >
 
           <span
             class="
@@ -416,12 +676,18 @@ function renderMonthly() {
           ></span>
 
           GrabFood
+
         </div>
+
 
       </div>
 
 
-      <div class="monthly-bars">
+      <div
+        class="
+          monthly-bars
+        "
+      >
 
         ${monthlyData
           .map(
@@ -457,7 +723,9 @@ function renderMonthly() {
 
 
               const overallHeight =
+
                 total > 0
+
                   ? Math.max(
                       (
                         total /
@@ -472,89 +740,121 @@ function renderMonthly() {
 
 
               const grabShare =
+
                 total > 0
+
                   ? (
                       grab /
                       total
                     ) *
                     100
+
                   : 0;
 
 
               const gojekShare =
+
                 total > 0
+
                   ? (
                       gojek /
                       total
                     ) *
                     100
+
                   : 0;
 
 
               const foodShare =
+
                 total > 0
+
                   ? (
                       food /
                       total
                     ) *
                     100
+
                   : 0;
 
 
-              const tooltip =
-                [
-                  formatMonth(
-                    month.month
-                  ),
+              const tooltip = [
 
-                  `Total: ${money(
-                    total
-                  )}`,
+                formatMonth(
+                  month.month
+                ),
 
-                  `Grab rides: ${money(
-                    grab
-                  )}`,
+                `Total: ${money(
+                  total
+                )}`,
 
-                  `Gojek rides: ${money(
-                    gojek
-                  )}`,
+                `Grab rides: ${money(
+                  grab
+                )}`,
 
-                  `GrabFood: ${money(
-                    food
-                  )}`
-                ].join("\n");
+                `Gojek rides: ${money(
+                  gojek
+                )}`,
+
+                `GrabFood: ${money(
+                  food
+                )}`
+
+              ].join("\n");
 
 
               return `
 
-                <div class="month-column">
+                <div
+                  class="
+                    month-column
+                  "
+                >
 
-                  <div class="month-value">
+
+                  <div
+                    class="
+                      month-value
+                    "
+                  >
+
                     ${Math.round(
                       total
                     )}
+
                   </div>
 
 
-                  <div class="month-bar-area">
+                  <div
+                    class="
+                      month-bar-area
+                    "
+                  >
+
 
                     <div
-                      class="month-stack"
+                      class="
+                        month-stack
+                      "
 
                       style="
                         height:
-                        ${overallHeight}%
+                        ${overallHeight}%;
                       "
 
-                      title="${escapeHTML(
-                        tooltip
-                      )}"
+                      title="
+                        ${escapeHTML(
+                          tooltip
+                        )}
+                      "
                     >
 
 
                       ${
                         gojek > 0
+
                           ? `
+
                             <div
                               class="
                                 month-segment
@@ -563,17 +863,21 @@ function renderMonthly() {
 
                               style="
                                 height:
-                                ${gojekShare}%
+                                ${gojekShare}%;
                               "
                             ></div>
+
                           `
+
                           : ""
                       }
 
 
                       ${
                         grab > 0
+
                           ? `
+
                             <div
                               class="
                                 month-segment
@@ -582,17 +886,21 @@ function renderMonthly() {
 
                               style="
                                 height:
-                                ${grabShare}%
+                                ${grabShare}%;
                               "
                             ></div>
+
                           `
+
                           : ""
                       }
 
 
                       ${
                         food > 0
+
                           ? `
+
                             <div
                               class="
                                 month-segment
@@ -601,20 +909,27 @@ function renderMonthly() {
 
                               style="
                                 height:
-                                ${foodShare}%
+                                ${foodShare}%;
                               "
                             ></div>
+
                           `
+
                           : ""
                       }
 
 
                     </div>
 
+
                   </div>
 
 
-                  <div class="month-label">
+                  <div
+                    class="
+                      month-label
+                    "
+                  >
 
                     ${formatMonth(
                       month.month
@@ -622,7 +937,9 @@ function renderMonthly() {
 
                   </div>
 
+
                 </div>
+
               `;
             }
           )
@@ -630,7 +947,9 @@ function renderMonthly() {
 
       </div>
 
+
     </div>
+
   `;
 }
 
@@ -640,15 +959,20 @@ function renderMonthly() {
 ========================================================= */
 
 function renderCoreRoutes() {
+
   const tableBody =
     document.querySelector(
       "#coreRoutes"
     );
 
-  if (!tableBody) return;
+
+  if (!tableBody) {
+    return;
+  }
 
 
   tableBody.innerHTML =
+
     DATA.core_routes
       .map(
         (route) => {
@@ -676,7 +1000,9 @@ function renderCoreRoutes() {
           if (comparison) {
 
             comparisonText =
+
               `${comparison.cheaper} by ` +
+
               `${money(
                 comparison
                   .average_saving
@@ -685,43 +1011,59 @@ function renderCoreRoutes() {
 
 
           return `
+
             <tr>
 
+
               <td>
+
                 ${routeName(
                   route
                 )}
+
               </td>
 
+
               <td>
+
                 ${route.overall.count}
+
               </td>
 
+
               <td>
+
                 ${money(
                   route.overall.median
                 )}
+
               </td>
+
 
               <td>
 
                 ${
                   grabAverage != null
+
                     ? money(
                         grabAverage
                       )
+
                     : "—"
                 }
 
               </td>
 
+
               <td>
 
                 ${
                   gojekAverage != null
+
                     ? money(
                         gojekAverage
                       )
+
                     : "—"
                 }
 
@@ -734,7 +1076,9 @@ function renderCoreRoutes() {
 
               </td>
 
+
             </tr>
+
           `;
         }
       )
@@ -743,45 +1087,56 @@ function renderCoreRoutes() {
 
 
 /* =========================================================
-   ROUTE SELECTOR
+   ROUTE SELECTORS
 ========================================================= */
 
 function fillRoutes() {
+
   const routes =
+
     DATA.routes
+
       .filter(
         (route) =>
+
           route.overall &&
+
           route.overall.count >=
             2
       )
+
       .sort(
-        (a, b) =>
-          b.overall.count -
-          a.overall.count
+        (
+          routeA,
+          routeB
+        ) =>
+
+          routeB.overall.count -
+
+          routeA.overall.count
       );
 
 
   const options =
+
     routes
       .map(
         (route) => `
 
           <option
-            value="${
-              route.key
-            }"
+            value="
+              ${route.key}
+            "
           >
 
             ${routeName(
               route
             )}
 
-            (${
-              route.overall.count
-            })
+            (${route.overall.count})
 
           </option>
+
         `
       )
       .join("");
@@ -813,7 +1168,6 @@ function fillRoutes() {
         showRoute(
           event.target.value
         );
-
       }
     );
   }
@@ -845,13 +1199,21 @@ function fillRoutes() {
 function showRoute(key) {
 
   const route =
+
     DATA.routes.find(
       (item) =>
-        item.key === key
+        item.key ===
+        key
     );
 
 
-  if (!route) return;
+  if (!route) {
+    return;
+  }
+
+
+  const minimumSample =
+    minimumTimingSample();
 
 
   const confidence =
@@ -860,32 +1222,122 @@ function showRoute(key) {
     );
 
 
-  const cheapestTime =
-    cheapestEntry(
-      route.time_buckets,
-      5
-    );
+  const timing =
+    route.timing_insights ||
+    {};
 
 
-  const expensiveTime =
-    mostExpensiveEntry(
-      route.time_buckets,
-      5
-    );
+  const bestHour =
+
+    timing.best_hour ||
+
+    (() => {
+
+      const result =
+        cheapestEntry(
+          route.hourly
+        );
 
 
-  const cheapestDay =
-    cheapestEntry(
-      route.weekdays,
-      3
-    );
+      if (!result) {
+        return null;
+      }
 
 
-  const expensiveDay =
-    mostExpensiveEntry(
-      route.weekdays,
-      3
-    );
+      return {
+
+        key:
+          result[0],
+
+        label:
+          formatHour(
+            result[0]
+          ),
+
+        stats:
+          result[1]
+      };
+
+    })();
+
+
+  const worstHour =
+
+    timing.worst_hour ||
+
+    (() => {
+
+      const result =
+        mostExpensiveEntry(
+          route.hourly
+        );
+
+
+      if (!result) {
+        return null;
+      }
+
+
+      return {
+
+        key:
+          result[0],
+
+        label:
+          formatHour(
+            result[0]
+          ),
+
+        stats:
+          result[1]
+      };
+
+    })();
+
+
+  let timingDifference = null;
+
+  let timingDifferencePercent =
+    null;
+
+
+  if (
+    bestHour &&
+    worstHour
+  ) {
+
+    timingDifference =
+
+      Number(
+        worstHour
+          .stats
+          .average
+      ) -
+
+      Number(
+        bestHour
+          .stats
+          .average
+      );
+
+
+    timingDifferencePercent =
+
+      bestHour
+        .stats
+        .average > 0
+
+        ? (
+            timingDifference /
+
+            bestHour
+              .stats
+              .average
+          ) *
+          100
+
+        : null;
+  }
 
 
   const providerComparison =
@@ -894,15 +1346,18 @@ function showRoute(key) {
 
   let providerRecommendation = `
 
-    <div class="
-      recommendation-neutral
-    ">
+    <div
+      class="
+        recommendation-neutral
+      "
+    >
 
-      There is not enough data
-      from both providers for
-      a reliable comparison.
+      There is not enough historical
+      data from both providers for a
+      reliable provider comparison.
 
     </div>
+
   `;
 
 
@@ -910,46 +1365,88 @@ function showRoute(key) {
 
     providerRecommendation = `
 
-      <div class="
-        recommendation-good
-      ">
+      <div
+        class="
+          recommendation-good
+        "
+      >
 
         Historically,
 
         <strong>
+
           ${
             providerComparison
               .cheaper
           }
+
         </strong>
 
-        has been cheaper for
-        this route by an average
-        of
+        has averaged
 
         <strong>
+
           ${money(
             providerComparison
               .average_saving
           )}
+
         </strong>
 
-        per trip.
+        less per trip on this route.
 
       </div>
+
     `;
   }
 
 
+  const topRoutes =
+
+    DATA.routes
+
+      .filter(
+        (item) =>
+          item.overall
+            ?.count >=
+          3
+      )
+
+      .sort(
+        (
+          routeA,
+          routeB
+        ) =>
+
+          routeB.overall.count -
+
+          routeA.overall.count
+      )
+
+      .slice(
+        0,
+        8
+      );
+
+
   const providerCards =
+
     Object.entries(
-      route.providers || {}
+      route.providers ||
+      {}
     )
       .map(
-        ([provider, stats]) => {
+        (
+          [
+            provider,
+            stats
+          ]
+        ) => {
 
           const isWinner =
+
             providerComparison &&
+
             providerComparison
               .cheaper ===
               provider;
@@ -957,41 +1454,64 @@ function showRoute(key) {
 
           return `
 
-            <div class="
-              ride-provider-card
-              ${
-                isWinner
-                  ? "provider-winner"
-                  : ""
-              }
-            ">
-
-              <div class="
-                provider-card-head
-              ">
-
-                <strong>
-                  ${provider}
-                </strong>
+            <div
+              class="
+                ride-provider-card
 
                 ${
                   isWinner
-                    ? `
-                      <span class="
-                        winner-badge
-                      ">
-                        Historical edge
-                      </span>
-                    `
+
+                    ? "provider-winner"
+
                     : ""
                 }
+              "
+            >
+
+
+              <div
+                class="
+                  provider-card-head
+                "
+              >
+
+
+                <strong>
+
+                  ${provider}
+
+                </strong>
+
+
+                ${
+                  isWinner
+
+                    ? `
+
+                      <span
+                        class="
+                          winner-badge
+                        "
+                      >
+
+                        Historical edge
+
+                      </span>
+
+                    `
+
+                    : ""
+                }
+
 
               </div>
 
 
-              <div class="
-                provider-main-value
-              ">
+              <div
+                class="
+                  provider-main-value
+                "
+              >
 
                 ${money(
                   stats.average
@@ -1004,16 +1524,20 @@ function showRoute(key) {
 
                 Average fare
 
-                · ${
-                  stats.count
-                } trips
+                ·
+
+                ${stats.count}
+                trips
 
               </div>
 
 
-              <div class="
-                provider-detail-grid
-              ">
+              <div
+                class="
+                  provider-detail-grid
+                "
+              >
+
 
                 <div>
 
@@ -1022,9 +1546,11 @@ function showRoute(key) {
                   </span>
 
                   <strong>
+
                     ${money(
                       stats.median
                     )}
+
                   </strong>
 
                 </div>
@@ -1033,7 +1559,7 @@ function showRoute(key) {
                 <div>
 
                   <span>
-                    Typical
+                    Typical range
                   </span>
 
                   <strong>
@@ -1052,90 +1578,322 @@ function showRoute(key) {
 
                 </div>
 
+
               </div>
 
+
             </div>
+
           `;
         }
       )
       .join("");
 
 
-  const timeEntries =
-    Object.entries(
-      route.time_buckets ||
-      {}
+  const hourlyEntries =
+    sortedHourlyEntries(
+      route.hourly
     );
 
 
-  const weekdayOrder =
-    [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday"
-    ];
+  const maxHourlyAverage =
+
+    Math.max(
+
+      ...hourlyEntries.map(
+        ([, stats]) =>
+          Number(
+            stats.average
+          )
+      ),
+
+      1
+    );
+
+
+  const timingProviderCards =
+
+    Object.entries(
+      timing.by_provider ||
+      {}
+    )
+      .map(
+        (
+          [
+            provider,
+            insights
+          ]
+        ) => {
+
+
+          const providerBest =
+            insights.best_hour;
+
+
+          const providerWorst =
+            insights.worst_hour;
+
+
+          if (
+            !providerBest &&
+            !providerWorst
+          ) {
+
+            return "";
+          }
+
+
+          let providerGap =
+            null;
+
+
+          if (
+            providerBest &&
+            providerWorst
+          ) {
+
+            providerGap =
+
+              Number(
+                providerWorst
+                  .stats
+                  .average
+              ) -
+
+              Number(
+                providerBest
+                  .stats
+                  .average
+              );
+          }
+
+
+          return `
+
+            <div
+              class="
+                ride-provider-card
+              "
+            >
+
+
+              <div
+                class="
+                  provider-card-head
+                "
+              >
+
+                <strong>
+
+                  ${provider}
+
+                </strong>
+
+              </div>
+
+
+              <div
+                class="
+                  provider-main-value
+                "
+              >
+
+                ${
+                  providerBest
+
+                    ? providerBest
+                        .label
+
+                    : "Limited data"
+                }
+
+              </div>
+
+
+              <div class="muted">
+
+                Best reliable hour
+
+              </div>
+
+
+              <div
+                class="
+                  provider-detail-grid
+                "
+              >
+
+
+                <div>
+
+                  <span>
+                    Best average
+                  </span>
+
+                  <strong>
+
+                    ${
+                      providerBest
+
+                        ? money(
+                            providerBest
+                              .stats
+                              .average
+                          )
+
+                        : "—"
+                    }
+
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <span>
+                    Highest-cost hour
+                  </span>
+
+                  <strong>
+
+                    ${
+                      providerWorst
+
+                        ? providerWorst
+                            .label
+
+                        : "—"
+                    }
+
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <span>
+                    High-hour average
+                  </span>
+
+                  <strong>
+
+                    ${
+                      providerWorst
+
+                        ? money(
+                            providerWorst
+                              .stats
+                              .average
+                          )
+
+                        : "—"
+                    }
+
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <span>
+                    Timing difference
+                  </span>
+
+                  <strong>
+
+                    ${
+                      providerGap != null
+
+                        ? money(
+                            providerGap
+                          )
+
+                        : "—"
+                    }
+
+                  </strong>
+
+                </div>
+
+
+              </div>
+
+
+            </div>
+
+          `;
+        }
+      )
+      .join("");
+
+
+  const weekdayOrder = [
+
+    "Monday",
+
+    "Tuesday",
+
+    "Wednesday",
+
+    "Thursday",
+
+    "Friday",
+
+    "Saturday",
+
+    "Sunday"
+
+  ];
 
 
   const weekdayEntries =
+
     weekdayOrder
+
       .filter(
         (day) =>
           route.weekdays?.[
             day
           ]
       )
+
       .map(
         (day) => [
+
           day,
+
           route.weekdays[
             day
           ]
+
         ]
       );
 
 
-  const maxTimeAverage =
-    Math.max(
-      ...timeEntries.map(
-        ([, stats]) =>
-          stats.average
-      ),
-
-      1
-    );
-
-
   const maxWeekdayAverage =
+
     Math.max(
+
       ...weekdayEntries.map(
         ([, stats]) =>
-          stats.average
+          Number(
+            stats.average
+          )
       ),
 
       1
     );
 
 
-  const topRoutes =
-    DATA.routes
-      .filter(
-        (item) =>
-          item.overall?.count >=
-          3
-      )
-      .sort(
-        (a, b) =>
-          b.overall.count -
-          a.overall.count
-      )
-      .slice(
-        0,
-        8
-      );
+  const bestWeekday =
+    timing.best_weekday;
+
+
+  const worstWeekday =
+    timing.worst_weekday;
 
 
   document.querySelector(
@@ -1143,79 +1901,96 @@ function showRoute(key) {
   ).innerHTML = `
 
 
-    <!-- RIDE DATA SNAPSHOT -->
-
-    <div class="
-      rides-global-summary
-    ">
+    <!-- ===================================================
+         GLOBAL RIDE SUMMARY
+    ==================================================== -->
 
 
-      <div class="
-        ride-summary-box
-      ">
+    <div
+      class="
+        rides-global-summary
+      "
+    >
+
+
+      <div
+        class="
+          ride-summary-box
+        "
+      >
 
         <span>
           Historical rides
         </span>
 
         <strong>
+
           ${
             DATA.summary
               .ride_transactions
           }
+
         </strong>
 
       </div>
 
 
-      <div class="
-        ride-summary-box
-      ">
+      <div
+        class="
+          ride-summary-box
+        "
+      >
 
         <span>
           Ride spend
         </span>
 
         <strong>
+
           ${money(
             DATA.summary
               .ride_spend_sgd
           )}
+
         </strong>
 
       </div>
 
 
-      <div class="
-        ride-summary-box
-      ">
+      <div
+        class="
+          ride-summary-box
+        "
+      >
 
         <span>
           Routes tracked
         </span>
 
         <strong>
-          ${
-            DATA.routes.length
-          }
+
+          ${DATA.routes.length}
+
         </strong>
 
       </div>
 
 
-      <div class="
-        ride-summary-box
-      ">
+      <div
+        class="
+          ride-summary-box
+        "
+      >
 
         <span>
           Selected route
         </span>
 
         <strong>
-          ${
-            route.overall.count
-          }
+
+          ${route.overall.count}
           trips
+
         </strong>
 
       </div>
@@ -1225,35 +2000,53 @@ function showRoute(key) {
 
 
 
-    <!-- MOST FREQUENT ROUTES -->
+    <!-- ===================================================
+         MOST FREQUENT ROUTES
+    ==================================================== -->
 
-    <div class="
-      ride-section
-    ">
 
-      <div class="
-        ride-section-title
-      ">
+    <div
+      class="
+        ride-section
+      "
+    >
+
+
+      <div
+        class="
+          ride-section-title
+        "
+      >
+
 
         <div>
 
           <h3>
+
             Most frequent routes
+
           </h3>
 
+
           <p>
+
             Your most common journeys
             in the historical dataset.
+
           </p>
 
         </div>
 
+
       </div>
 
 
-      <div class="
-        route-ranking
-      ">
+      <div
+        class="
+          route-ranking
+        "
+      >
+
 
         ${topRoutes
           .map(
@@ -1262,7 +2055,9 @@ function showRoute(key) {
               index
             ) => {
 
+
               const comparison =
+
                 item
                   .provider_comparison;
 
@@ -1290,18 +2085,23 @@ function showRoute(key) {
                 >
 
 
-                  <span class="
-                    rank-number
-                  ">
+                  <span
+                    class="
+                      rank-number
+                    "
+                  >
 
                     ${index + 1}
 
                   </span>
 
 
-                  <span class="
-                    rank-route
-                  ">
+                  <span
+                    class="
+                      rank-route
+                    "
+                  >
+
 
                     <strong>
 
@@ -1318,6 +2118,7 @@ function showRoute(key) {
                         item.overall
                           .count
                       }
+
                       trips
 
                       · median
@@ -1329,17 +2130,22 @@ function showRoute(key) {
 
                     </small>
 
+
                   </span>
 
 
-                  <span class="
-                    rank-edge
-                  ">
+                  <span
+                    class="
+                      rank-edge
+                    "
+                  >
+
 
                     ${
                       comparison
 
                         ? `
+
                           ${
                             comparison
                               .cheaper
@@ -1351,39 +2157,54 @@ function showRoute(key) {
                             comparison
                               .average_saving
                           )}
+
                         `
 
-                        : "Single-provider data"
+                        : "Limited comparison"
                     }
+
 
                   </span>
 
 
                 </button>
+
               `;
             }
           )
           .join("")}
 
+
       </div>
+
 
     </div>
 
 
 
-    <!-- SELECTED ROUTE -->
+    <!-- ===================================================
+         SELECTED ROUTE
+    ==================================================== -->
 
-    <div class="
-      selected-route-header
-    ">
+
+    <div
+      class="
+        selected-route-header
+      "
+    >
 
 
       <div>
 
-        <div class="
-          route-eyebrow
-        ">
+
+        <div
+          class="
+            route-eyebrow
+          "
+        >
+
           SELECTED ROUTE
+
         </div>
 
 
@@ -1396,37 +2217,49 @@ function showRoute(key) {
         </h2>
 
 
-        <div class="
-          confidence-badge
+        <div
 
-          ${
-            confidence.className
-          }
-        ">
+          class="
+            confidence-badge
+
+            ${
+              confidence.className
+            }
+          "
+
+        >
 
           ${confidence.text}
 
-          · ${
-            route.overall.count
-          } trips
+          ·
+
+          ${route.overall.count}
+          trips
 
         </div>
+
 
       </div>
 
 
-      <div class="
-        route-median-big
-      ">
+      <div
+        class="
+          route-median-big
+        "
+      >
 
         <span>
+
           Historical median
+
         </span>
 
         <strong>
+
           ${money(
             route.overall.median
           )}
+
         </strong>
 
       </div>
@@ -1436,12 +2269,17 @@ function showRoute(key) {
 
 
 
-    <!-- ROUTE KPIs -->
+    <!-- ===================================================
+         ROUTE KPIs
+    ==================================================== -->
 
-    <div class="
-      route-kpis
-      enhanced-route-kpis
-    ">
+
+    <div
+      class="
+        route-kpis
+        enhanced-route-kpis
+      "
+    >
 
 
       <div class="mini">
@@ -1451,9 +2289,11 @@ function showRoute(key) {
         </span>
 
         <strong>
+
           ${money(
             route.overall.average
           )}
+
         </strong>
 
       </div>
@@ -1489,9 +2329,11 @@ function showRoute(key) {
         </span>
 
         <strong>
+
           ${money(
             route.overall.min
           )}
+
         </strong>
 
       </div>
@@ -1504,9 +2346,11 @@ function showRoute(key) {
         </span>
 
         <strong>
+
           ${money(
             route.overall.max
           )}
+
         </strong>
 
       </div>
@@ -1516,11 +2360,16 @@ function showRoute(key) {
 
 
 
-    <!-- PROVIDER RECOMMENDATION -->
+    <!-- ===================================================
+         PROVIDER RECOMMENDATION
+    ==================================================== -->
 
-    <div class="
-      route-intelligence-banner
-    ">
+
+    <div
+      class="
+        route-intelligence-banner
+      "
+    >
 
       ${providerRecommendation}
 
@@ -1528,25 +2377,37 @@ function showRoute(key) {
 
 
 
-    <!-- PROVIDER CARDS -->
+    <!-- ===================================================
+         PROVIDER COMPARISON
+    ==================================================== -->
 
-    <div class="
-      ride-section
-    ">
 
-      <div class="
-        ride-section-title
-      ">
+    <div
+      class="
+        ride-section
+      "
+    >
+
+
+      <div
+        class="
+          ride-section-title
+        "
+      >
 
         <div>
 
           <h3>
+
             Provider comparison
+
           </h3>
 
           <p>
-            Historical performance
-            for this exact route.
+
+            Historical pricing for
+            this exact route.
+
           </p>
 
         </div>
@@ -1554,66 +2415,96 @@ function showRoute(key) {
       </div>
 
 
-      <div class="
-        ride-provider-grid
-      ">
+      <div
+        class="
+          ride-provider-grid
+        "
+      >
 
         ${providerCards}
 
       </div>
 
+
     </div>
 
 
 
-    <!-- TIME ANALYSIS -->
+    <!-- ===================================================
+         TIMING INTELLIGENCE
+    ==================================================== -->
 
-    <div class="
-      ride-section
-    ">
 
-      <div class="
-        ride-section-title
-      ">
+    <div
+      class="
+        ride-section
+      "
+    >
+
+
+      <div
+        class="
+          ride-section-title
+        "
+      >
+
 
         <div>
 
           <h3>
-            Time-of-day patterns
+
+            Hourly timing intelligence
+
           </h3>
 
+
           <p>
-            Periods with fewer than
-            five trips are not used
-            for the best/worst
-            recommendation.
+
+            An hour needs at least
+
+            ${minimumSample}
+
+            historical trips before
+            it is treated as a
+            reliable timing pattern.
+
           </p>
 
         </div>
 
+
       </div>
 
 
-      <div class="
-        pattern-insights
-      ">
+
+      <div
+        class="
+          pattern-insights
+        "
+      >
 
 
-        <div class="
-          pattern-callout
-          best-pattern
-        ">
+        <div
+          class="
+            pattern-callout
+            best-pattern
+          "
+        >
+
 
           <span>
-            Best reliable period
+
+            Best reliable hour
+
           </span>
+
 
           <strong>
 
             ${
-              cheapestTime
+              bestHour
 
-                ? cheapestTime[0]
+                ? bestHour.label
 
                 : "Not enough data"
             }
@@ -1622,55 +2513,63 @@ function showRoute(key) {
 
 
           ${
-            cheapestTime
+            bestHour
 
               ? `
 
                 <small>
 
-                  Avg
+                  Average
 
                   ${money(
-                    cheapestTime[
-                      1
-                    ].average
+                    bestHour
+                      .stats
+                      .average
                   )}
 
-                  across
+                  ·
 
                   ${
-                    cheapestTime[
-                      1
-                    ].count
+                    bestHour
+                      .stats
+                      .count
                   }
 
                   trips
 
                 </small>
+
               `
 
               : ""
           }
 
+
         </div>
 
 
 
-        <div class="
-          pattern-callout
-          expensive-pattern
-        ">
+        <div
+          class="
+            pattern-callout
+            expensive-pattern
+          "
+        >
+
 
           <span>
-            Most expensive period
+
+            Highest-cost reliable hour
+
           </span>
+
 
           <strong>
 
             ${
-              expensiveTime
+              worstHour
 
-                ? expensiveTime[0]
+                ? worstHour.label
 
                 : "Not enough data"
             }
@@ -1679,35 +2578,37 @@ function showRoute(key) {
 
 
           ${
-            expensiveTime
+            worstHour
 
               ? `
 
                 <small>
 
-                  Avg
+                  Average
 
                   ${money(
-                    expensiveTime[
-                      1
-                    ].average
+                    worstHour
+                      .stats
+                      .average
                   )}
 
-                  across
+                  ·
 
                   ${
-                    expensiveTime[
-                      1
-                    ].count
+                    worstHour
+                      .stats
+                      .count
                   }
 
                   trips
 
                 </small>
+
               `
 
               : ""
           }
+
 
         </div>
 
@@ -1716,75 +2617,205 @@ function showRoute(key) {
 
 
 
-      <div class="
-        pattern-list
-      ">
+      ${
+        timingDifference != null
 
-        ${timeEntries
+          ? `
+
+            <div
+              class="
+                route-intelligence-banner
+              "
+            >
+
+
+              <div
+                class="
+                  recommendation-neutral
+                "
+              >
+
+
+                Based on your historical
+                data, travelling during the
+                highest-cost reliable hour
+                has averaged
+
+                <strong>
+
+                  ${money(
+                    timingDifference
+                  )}
+
+                </strong>
+
+                more than the best
+                reliable hour.
+
+
+                ${
+                  timingDifferencePercent !=
+                  null
+
+                    ? `
+
+                      That is approximately
+
+                      <strong>
+
+                        ${timingDifferencePercent.toFixed(
+                          0
+                        )}%
+
+                      </strong>
+
+                      higher.
+
+                    `
+
+                    : ""
+                }
+
+
+              </div>
+
+
+            </div>
+
+          `
+
+          : ""
+      }
+
+
+
+      <div
+        class="
+          pattern-list
+        "
+
+        style="
+          margin-top:
+          20px;
+        "
+      >
+
+
+        ${hourlyEntries
           .map(
             (
               [
-                timeName,
+                hour,
                 stats
               ]
             ) => {
 
+
               const width =
+
                 (
-                  stats.average /
-                  maxTimeAverage
+                  Number(
+                    stats.average
+                  ) /
+
+                  maxHourlyAverage
                 ) *
                 100;
 
 
+              const reliable =
+
+                Number(
+                  stats.count
+                ) >=
+
+                minimumSample;
+
+
               return `
 
-                <div class="
-                  pattern-row
-                ">
+                <div
+                  class="
+                    pattern-row
+                  "
+
+                  style="
+                    opacity:
+                    ${
+                      reliable
+
+                        ? 1
+
+                        : 0.48
+                    };
+                  "
+                >
 
 
-                  <div class="
-                    pattern-name
-                  ">
+                  <div
+                    class="
+                      pattern-name
+                    "
+                  >
+
 
                     <strong>
 
-                      ${timeName}
+                      ${formatHour(
+                        hour
+                      )}
 
                     </strong>
+
 
                     <small>
 
                       ${stats.count}
                       trips
 
+                      ${
+                        reliable
+
+                          ? ""
+
+                          : " · low sample"
+                      }
+
                     </small>
+
 
                   </div>
 
 
-                  <div class="
-                    pattern-bar-track
-                  ">
+                  <div
+                    class="
+                      pattern-bar-track
+                    "
+                  >
+
 
                     <div
+
                       class="
                         pattern-bar-fill
                       "
 
                       style="
                         width:
-                        ${width}%
+                        ${width}%;
                       "
+
                     ></div>
+
 
                   </div>
 
 
-                  <div class="
-                    pattern-price
-                  ">
+                  <div
+                    class="
+                      pattern-price
+                    "
+                  >
 
                     ${money(
                       stats.average
@@ -1794,313 +2825,502 @@ function showRoute(key) {
 
 
                 </div>
+
               `;
             }
           )
           .join("")}
 
+
       </div>
+
 
     </div>
 
 
 
-    <!-- WEEKDAY ANALYSIS -->
+    <!-- ===================================================
+         PROVIDER-SPECIFIC TIMING
+    ==================================================== -->
 
-    <div class="
-      ride-section
-    ">
 
-      <div class="
-        ride-section-title
-      ">
+    ${
+      timingProviderCards
+
+        ? `
+
+          <div
+            class="
+              ride-section
+            "
+          >
+
+
+            <div
+              class="
+                ride-section-title
+              "
+            >
+
+
+              <div>
+
+                <h3>
+
+                  Timing by provider
+
+                </h3>
+
+
+                <p>
+
+                  The cheapest hour can
+                  differ between Grab and
+                  Gojek.
+
+                  Only hours meeting the
+
+                  ${minimumSample}-trip
+
+                  minimum are used.
+
+                </p>
+
+              </div>
+
+
+            </div>
+
+
+            <div
+              class="
+                ride-provider-grid
+              "
+            >
+
+              ${timingProviderCards}
+
+            </div>
+
+
+          </div>
+
+        `
+
+        : ""
+    }
+
+
+
+    <!-- ===================================================
+         WEEKDAY PATTERNS
+    ==================================================== -->
+
+
+    ${
+      weekdayEntries.length
+
+        ? `
+
+          <div
+            class="
+              ride-section
+            "
+          >
+
+
+            <div
+              class="
+                ride-section-title
+              "
+            >
+
+
+              <div>
+
+                <h3>
+
+                  Day-of-week patterns
+
+                </h3>
+
+
+                <p>
+
+                  Timing is the stronger
+                  variable for many routes,
+                  but weekday patterns are
+                  also tracked where there
+                  is enough history.
+
+                </p>
+
+              </div>
+
+
+            </div>
+
+
+
+            <div
+              class="
+                pattern-insights
+              "
+            >
+
+
+              <div
+                class="
+                  pattern-callout
+                  best-pattern
+                "
+              >
+
+
+                <span>
+
+                  Lowest average weekday
+
+                </span>
+
+
+                <strong>
+
+                  ${
+                    bestWeekday
+
+                      ? bestWeekday.label
+
+                      : "Not enough data"
+                  }
+
+                </strong>
+
+
+                ${
+                  bestWeekday
+
+                    ? `
+
+                      <small>
+
+                        Average
+
+                        ${money(
+                          bestWeekday
+                            .stats
+                            .average
+                        )}
+
+                        ·
+
+                        ${
+                          bestWeekday
+                            .stats
+                            .count
+                        }
+
+                        trips
+
+                      </small>
+
+                    `
+
+                    : ""
+                }
+
+
+              </div>
+
+
+
+              <div
+                class="
+                  pattern-callout
+                  expensive-pattern
+                "
+              >
+
+
+                <span>
+
+                  Highest average weekday
+
+                </span>
+
+
+                <strong>
+
+                  ${
+                    worstWeekday
+
+                      ? worstWeekday.label
+
+                      : "Not enough data"
+                  }
+
+                </strong>
+
+
+                ${
+                  worstWeekday
+
+                    ? `
+
+                      <small>
+
+                        Average
+
+                        ${money(
+                          worstWeekday
+                            .stats
+                            .average
+                        )}
+
+                        ·
+
+                        ${
+                          worstWeekday
+                            .stats
+                            .count
+                        }
+
+                        trips
+
+                      </small>
+
+                    `
+
+                    : ""
+                }
+
+
+              </div>
+
+
+            </div>
+
+
+
+            <div
+              class="
+                pattern-list
+              "
+            >
+
+
+              ${weekdayEntries
+                .map(
+                  (
+                    [
+                      day,
+                      stats
+                    ]
+                  ) => {
+
+
+                    const width =
+
+                      (
+                        Number(
+                          stats.average
+                        ) /
+
+                        maxWeekdayAverage
+                      ) *
+                      100;
+
+
+                    return `
+
+                      <div
+                        class="
+                          pattern-row
+                        "
+                      >
+
+
+                        <div
+                          class="
+                            pattern-name
+                          "
+                        >
+
+
+                          <strong>
+
+                            ${day}
+
+                          </strong>
+
+
+                          <small>
+
+                            ${stats.count}
+                            trips
+
+                          </small>
+
+
+                        </div>
+
+
+                        <div
+                          class="
+                            pattern-bar-track
+                          "
+                        >
+
+
+                          <div
+
+                            class="
+                              pattern-bar-fill
+                            "
+
+                            style="
+                              width:
+                              ${width}%;
+                            "
+
+                          ></div>
+
+
+                        </div>
+
+
+                        <div
+                          class="
+                            pattern-price
+                          "
+                        >
+
+                          ${money(
+                            stats.average
+                          )}
+
+                        </div>
+
+
+                      </div>
+
+                    `;
+                  }
+                )
+                .join("")}
+
+
+            </div>
+
+
+          </div>
+
+        `
+
+        : ""
+    }
+
+
+
+    <!-- ===================================================
+         DETAILED PROVIDER STATISTICS
+    ==================================================== -->
+
+
+    <div
+      class="
+        ride-section
+      "
+    >
+
+
+      <div
+        class="
+          ride-section-title
+        "
+      >
+
 
         <div>
 
           <h3>
-            Day-of-week patterns
-          </h3>
 
-          <p>
-            Compare average fares
-            by weekday for this route.
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="
-        pattern-insights
-      ">
-
-
-        <div class="
-          pattern-callout
-          best-pattern
-        ">
-
-          <span>
-            Cheapest reliable day
-          </span>
-
-          <strong>
-
-            ${
-              cheapestDay
-
-                ? cheapestDay[0]
-
-                : "Not enough data"
-            }
-
-          </strong>
-
-
-          ${
-            cheapestDay
-
-              ? `
-
-                <small>
-
-                  Avg
-
-                  ${money(
-                    cheapestDay[
-                      1
-                    ].average
-                  )}
-
-                  ·
-
-                  ${
-                    cheapestDay[
-                      1
-                    ].count
-                  }
-
-                  trips
-
-                </small>
-
-              `
-
-              : ""
-          }
-
-        </div>
-
-
-
-        <div class="
-          pattern-callout
-          expensive-pattern
-        ">
-
-          <span>
-            Most expensive day
-          </span>
-
-          <strong>
-
-            ${
-              expensiveDay
-
-                ? expensiveDay[0]
-
-                : "Not enough data"
-            }
-
-          </strong>
-
-
-          ${
-            expensiveDay
-
-              ? `
-
-                <small>
-
-                  Avg
-
-                  ${money(
-                    expensiveDay[
-                      1
-                    ].average
-                  )}
-
-                  ·
-
-                  ${
-                    expensiveDay[
-                      1
-                    ].count
-                  }
-
-                  trips
-
-                </small>
-
-              `
-
-              : ""
-          }
-
-        </div>
-
-
-      </div>
-
-
-
-      <div class="
-        pattern-list
-      ">
-
-        ${weekdayEntries
-          .map(
-            (
-              [
-                day,
-                stats
-              ]
-            ) => {
-
-              const width =
-                (
-                  stats.average /
-                  maxWeekdayAverage
-                ) *
-                100;
-
-
-              return `
-
-                <div class="
-                  pattern-row
-                ">
-
-
-                  <div class="
-                    pattern-name
-                  ">
-
-                    <strong>
-                      ${day}
-                    </strong>
-
-                    <small>
-
-                      ${stats.count}
-                      trips
-
-                    </small>
-
-                  </div>
-
-
-                  <div class="
-                    pattern-bar-track
-                  ">
-
-                    <div
-                      class="
-                        pattern-bar-fill
-                      "
-
-                      style="
-                        width:
-                        ${width}%
-                      "
-                    ></div>
-
-                  </div>
-
-
-                  <div class="
-                    pattern-price
-                  ">
-
-                    ${money(
-                      stats.average
-                    )}
-
-                  </div>
-
-
-                </div>
-              `;
-            }
-          )
-          .join("")}
-
-      </div>
-
-    </div>
-
-
-
-    <!-- ROUTE DETAIL TABLE -->
-
-    <div class="
-      ride-section
-    ">
-
-      <div class="
-        ride-section-title
-      ">
-
-        <div>
-
-          <h3>
             Detailed provider statistics
+
           </h3>
 
         </div>
 
+
       </div>
 
 
-      <div class="table-wrap">
+      <div
+        class="
+          table-wrap
+        "
+      >
+
 
         <table>
 
+
           <thead>
+
 
             <tr>
 
+
               <th>
+
                 Provider
+
               </th>
 
+
               <th>
+
                 Trips
+
               </th>
 
+
               <th>
+
                 Average
+
               </th>
 
+
               <th>
+
                 Median
+
               </th>
 
+
               <th>
+
                 Typical range
+
               </th>
 
+
               <th>
+
                 Recorded range
+
               </th>
+
 
             </tr>
+
 
           </thead>
 
 
           <tbody>
+
 
             ${Object.entries(
               route.providers ||
@@ -2114,7 +3334,9 @@ function showRoute(key) {
                   ]
                 ) => `
 
+
                   <tr>
+
 
                     <td>
 
@@ -2181,19 +3403,26 @@ function showRoute(key) {
 
                     </td>
 
+
                   </tr>
+
 
                 `
               )
               .join("")}
 
+
           </tbody>
+
 
         </table>
 
+
       </div>
 
+
     </div>
+
   `;
 
 
@@ -2210,11 +3439,13 @@ function showRoute(key) {
           () => {
 
             const routeKey =
+
               button.dataset
                 .routeKey;
 
 
             const select =
+
               document.querySelector(
                 "#routeSelect"
               );
@@ -2228,15 +3459,29 @@ function showRoute(key) {
               routeKey
             );
 
+
+            document
+              .querySelector(
+                "#rides"
+              )
+              ?.scrollIntoView({
+                behavior:
+                  "smooth",
+
+                block:
+                  "start"
+              });
+
           }
         );
+
       }
     );
 }
 
 
 /* =========================================================
-   TAB NAVIGATION
+   TABS
 ========================================================= */
 
 function wireTabs() {
@@ -2261,8 +3506,10 @@ function wireTabs() {
 
         () => {
 
+
           tabs.forEach(
             (tab) =>
+
               tab.classList.remove(
                 "active"
               )
@@ -2271,6 +3518,7 @@ function wireTabs() {
 
           panels.forEach(
             (panel) =>
+
               panel.classList.remove(
                 "active"
               )
@@ -2283,10 +3531,13 @@ function wireTabs() {
 
 
           const panel =
+
             document.querySelector(
+
               `#${
                 button.dataset.tab
               }`
+
             );
 
 
@@ -2299,9 +3550,14 @@ function wireTabs() {
 
 
           window.scrollTo({
+
             top: 0,
+
             left: 0,
-            behavior: "auto"
+
+            behavior:
+              "auto"
+
           });
 
         }
@@ -2313,7 +3569,8 @@ function wireTabs() {
 
 
 /* =========================================================
-   FARE SCORING
+   FARE CHECKER
+   CURRENT VERSION - TIMING WILL BE ADDED NEXT
 ========================================================= */
 
 function fareScore(
@@ -2322,100 +3579,126 @@ function fareScore(
 ) {
 
   if (
-    amount <= stats.p10
+    amount <=
+    stats.p10
   ) {
 
     return [
+
       5,
+
       "Exceptional value"
+
     ];
   }
 
 
   if (
-    amount <= stats.p25
+    amount <=
+    stats.p25
   ) {
 
     return [
+
       4,
+
       "Very good"
+
     ];
   }
 
 
   if (
-    amount <= stats.median
+    amount <=
+    stats.median
   ) {
 
     return [
+
       3,
+
       "Normal to good"
+
     ];
   }
 
 
   if (
-    amount <= stats.p75
+    amount <=
+    stats.p75
   ) {
 
     return [
+
       2,
+
       "Somewhat expensive"
+
     ];
   }
 
 
   if (
-    amount <= stats.p90
+    amount <=
+    stats.p90
   ) {
 
     return [
+
       1,
+
       "Expensive"
+
     ];
   }
 
 
   return [
+
     0,
+
     "Unusually expensive"
+
   ];
 }
 
 
-/* =========================================================
-   FARE CHECKER
-========================================================= */
-
 function checkFare() {
 
   const routeKey =
+
     document.querySelector(
       "#fareRoute"
     ).value;
 
 
   const provider =
+
     document.querySelector(
       "#fareProvider"
     ).value;
 
 
   const amount =
+
     Number(
+
       document.querySelector(
         "#fareAmount"
       ).value
+
     );
 
 
   const resultBox =
+
     document.querySelector(
       "#fareResult"
     );
 
 
   const route =
+
     DATA.routes.find(
       (item) =>
         item.key ===
@@ -2425,13 +3708,16 @@ function checkFare() {
 
   if (
     !route ||
+
     !Number.isFinite(
       amount
     ) ||
+
     amount <= 0
   ) {
 
     resultBox.innerHTML =
+
       "Enter a valid fare amount.";
 
     return;
@@ -2439,7 +3725,9 @@ function checkFare() {
 
 
   const stats =
-    provider === "Overall"
+
+    provider ===
+    "Overall"
 
       ? route.overall
 
@@ -2463,18 +3751,22 @@ function checkFare() {
   const [
     score,
     description
-  ] = fareScore(
-    amount,
-    stats
-  );
+  ] =
+
+    fareScore(
+      amount,
+      stats
+    );
 
 
   const difference =
+
     amount -
     stats.median;
 
 
   const differenceText =
+
     difference >= 0
 
       ? `${money(
@@ -2490,6 +3782,7 @@ function checkFare() {
 
   resultBox.innerHTML = `
 
+
     <div class="score">
 
       ${score}
@@ -2502,7 +3795,9 @@ function checkFare() {
 
 
     <strong>
+
       ${description}
+
     </strong>
 
 
@@ -2511,14 +3806,16 @@ function checkFare() {
 
       style="
         margin-top:
-        6px
+        6px;
       "
     >
 
       Quote:
+
       ${money(amount)}
 
       · Historical median:
+
       ${money(
         stats.median
       )}
@@ -2530,6 +3827,7 @@ function checkFare() {
       comparison trips
 
     </div>
+
   `;
 }
 
@@ -2537,12 +3835,14 @@ function checkFare() {
 function wireFareChecker() {
 
   const button =
+
     document.querySelector(
       "#checkFare"
     );
 
 
   const input =
+
     document.querySelector(
       "#fareAmount"
     );
@@ -2586,31 +3886,46 @@ function renderFood() {
     "#foodSummary"
   ).innerHTML = `
 
+
     <div class="metric">
 
+
       <div class="label">
+
         Orders
+
       </div>
 
+
       <div class="value">
+
         ${food.order_count}
+
       </div>
+
 
     </div>
 
 
+
     <div
+
       class="metric"
 
       style="
         margin-top:
-        20px
+        20px;
       "
+
     >
 
+
       <div class="label">
+
         Total spend
+
       </div>
+
 
       <div class="value">
 
@@ -2620,11 +3935,14 @@ function renderFood() {
 
       </div>
 
+
     </div>
+
   `;
 
 
   const restaurants =
+
     food.top_restaurants ||
     [];
 
@@ -2632,6 +3950,7 @@ function renderFood() {
   document.querySelector(
     "#topFood"
   ).innerHTML =
+
     restaurants
       .slice(
         0,
@@ -2643,9 +3962,16 @@ function renderFood() {
           index
         ) => `
 
-          <div class="food-row">
+
+          <div
+            class="
+              food-row
+            "
+          >
+
 
             <div>
+
 
               <strong>
 
@@ -2676,6 +4002,7 @@ function renderFood() {
 
               </div>
 
+
             </div>
 
 
@@ -2688,7 +4015,10 @@ function renderFood() {
 
             </strong>
 
+
           </div>
+
+
         `
       )
       .join("");
@@ -2702,6 +4032,7 @@ function renderFood() {
 function answer(question) {
 
   const q =
+
     String(
       question || ""
     )
@@ -2710,6 +4041,7 @@ function answer(question) {
 
 
   const homeOffice =
+
     DATA.routes.find(
       (route) =>
         route.key ===
@@ -2732,13 +4064,17 @@ function answer(question) {
 
 
   if (
-    q.includes("food") ||
+    q.includes(
+      "food"
+    ) ||
+
     q.includes(
       "restaurant"
     )
   ) {
 
     const top =
+
       DATA.food
         .top_restaurants?.[0];
 
@@ -2746,8 +4082,11 @@ function answer(question) {
     if (!top) {
 
       return (
+
         "No food-order data " +
+
         "is currently available."
+
       );
     }
 
@@ -2785,13 +4124,19 @@ function answer(question) {
       </strong>
 
       total spend.
+
     `;
   }
 
 
   if (
-    q.includes("ride") &&
-    q.includes("spend")
+    q.includes(
+      "ride"
+    ) &&
+
+    q.includes(
+      "spend"
+    )
   ) {
 
     return `
@@ -2819,12 +4164,15 @@ function answer(question) {
         rides
 
       </strong>.
+
     `;
   }
 
 
   if (
-    q.includes("spend")
+    q.includes(
+      "spend"
+    )
   ) {
 
     return `
@@ -2864,17 +4212,22 @@ function answer(question) {
       </strong>
 
       on GrabFood.
+
     `;
   }
 
 
   if (
-    q.includes("cheaper") &&
+    q.includes(
+      "cheaper"
+    ) &&
+
     homeOffice
       ?.provider_comparison
   ) {
 
     const comparison =
+
       homeOffice
         .provider_comparison;
 
@@ -2902,6 +4255,7 @@ function answer(question) {
       </strong>
 
       per trip.
+
     `;
   }
 
@@ -2911,8 +4265,13 @@ function answer(question) {
 
     (
       (
-        q.includes("home") &&
-        q.includes("office")
+        q.includes(
+          "home"
+        ) &&
+
+        q.includes(
+          "office"
+        )
       )
 
       ||
@@ -2976,6 +4335,7 @@ function answer(question) {
         trips
 
       </strong>.
+
     `;
   }
 
@@ -2994,19 +4354,14 @@ function answer(question) {
 
     </strong>
 
-    We will expand this intelligence
-    capability in the next phase.
   `;
 }
 
 
-/* =========================================================
-   AGENT
-========================================================= */
-
 function askQuestion() {
 
   const question =
+
     document.querySelector(
       "#agentQuestion"
     ).value;
@@ -3015,6 +4370,7 @@ function askQuestion() {
   document.querySelector(
     "#agentAnswer"
   ).innerHTML =
+
     answer(
       question
     );
@@ -3036,18 +4392,21 @@ function wireAgent() {
           () => {
 
             const question =
+
               button.dataset.q;
 
 
             document.querySelector(
               "#agentQuestion"
             ).value =
+
               question;
 
 
             document.querySelector(
               "#agentAnswer"
             ).innerHTML =
+
               answer(
                 question
               );
@@ -3109,11 +4468,18 @@ init().catch(
         "
       >
 
-        <article class="card">
+        <article
+          class="
+            card
+          "
+        >
 
           <h2>
+
             Could not load dashboard
+
           </h2>
+
 
           <p>
 
@@ -3124,6 +4490,7 @@ init().catch(
 
 
           <pre
+
             style="
               white-space:
               pre-wrap;
@@ -3131,13 +4498,17 @@ init().catch(
               overflow:
               auto;
             "
+
           >${escapeHTML(
             error.message
           )}</pre>
 
+
         </article>
 
+
       </main>
+
     `;
   }
 );
