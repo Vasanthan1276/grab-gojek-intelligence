@@ -1,0 +1,22 @@
+{
+  "aliases": [
+    {
+      "alias": "HOME",
+      "contains": [
+        "<private home address fragment>"
+      ]
+    },
+    {
+      "alias": "OFFICE",
+      "contains": [
+        "<workplace name or address fragment>"
+      ]
+    },
+    {
+      "alias": "V_PLACE",
+      "contains": [
+        "<private place address fragment>"
+      ]
+    }
+  ]
+}

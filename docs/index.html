@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ride & Food Intelligence</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header class="hero">
+  <div><div class="eyebrow">PERSONAL INTELLIGENCE</div><h1>Ride & Food Intelligence</h1><p>Historical Grab + Gojek patterns, fare benchmarking and food insights.</p></div>
+  <div class="privacy-pill">Aggregated data only</div>
+</header>
+<nav class="tabs">
+  <button class="tab active" data-tab="overview">Overview</button><button class="tab" data-tab="rides">Rides</button>
+  <button class="tab" data-tab="fare">Fare Checker</button><button class="tab" data-tab="food">Food</button><button class="tab" data-tab="agent">Ask My Data</button>
+</nav>
+<main>
+<section id="overview" class="panel active">
+  <div id="summaryCards" class="cards"></div>
+  <div class="grid two"><article class="card chart-card"><h2>Monthly spend</h2><canvas id="monthlyChart"></canvas></article><article class="card"><h2>Provider snapshot</h2><div id="providerSnapshot"></div></article></div>
+  <article class="card"><h2>Core routes</h2><div class="table-wrap"><table><thead><tr><th>Route</th><th>Trips</th><th>Typical</th><th>Grab avg</th><th>Gojek avg</th><th>Historical edge</th></tr></thead><tbody id="coreRoutes"></tbody></table></div></article>
+</section>
+<section id="rides" class="panel"><article class="card"><div class="section-head"><div><h2>Route Explorer</h2><p>Compare your historical fare distribution and timing patterns.</p></div><select id="routeSelect"></select></div><div id="routeDetail"></div></article></section>
+<section id="fare" class="panel"><article class="card fare-box"><h2>Is this quoted fare good?</h2><p>Enter a current quote and compare it with your own history. The score is from 0 to 5.</p><div class="form-grid"><label>Route<select id="fareRoute"></select></label><label>Provider<select id="fareProvider"><option>Grab</option><option>Gojek</option><option value="Overall">Either / overall</option></select></label><label>Quoted fare (SGD)<input id="fareAmount" type="number" step="0.01" min="0" placeholder="e.g. 24.90"></label><button id="checkFare">Check fare</button></div><div id="fareResult" class="result-box muted">Enter a fare to compare it with your history.</div></article></section>
+<section id="food" class="panel"><div class="grid two"><article class="card"><h2>Food overview</h2><div id="foodSummary"></div></article><article class="card"><h2>Most ordered</h2><div id="topFood"></div></article></div></section>
+<section id="agent" class="panel"><article class="card"><h2>Ask My Data</h2><p>This first version answers common questions from the aggregated dataset without sending your data to an external AI service.</p><div class="chips"><button data-q="What is my normal fare from home to office?">Home → Office fare</button><button data-q="Which is cheaper from home to office?">Cheaper to office</button><button data-q="How much have I spent on rides?">Ride spend</button><button data-q="What food do I order most?">Top food</button></div><div class="ask-row"><input id="agentQuestion" placeholder="Ask about fares, routes, spending or food"><button id="askButton">Ask</button></div><div id="agentAnswer" class="result-box">Try one of the quick questions above.</div></article></section>
+</main>
+<footer>Based on historical data only. It does not query live Grab or Gojek prices.</footer>
+<script src="app.js"></script>
+</body></html>
