@@ -2,6 +2,169 @@
   "generated_on": "2026-07-20",
   "privacy_note": "Exact private addresses and coordinates are not stored. Published driving distances are rounded.",
   "distance_rounding_km": 0.5,
-  "route_count": 0,
-  "routes": {}
+  "route_count": 18,
+  "routes": {
+    "HOME__OFFICE": {
+      "origin": "HOME",
+      "destination": "OFFICE",
+      "historical_trips": 81,
+      "distance_km": 11.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "OFFICE__HOME": {
+      "origin": "OFFICE",
+      "destination": "HOME",
+      "historical_trips": 52,
+      "distance_km": 14.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "WEST COAST PLAZA__HOME": {
+      "origin": "WEST COAST PLAZA",
+      "destination": "HOME",
+      "historical_trips": 12,
+      "distance_km": 14.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__VIVOCITY": {
+      "origin": "HOME",
+      "destination": "VIVOCITY",
+      "historical_trips": 7,
+      "distance_km": 23.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "VIVOCITY__HOME": {
+      "origin": "VIVOCITY",
+      "destination": "HOME",
+      "historical_trips": 7,
+      "distance_km": 23.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "OFFICE__V_PLACE": {
+      "origin": "OFFICE",
+      "destination": "V_PLACE",
+      "historical_trips": 6,
+      "distance_km": 22.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "OFFICE__WEST COAST PLAZA": {
+      "origin": "OFFICE",
+      "destination": "WEST COAST PLAZA",
+      "historical_trips": 5,
+      "distance_km": 22.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "JEM__HOME": {
+      "origin": "JEM",
+      "destination": "HOME",
+      "historical_trips": 4,
+      "distance_km": 10.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "CLEMENTI MALL__HOME": {
+      "origin": "CLEMENTI MALL",
+      "destination": "HOME",
+      "historical_trips": 3,
+      "distance_km": 16.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "MUSTAFA CENTRE__HOME": {
+      "origin": "MUSTAFA CENTRE",
+      "destination": "HOME",
+      "historical_trips": 3,
+      "distance_km": 20.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__JEM": {
+      "origin": "HOME",
+      "destination": "JEM",
+      "historical_trips": 3,
+      "distance_km": 10.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "CAUSEWAY POINT__HOME": {
+      "origin": "CAUSEWAY POINT",
+      "destination": "HOME",
+      "historical_trips": 3,
+      "distance_km": 12.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__SAMY'S CURRY": {
+      "origin": "HOME",
+      "destination": "SAMY'S CURRY",
+      "historical_trips": 2,
+      "distance_km": 19.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "OFFICE__CAUSEWAY POINT": {
+      "origin": "OFFICE",
+      "destination": "CAUSEWAY POINT",
+      "historical_trips": 2,
+      "distance_km": 3.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__COMPASSVALE": {
+      "origin": "HOME",
+      "destination": "COMPASSVALE",
+      "historical_trips": 2,
+      "distance_km": 24.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__THE STAR VISTA": {
+      "origin": "HOME",
+      "destination": "THE STAR VISTA",
+      "historical_trips": 2,
+      "distance_km": 19.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "COMPASSVALE__HOME": {
+      "origin": "COMPASSVALE",
+      "destination": "HOME",
+      "historical_trips": 2,
+      "distance_km": 26.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__WEST COAST PLAZA": {
+      "origin": "HOME",
+      "destination": "WEST COAST PLAZA",
+      "historical_trips": 2,
+      "distance_km": 13.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    }
+  }
 }
