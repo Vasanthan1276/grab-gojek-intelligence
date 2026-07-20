@@ -649,7 +649,7 @@ def main() -> int:
     session.headers.update(
         {
             "Authorization":
-                f"Bearer {token}",
+                token,
 
             "Accept":
                 "application/json",
