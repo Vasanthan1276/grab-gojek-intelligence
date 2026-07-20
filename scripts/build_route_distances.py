@@ -43,28 +43,26 @@ OUTPUT_FILE = Path(
 )
 
 
-# Minimum number of historical rides
-# before we calculate a route distance.
+# Only routes with at least this many
+# historical trips will be processed.
 MIN_ROUTE_COUNT = 2
 
 
-# Initially limit the number of routes.
-#
-# We can increase this later after checking
-# that the distances look reasonable.
+# Start with the 20 most-used routes.
+# We can increase this later.
 MAX_ROUTES = 20
 
 
-# Round public distances to the nearest
-# 0.5 km to reduce unnecessary location precision.
+# Public distances are rounded to
+# the nearest 0.5 km.
 DISTANCE_ROUNDING_KM = 0.5
 
 
 # ============================================================
-# KNOWN PUBLIC LOCATIONS
+# PUBLIC LOCATION SEARCH NAMES
 #
-# These are safe to keep in the public repository.
-# Private addresses come from GitHub Secrets instead.
+# These locations are safe to keep in the repository.
+# Exact private addresses are loaded only from GitHub Secrets.
 # ============================================================
 
 PUBLIC_LOCATION_QUERIES = {
@@ -107,26 +105,23 @@ PUBLIC_LOCATION_QUERIES = {
 
     "CHANGI AIRPORT":
         "Changi Airport Singapore",
-
 }
 
 
 # ============================================================
-# HELPER FUNCTIONS
+# BASIC HELPERS
 # ============================================================
 
 def require_environment(
-    name: str
+    name: str,
 ) -> str:
     """
-    Return a required environment variable.
-
-    Raise a clear error when it is missing.
+    Read a required environment variable.
     """
 
     value = os.environ.get(
         name,
-        ""
+        "",
     ).strip()
 
     if not value:
@@ -140,12 +135,11 @@ def require_environment(
 
 def load_private_locations() -> dict[str, str]:
     """
-    Load private location aliases from the
-    PRIVATE_LOCATIONS_JSON GitHub secret.
+    Load private aliases and addresses from the
+    PRIVATE_LOCATIONS_JSON GitHub Secret.
 
-    Exact addresses are used only while the
-    workflow runs and are never written to
-    the output file.
+    Exact addresses are never written to the
+    generated route_distances.json file.
     """
 
     raw = require_environment(
@@ -167,49 +161,53 @@ def load_private_locations() -> dict[str, str]:
 
     if not isinstance(
         data,
-        dict
+        dict,
     ):
 
         raise RuntimeError(
-            "PRIVATE_LOCATIONS_JSON must contain a JSON object."
+            "PRIVATE_LOCATIONS_JSON must be a JSON object."
         )
 
 
-    output = {}
+    output: dict[str, str] = {}
 
 
     for (
         alias,
-        address
+        address,
     ) in data.items():
 
-        alias_text = str(
+        clean_alias = str(
             alias
         ).strip()
 
-        address_text = str(
+        clean_address = str(
             address
         ).strip()
 
 
         if (
-            alias_text
+            clean_alias
             and
-            address_text
+            clean_address
         ):
 
             output[
-                alias_text
-            ] = address_text
+                clean_alias
+            ] = clean_address
 
 
     return output
 
 
+# ============================================================
+# ANALYTICS ROUTES
+# ============================================================
+
 def load_routes() -> list[dict[str, Any]]:
     """
-    Read trusted routes from the existing
-    public analytics file.
+    Load the most frequently used trusted routes
+    from the current analytics.json file.
     """
 
     if not ANALYTICS_FILE.exists():
@@ -219,31 +217,43 @@ def load_routes() -> list[dict[str, Any]]:
         )
 
 
-    data = json.loads(
-        ANALYTICS_FILE.read_text(
-            encoding="utf-8"
+    try:
+
+        analytics = json.loads(
+            ANALYTICS_FILE.read_text(
+                encoding="utf-8"
+            )
         )
-    )
+
+    except json.JSONDecodeError as exc:
+
+        raise RuntimeError(
+            "docs/data/analytics.json is not valid JSON."
+        ) from exc
 
 
-    routes = []
+    routes: list[
+        dict[str, Any]
+    ] = []
 
 
-    for route in data.get(
+    for route in analytics.get(
         "routes",
-        []
+        [],
     ):
 
+        overall = route.get(
+            "overall",
+            {},
+        )
+
+
         count = int(
-            route
-            .get(
-                "overall",
-                {}
-            )
-            .get(
+            overall.get(
                 "count",
-                0
+                0,
             )
+            or 0
         )
 
 
@@ -252,10 +262,18 @@ def load_routes() -> list[dict[str, Any]]:
             continue
 
 
+        key = str(
+            route.get(
+                "key",
+                "",
+            )
+        ).strip()
+
+
         origin = str(
             route.get(
                 "origin",
-                ""
+                "",
             )
         ).strip()
 
@@ -263,25 +281,17 @@ def load_routes() -> list[dict[str, Any]]:
         destination = str(
             route.get(
                 "destination",
-                ""
-            )
-        ).strip()
-
-
-        key = str(
-            route.get(
-                "key",
-                ""
+                "",
             )
         ).strip()
 
 
         if (
+            not key
+            or
             not origin
             or
             not destination
-            or
-            not key
         ):
 
             continue
@@ -306,16 +316,89 @@ def load_routes() -> list[dict[str, Any]]:
 
     routes.sort(
         key=lambda item:
-            item[
-                "count"
-            ],
+            item["count"],
         reverse=True,
     )
 
 
-    return routes[
+    selected_routes = routes[
         :MAX_ROUTES
     ]
+
+
+    if not selected_routes:
+
+        raise RuntimeError(
+            "No eligible routes were found in analytics.json."
+        )
+
+
+    return selected_routes
+
+
+# ============================================================
+# HTTP RESPONSE HELPER
+# ============================================================
+
+def response_json(
+    response: requests.Response,
+    description: str,
+) -> dict[str, Any]:
+    """
+    Validate an HTTP response and return JSON.
+
+    Error messages include the API response,
+    but never include the private search query.
+    """
+
+    if not response.ok:
+
+        response_preview = (
+            response.text[:500]
+            .replace(
+                "\n",
+                " ",
+            )
+        )
+
+        raise RuntimeError(
+            f"{description} failed. "
+            f"HTTP {response.status_code}. "
+            f"Response: {response_preview}"
+        )
+
+
+    try:
+
+        data = response.json()
+
+    except ValueError as exc:
+
+        response_preview = (
+            response.text[:500]
+            .replace(
+                "\n",
+                " ",
+            )
+        )
+
+        raise RuntimeError(
+            f"{description} returned invalid JSON. "
+            f"Response: {response_preview}"
+        ) from exc
+
+
+    if not isinstance(
+        data,
+        dict,
+    ):
+
+        raise RuntimeError(
+            f"{description} returned an unexpected response."
+        )
+
+
+    return data
 
 
 # ============================================================
@@ -324,12 +407,17 @@ def load_routes() -> list[dict[str, Any]]:
 
 def get_onemap_token(
     email: str,
-    password: str
+    password: str,
 ) -> str:
     """
-    Authenticate with OneMap and return
-    the temporary access token.
+    Authenticate with OneMap and obtain
+    an access token.
     """
+
+    print(
+        "Authenticating with OneMap..."
+    )
+
 
     response = requests.post(
         AUTH_URL,
@@ -340,14 +428,21 @@ def get_onemap_token(
             "password":
                 password,
         },
+        headers={
+            "Accept":
+                "application/json",
+
+            "Content-Type":
+                "application/json",
+        },
         timeout=30,
     )
 
 
-    response.raise_for_status()
-
-
-    data = response.json()
+    data = response_json(
+        response,
+        "OneMap authentication",
+    )
 
 
     token = (
@@ -363,33 +458,46 @@ def get_onemap_token(
 
     if not token:
 
-        raise RuntimeError(
-            "OneMap authentication succeeded "
-            "but no access token was returned."
+        available_fields = ", ".join(
+            sorted(
+                str(
+                    key
+                )
+                for key in data.keys()
+            )
         )
+
+        raise RuntimeError(
+            "OneMap authentication response did not "
+            "contain an access token. "
+            f"Returned fields: {available_fields}"
+        )
+
+
+    print(
+        "OneMap authentication successful."
+    )
 
 
     return str(
         token
-    )
+    ).strip()
 
 
 # ============================================================
-# GEOCODING
+# LOCATION RESOLUTION
 # ============================================================
 
 def location_query(
     alias: str,
-    private_locations: dict[str, str]
+    private_locations: dict[str, str],
 ) -> str:
     """
-    Convert a safe dashboard alias into
-    an address/search query.
+    Convert a public alias into a OneMap
+    search query.
 
-    Private aliases are resolved from
+    Private locations are retrieved from
     GitHub Secrets.
-
-    Public places use readable search names.
     """
 
     if alias in private_locations:
@@ -414,15 +522,13 @@ def location_query(
 def geocode_location(
     session: requests.Session,
     alias: str,
-    query: str
+    query: str,
 ) -> tuple[float, float]:
     """
-    Resolve a location into latitude
-    and longitude using OneMap Search.
+    Resolve a location alias to coordinates.
 
-    The query itself is never printed,
-    preventing private addresses from
-    appearing in workflow logs.
+    The private query itself is deliberately
+    excluded from all workflow log messages.
     """
 
     response = session.get(
@@ -444,22 +550,22 @@ def geocode_location(
     )
 
 
-    response.raise_for_status()
-
-
-    data = response.json()
+    data = response_json(
+        response,
+        f"OneMap search for alias {alias}",
+    )
 
 
     results = data.get(
         "results",
-        []
+        [],
     )
 
 
     if not results:
 
         raise RuntimeError(
-            f"Unable to locate alias: {alias}"
+            f"No OneMap search results found for alias: {alias}"
         )
 
 
@@ -500,28 +606,33 @@ def geocode_location(
 
 
 # ============================================================
-# ROUTING
+# DRIVING ROUTE CALCULATION
 # ============================================================
 
 def calculate_driving_distance(
     session: requests.Session,
     start: tuple[float, float],
-    end: tuple[float, float]
+    end: tuple[float, float],
+    route_key: str,
 ) -> float:
     """
-    Calculate OneMap driving-route distance.
+    Calculate driving distance between
+    two coordinates.
 
-    OneMap returns total_distance in metres.
-    Convert it to kilometres.
+    Returned distance is converted from
+    metres to kilometres.
     """
 
-    start_latitude, start_longitude = (
-        start
-    )
+    (
+        start_latitude,
+        start_longitude,
+    ) = start
 
-    end_latitude, end_longitude = (
-        end
-    )
+
+    (
+        end_latitude,
+        end_longitude,
+    ) = end
 
 
     response = session.get(
@@ -546,19 +657,19 @@ def calculate_driving_distance(
     )
 
 
-    response.raise_for_status()
-
-
-    data = response.json()
-
-
-    summary = data.get(
-        "route_summary",
-        {}
+    data = response_json(
+        response,
+        f"OneMap routing for {route_key}",
     )
 
 
-    total_distance = summary.get(
+    route_summary = data.get(
+        "route_summary",
+        {},
+    )
+
+
+    total_distance = route_summary.get(
         "total_distance"
     )
 
@@ -566,14 +677,20 @@ def calculate_driving_distance(
     if total_distance is None:
 
         raise RuntimeError(
-            "OneMap routing response did not "
-            "contain route_summary.total_distance."
+            f"OneMap routing returned no distance for {route_key}."
         )
 
 
     distance_metres = float(
         total_distance
     )
+
+
+    if distance_metres <= 0:
+
+        raise RuntimeError(
+            f"OneMap returned an invalid distance for {route_key}."
+        )
 
 
     return (
@@ -584,27 +701,18 @@ def calculate_driving_distance(
 
 
 def round_distance(
-    distance_km: float
+    distance_km: float,
 ) -> float:
     """
-    Round to the configured public precision.
-
-    Example with 0.5 km rounding:
-
-        18.24 -> 18.0
-        18.31 -> 18.5
+    Round public distance to the
+    configured precision.
     """
-
-    increment = (
-        DISTANCE_ROUNDING_KM
-    )
-
 
     return round(
         distance_km
         /
-        increment
-    ) * increment
+        DISTANCE_ROUNDING_KM
+    ) * DISTANCE_ROUNDING_KM
 
 
 # ============================================================
@@ -612,6 +720,13 @@ def round_distance(
 # ============================================================
 
 def main() -> int:
+    """
+    Generate route_distances.json.
+    """
+
+    # --------------------------------------------------------
+    # Read GitHub Secrets
+    # --------------------------------------------------------
 
     email = require_environment(
         "ONEMAP_EMAIL"
@@ -628,6 +743,21 @@ def main() -> int:
     )
 
 
+    print(
+        "Private location aliases available: "
+        +
+        ", ".join(
+            sorted(
+                private_locations.keys()
+            )
+        )
+    )
+
+
+    # --------------------------------------------------------
+    # Load trusted routes
+    # --------------------------------------------------------
+
     routes = load_routes()
 
 
@@ -637,11 +767,26 @@ def main() -> int:
     )
 
 
+    # --------------------------------------------------------
+    # Authenticate
+    # --------------------------------------------------------
+
     token = get_onemap_token(
         email,
-        password
+        password,
     )
 
+
+    # --------------------------------------------------------
+    # Create authenticated HTTP session
+    #
+    # IMPORTANT:
+    #
+    # OneMap expects the token itself as
+    # the Authorization header value.
+    #
+    # Do NOT prefix it with "Bearer ".
+    # --------------------------------------------------------
 
     session = requests.Session()
 
@@ -653,12 +798,15 @@ def main() -> int:
 
             "Accept":
                 "application/json",
+
+            "User-Agent":
+                "grab-gojek-intelligence/1.0",
         }
     )
 
 
     # --------------------------------------------------------
-    # Geocode each unique safe alias only once.
+    # Find all aliases used by selected routes
     # --------------------------------------------------------
 
     aliases = sorted(
@@ -666,7 +814,6 @@ def main() -> int:
             route[
                 "origin"
             ]
-
             for route in routes
         }
         |
@@ -674,20 +821,39 @@ def main() -> int:
             route[
                 "destination"
             ]
-
             for route in routes
         }
     )
 
 
-    coordinates = {}
+    print(
+        f"Resolving {len(aliases)} unique location aliases."
+    )
+
+
+    # --------------------------------------------------------
+    # Geocode locations
+    # --------------------------------------------------------
+
+    coordinates: dict[
+        str,
+        tuple[
+            float,
+            float,
+        ]
+    ] = {}
+
+
+    failed_aliases: list[
+        str
+    ] = []
 
 
     for alias in aliases:
 
         query = location_query(
             alias,
-            private_locations
+            private_locations,
         )
 
 
@@ -698,7 +864,7 @@ def main() -> int:
             ] = geocode_location(
                 session,
                 alias,
-                query
+                query,
             )
 
 
@@ -709,6 +875,11 @@ def main() -> int:
 
         except Exception as exc:
 
+            failed_aliases.append(
+                alias
+            )
+
+
             print(
                 f"WARNING: Could not resolve "
                 f"{alias}: {exc}"
@@ -716,15 +887,41 @@ def main() -> int:
 
 
         time.sleep(
-            0.2
+            0.25
+        )
+
+
+    print(
+        f"Successfully resolved "
+        f"{len(coordinates)} of "
+        f"{len(aliases)} location aliases."
+    )
+
+
+    if failed_aliases:
+
+        print(
+            "Unresolved aliases: "
+            +
+            ", ".join(
+                failed_aliases
+            )
         )
 
 
     # --------------------------------------------------------
-    # Calculate route distances.
+    # Calculate driving distances
     # --------------------------------------------------------
 
-    output_routes = {}
+    output_routes: dict[
+        str,
+        dict[str, Any]
+    ] = {}
+
+
+    failed_routes: list[
+        str
+    ] = []
 
 
     for route in routes:
@@ -751,16 +948,23 @@ def main() -> int:
         ):
 
             print(
-                f"Skipping route because a location "
-                f"could not be resolved: {key}"
+                f"Skipping {key}: "
+                "origin or destination "
+                "was not resolved."
             )
+
+
+            failed_routes.append(
+                key
+            )
+
 
             continue
 
 
         try:
 
-            exact_distance = (
+            exact_distance_km = (
                 calculate_driving_distance(
                     session,
                     coordinates[
@@ -769,13 +973,14 @@ def main() -> int:
                     coordinates[
                         destination
                     ],
+                    key,
                 )
             )
 
 
-            public_distance = (
+            public_distance_km = (
                 round_distance(
-                    exact_distance
+                    exact_distance_km
                 )
             )
 
@@ -783,7 +988,6 @@ def main() -> int:
             output_routes[
                 key
             ] = {
-
                 "origin":
                     origin,
 
@@ -796,7 +1000,7 @@ def main() -> int:
                     ],
 
                 "distance_km":
-                    public_distance,
+                    public_distance_km,
 
                 "distance_precision_km":
                     DISTANCE_ROUNDING_KM,
@@ -811,11 +1015,16 @@ def main() -> int:
 
             print(
                 f"Calculated {key}: "
-                f"{public_distance:.1f} km"
+                f"{public_distance_km:.1f} km"
             )
 
 
         except Exception as exc:
+
+            failed_routes.append(
+                key
+            )
+
 
             print(
                 f"WARNING: Could not calculate "
@@ -824,12 +1033,31 @@ def main() -> int:
 
 
         time.sleep(
-            0.2
+            0.25
         )
 
 
-    output = {
+    # ========================================================
+    # SAFETY CHECK
+    #
+    # Never overwrite the existing output with
+    # another empty routes object.
+    # ========================================================
 
+    if not output_routes:
+
+        raise RuntimeError(
+            "No route distances were generated. "
+            "The output file has NOT been replaced. "
+            "Review the OneMap errors above in the workflow log."
+        )
+
+
+    # --------------------------------------------------------
+    # Build safe public output
+    # --------------------------------------------------------
+
+    output = {
         "generated_on":
             date.today().isoformat(),
 
@@ -853,9 +1081,13 @@ def main() -> int:
     }
 
 
+    # --------------------------------------------------------
+    # Write only after successful generation
+    # --------------------------------------------------------
+
     OUTPUT_FILE.parent.mkdir(
         parents=True,
-        exist_ok=True
+        exist_ok=True,
     )
 
 
@@ -863,7 +1095,7 @@ def main() -> int:
         json.dumps(
             output,
             indent=2,
-            ensure_ascii=False
+            ensure_ascii=False,
         )
         +
         "\n",
@@ -872,8 +1104,36 @@ def main() -> int:
 
 
     print(
-        f"Saved {len(output_routes)} routes "
-        f"to {OUTPUT_FILE}"
+        ""
+    )
+
+
+    print(
+        "========================================"
+    )
+
+
+    print(
+        f"Successfully generated "
+        f"{len(output_routes)} route distances."
+    )
+
+
+    if failed_routes:
+
+        print(
+            f"{len(failed_routes)} routes "
+            "could not be calculated."
+        )
+
+
+    print(
+        f"Saved output to: {OUTPUT_FILE}"
+    )
+
+
+    print(
+        "========================================"
     )
 
 
@@ -891,8 +1151,27 @@ if __name__ == "__main__":
     except Exception as exc:
 
         print(
+            "",
+            file=sys.stderr,
+        )
+
+
+        print(
+            "========================================",
+            file=sys.stderr,
+        )
+
+
+        print(
             f"ERROR: {exc}",
             file=sys.stderr,
         )
+
+
+        print(
+            "========================================",
+            file=sys.stderr,
+        )
+
 
         raise
