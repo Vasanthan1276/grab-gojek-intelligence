@@ -1,0 +1,42 @@
+name: Enrich Distance Metrics
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  enrich-distance:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Add distance metrics to analytics
+        run: |
+          python scripts/enrich_distance_metrics.py
+
+      - name: Validate analytics JSON
+        run: |
+          python -m json.tool docs/data/analytics.json > /dev/null
+
+      - name: Commit enriched analytics
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add docs/data/analytics.json
+
+          if git diff --cached --quiet; then
+            echo "No analytics changes to commit."
+          else
+            git commit -m "Add route distance and cost per km analytics"
+            git push
+          fi
