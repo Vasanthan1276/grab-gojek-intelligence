@@ -1,50 +1,29 @@
 let DATA = null;
 
-
-/* =========================================================
-   BASIC HELPERS
-========================================================= */
-
-const money = (value) =>
-  `S$${Number(value || 0).toFixed(2)}`;
-
+/* =========================
+   HELPERS
+========================= */
+function money(value) {
+  return `S$${Number(value || 0).toFixed(2)}`;
+}
 
 function label(value) {
-
   if (!value) return "";
 
   return String(value)
     .replaceAll("_", " ")
     .toLowerCase()
-    .replace(
-      /\b\w/g,
-      (character) =>
-        character.toUpperCase()
-    );
-
+    .replace(/\b\w/g, (c) => c.toUpperCase());
 }
-
 
 function routeName(route) {
-
-  return (
-    `${label(route.origin)} → ` +
-    `${label(route.destination)}`
-  );
-
+  return `${label(route.origin)} → ${label(route.destination)}`;
 }
 
-
 function formatMonth(value) {
-
   if (!value) return "";
 
-  const [
-    year,
-    month
-  ] =
-    value.split("-");
-
+  const [year, month] = value.split("-");
 
   return new Date(
     Number(year),
@@ -57,320 +36,153 @@ function formatMonth(value) {
       year: "2-digit"
     }
   );
-
 }
-
 
 function formatHour(hour) {
+  const h = Number(hour);
 
-  const number =
-    Number(hour);
-
-
-  if (
-    !Number.isFinite(
-      number
-    )
-  ) {
-
-    return String(
-      hour || ""
-    );
-
+  if (!Number.isFinite(h)) {
+    return String(hour || "");
   }
 
+  const text =
+    String(h).padStart(2, "0");
 
-  const formatted =
-    String(number)
-      .padStart(
-        2,
-        "0"
-      );
-
-
-  return (
-    `${formatted}:00–` +
-    `${formatted}:59`
-  );
-
+  return `${text}:00–${text}:59`;
 }
-
 
 function escapeHTML(value) {
-
-  return String(
-    value ?? ""
-  )
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
-
-
-/* =========================================================
-   ANALYTICS HELPERS
-========================================================= */
 
 function minimumTimingSample() {
-
   return Number(
-
-    DATA
-      ?.analysis_config
-      ?.timing_minimum_reliable_sample
-
-      || 5
-
+    DATA?.analysis_config
+      ?.timing_minimum_reliable_sample || 5
   );
-
 }
-
 
 function confidenceLevel(count) {
-
-  if (
-    count >= 30
-  ) {
-
+  if (count >= 30) {
     return {
-
-      text:
-        "High confidence",
-
-      className:
-        "confidence-high"
-
+      text: "High confidence",
+      className: "confidence-high"
     };
-
   }
 
-
-  if (
-    count >= 10
-  ) {
-
+  if (count >= 10) {
     return {
-
-      text:
-        "Good confidence",
-
-      className:
-        "confidence-medium"
-
+      text: "Good confidence",
+      className: "confidence-medium"
     };
-
   }
 
-
-  if (
-    count >= 5
-  ) {
-
+  if (count >= 5) {
     return {
-
-      text:
-        "Early pattern",
-
-      className:
-        "confidence-low"
-
+      text: "Early pattern",
+      className: "confidence-low"
     };
-
   }
-
 
   return {
-
-    text:
-      "Limited history",
-
-    className:
-      "confidence-low"
-
+    text: "Limited history",
+    className: "confidence-low"
   };
-
 }
-
 
 function reliableEntries(
   object,
-  minimumCount =
-    minimumTimingSample()
+  minimumCount = minimumTimingSample()
 ) {
-
   if (!object) {
-
     return [];
-
   }
-
 
   return Object
     .entries(object)
     .filter(
-
-      (
-        [
-          ,
-          stats
-        ]
-      ) =>
-
-        stats &&
-
+      ([, stats]) =>
         Number(
-          stats.count || 0
-        ) >=
-        minimumCount
-
+          stats?.count || 0
+        ) >= minimumCount
     );
-
 }
-
 
 function cheapestEntry(
   object,
-  minimumCount =
-    minimumTimingSample()
+  minimumCount = minimumTimingSample()
 ) {
-
   const entries =
     reliableEntries(
       object,
       minimumCount
     );
 
-
-  if (
-    !entries.length
-  ) {
-
+  if (!entries.length) {
     return null;
-
   }
 
-
   return entries.reduce(
-
-    (
-      best,
-      current
-    ) =>
-
+    (best, current) =>
       Number(
         current[1].average
       ) <
-
       Number(
         best[1].average
       )
-
         ? current
-
         : best
-
   );
-
 }
-
 
 function mostExpensiveEntry(
   object,
-  minimumCount =
-    minimumTimingSample()
+  minimumCount = minimumTimingSample()
 ) {
-
   const entries =
     reliableEntries(
       object,
       minimumCount
     );
 
-
-  if (
-    !entries.length
-  ) {
-
+  if (!entries.length) {
     return null;
-
   }
 
-
   return entries.reduce(
-
-    (
-      worst,
-      current
-    ) =>
-
+    (worst, current) =>
       Number(
         current[1].average
       ) >
-
       Number(
         worst[1].average
       )
-
         ? current
-
         : worst
-
   );
-
 }
 
-
-function createTimingInsight(
-  entry
-) {
-
+function createTimingInsight(entry) {
   if (!entry) {
-
     return null;
-
   }
 
-
   return {
-
-    key:
-      entry[0],
-
-    label:
-      formatHour(
-        entry[0]
-      ),
-
-    stats:
-      entry[1]
-
+    key: entry[0],
+    label: formatHour(
+      entry[0]
+    ),
+    stats: entry[1]
   };
-
 }
 
-
 function getBestHour(route) {
-
   return (
-
     route
       .timing_insights
       ?.best_hour
@@ -378,22 +190,15 @@ function getBestHour(route) {
     ||
 
     createTimingInsight(
-
       cheapestEntry(
         route.hourly
       )
-
     )
-
   );
-
 }
 
-
 function getWorstHour(route) {
-
   return (
-
     route
       .timing_insights
       ?.worst_hour
@@ -401,238 +206,101 @@ function getWorstHour(route) {
     ||
 
     createTimingInsight(
-
       mostExpensiveEntry(
         route.hourly
       )
-
     )
-
   );
-
 }
 
 
-function getProviderTiming(
-  route,
-  provider
-) {
-
-  const existing =
-
-    route
-      .timing_insights
-      ?.by_provider
-      ?.[provider];
-
-
-  if (
-
-    existing
-      ?.best_hour
-
-    ||
-
-    existing
-      ?.worst_hour
-
-  ) {
-
-    return existing;
-
-  }
-
-
-  const hourly =
-
-    route
-      .provider_hourly
-      ?.[provider];
-
-
-  if (!hourly) {
-
-    return null;
-
-  }
-
-
-  return {
-
-    best_hour:
-
-      createTimingInsight(
-
-        cheapestEntry(
-          hourly
-        )
-
-      ),
-
-
-    worst_hour:
-
-      createTimingInsight(
-
-        mostExpensiveEntry(
-          hourly
-        )
-
-      )
-
-  };
-
-}
-
-
-/* =========================================================
+/* =========================
    INITIALISE
-========================================================= */
-
+========================= */
 async function init() {
-
   const response =
-
     await fetch(
-
       `data/analytics.json?v=${Date.now()}`,
-
       {
-
-        cache:
-          "no-store"
-
+        cache: "no-store"
       }
-
     );
 
-
-  if (
-    !response.ok
-  ) {
-
+  if (!response.ok) {
     throw new Error(
-
-      `Unable to load analytics.json. ` +
-      `HTTP ${response.status}`
-
+      `Unable to load analytics.json. HTTP ${response.status}`
     );
-
   }
-
 
   DATA =
-
     await response.json();
 
-
   renderSummary();
-
   renderProviders();
-
   renderMonthly();
-
   renderCoreRoutes();
-
   fillRoutes();
-
   renderFood();
 
-
   wireTabs();
-
   wireFareChecker();
-
   wireAgent();
-
 }
 
 
-/* =========================================================
+/* =========================
    OVERVIEW
-========================================================= */
-
+========================= */
 function renderSummary() {
-
   const summary =
     DATA.summary;
 
-
   const cards = [
-
     [
-
       "Total spend",
-
       money(
         summary.total_spend_sgd
       ),
-
       "SGD across both reports"
-
     ],
 
-
     [
-
       "Ride spend",
-
       money(
         summary.ride_spend_sgd
       ),
-
       `${summary.ride_transactions} rides`
-
     ],
 
-
     [
-
       "Food spend",
-
       money(
         summary.food_spend_sgd
       ),
-
       `${summary.food_orders} GrabFood orders`
-
     ],
 
-
     [
-
       "Average food order",
-
       money(
         summary.average_food_order
       ),
-
       "Historical average"
-
     ]
-
   ];
 
-
   const container =
-
     document.querySelector(
       "#summaryCards"
     );
 
-
   if (!container) {
-
     return;
-
   }
 
-
   container.innerHTML =
-
     cards
       .map(
-
         (
           [
             title,
@@ -648,72 +316,42 @@ function renderSummary() {
             "
           >
 
-            <div
-              class="
-                label
-              "
-            >
-
+            <div class="label">
               ${title}
-
             </div>
 
-
-            <div
-              class="
-                value
-              "
-            >
-
+            <div class="value">
               ${value}
-
             </div>
 
-
-            <div
-              class="
-                sub
-              "
-            >
-
+            <div class="sub">
               ${subtitle}
-
             </div>
 
           </article>
 
         `
-
       )
       .join("");
-
 }
 
 
 function renderProviders() {
-
   const container =
-
     document.querySelector(
       "#providerSnapshot"
     );
 
-
   if (!container) {
-
     return;
-
   }
 
-
   container.innerHTML =
-
     Object
       .entries(
         DATA.providers || {}
       )
       .map(
-
         (
           [
             provider,
@@ -730,17 +368,10 @@ function renderProviders() {
             <div>
 
               <strong>
-
                 ${provider}
-
               </strong>
 
-
-              <div
-                class="
-                  muted
-                "
-              >
+              <div class="muted">
 
                 ${values.rides}
                 rides
@@ -755,7 +386,6 @@ function renderProviders() {
 
             </div>
 
-
             <strong>
 
               ${money(
@@ -767,44 +397,29 @@ function renderProviders() {
           </div>
 
         `
-
       )
       .join("");
-
 }
 
 
 function renderMonthly() {
-
   const placeholder =
-
     document.querySelector(
       "#monthlyChart"
     );
 
-
   if (!placeholder) {
-
     return;
-
   }
 
-
-  const monthlyData =
-
+  const monthly =
     Array.isArray(
       DATA.monthly
     )
-
       ? DATA.monthly
-
       : [];
 
-
-  if (
-    !monthlyData.length
-  ) {
-
+  if (!monthly.length) {
     placeholder.innerHTML = `
 
       <div
@@ -819,48 +434,34 @@ function renderMonthly() {
 
     `;
 
-
     return;
-
   }
 
-
   const totals =
-
-    monthlyData.map(
-
+    monthly.map(
       (month) =>
-
         Number(
           month[
             "Grab rides"
           ] || 0
         )
-
         +
-
         Number(
           month[
             "Gojek rides"
           ] || 0
         )
-
         +
-
         Number(
           month.GrabFood || 0
         )
-
     );
 
-
   const maximum =
-
     Math.max(
       ...totals,
       1
     );
-
 
   placeholder.innerHTML = `
 
@@ -938,140 +539,89 @@ function renderMonthly() {
         "
       >
 
-        ${monthlyData
+        ${monthly
           .map(
-
             (month) => {
 
-
               const grab =
-
                 Number(
-
                   month[
                     "Grab rides"
-                  ]
-
-                  || 0
-
+                  ] || 0
                 );
-
 
               const gojek =
-
                 Number(
-
                   month[
                     "Gojek rides"
-                  ]
-
-                  || 0
-
+                  ] || 0
                 );
-
 
               const food =
-
                 Number(
-
-                  month.GrabFood
-
-                  || 0
-
+                  month.GrabFood || 0
                 );
 
-
               const total =
-
                 grab +
                 gojek +
                 food;
 
-
               const height =
-
                 total > 0
-
                   ? Math.max(
-
                       (
                         total /
                         maximum
-                      ) * 100,
-
+                      ) *
+                      100,
                       4
-
                     )
-
                   : 0;
 
-
               const grabShare =
-
-                total > 0
-
+                total
                   ? (
                       grab /
                       total
-                    ) * 100
-
+                    ) *
+                    100
                   : 0;
 
-
               const gojekShare =
-
-                total > 0
-
+                total
                   ? (
                       gojek /
                       total
-                    ) * 100
-
+                    ) *
+                    100
                   : 0;
 
-
               const foodShare =
-
-                total > 0
-
+                total
                   ? (
                       food /
                       total
-                    ) * 100
-
+                    ) *
+                    100
                   : 0;
 
-
-              const tooltip =
-
+              const tip =
                 `${formatMonth(
                   month.month
-                )}`
-
-                +
-
+                )}` +
                 ` | Total: ${money(
                   total
-                )}`
-
-                +
-
+                )}` +
                 ` | Grab: ${money(
                   grab
-                )}`
-
-                +
-
+                )}` +
                 ` | Gojek: ${money(
                   gojek
-                )}`
-
-                +
-
+                )}` +
                 ` | GrabFood: ${money(
                   food
                 )}`;
-
 
               return `
 
@@ -1101,7 +651,6 @@ function renderMonthly() {
                   >
 
                     <div
-
                       class="
                         month-stack
                       "
@@ -1113,83 +662,59 @@ function renderMonthly() {
 
                       title="
                         ${escapeHTML(
-                          tooltip
+                          tip
                         )}
                       "
-
                     >
 
                       ${
-                        gojek > 0
-
+                        gojek
                           ? `
-
                             <div
-
                               class="
                                 month-segment
                                 segment-gojek
                               "
-
                               style="
                                 height:
                                 ${gojekShare}%;
                               "
-
                             ></div>
-
                           `
-
                           : ""
                       }
 
-
                       ${
-                        grab > 0
-
+                        grab
                           ? `
-
                             <div
-
                               class="
                                 month-segment
                                 segment-grab
                               "
-
                               style="
                                 height:
                                 ${grabShare}%;
                               "
-
                             ></div>
-
                           `
-
                           : ""
                       }
 
-
                       ${
-                        food > 0
-
+                        food
                           ? `
-
                             <div
-
                               class="
                                 month-segment
                                 segment-food
                               "
-
                               style="
                                 height:
                                 ${foodShare}%;
                               "
-
                             ></div>
-
                           `
-
                           : ""
                       }
 
@@ -1213,9 +738,7 @@ function renderMonthly() {
                 </div>
 
               `;
-
             }
-
           )
           .join("")}
 
@@ -1224,192 +747,142 @@ function renderMonthly() {
     </div>
 
   `;
-
 }
 
 
 function renderCoreRoutes() {
-
   const body =
-
     document.querySelector(
       "#coreRoutes"
     );
 
-
   if (!body) {
-
     return;
-
   }
 
-
   body.innerHTML =
-
     (
       DATA.core_routes ||
       []
     )
       .map(
-
         (route) => {
 
-
-          const grabAverage =
-
-            route.providers
+          const grab =
+            route
+              .providers
               ?.Grab
               ?.average;
 
-
-          const gojekAverage =
-
-            route.providers
+          const gojek =
+            route
+              .providers
               ?.Gojek
               ?.average;
 
-
           const comparison =
-
             route
               .provider_comparison;
 
-
           const edge =
-
             comparison
-
               ? `${comparison.cheaper} by ${money(
-                  comparison.average_saving
+                  comparison
+                    .average_saving
                 )}`
-
               : "Not enough comparison data";
-
 
           return `
 
             <tr>
 
               <td>
-
                 ${routeName(
                   route
                 )}
-
               </td>
 
-
               <td>
-
                 ${route.overall.count}
-
               </td>
 
-
               <td>
-
                 ${money(
                   route.overall.median
                 )}
-
               </td>
-
 
               <td>
-
                 ${
-                  grabAverage != null
-
+                  grab != null
                     ? money(
-                        grabAverage
+                        grab
                       )
-
                     : "—"
                 }
-
               </td>
-
 
               <td>
-
                 ${
-                  gojekAverage != null
-
+                  gojek != null
                     ? money(
-                        gojekAverage
+                        gojek
                       )
-
                     : "—"
                 }
-
               </td>
-
 
               <td
                 class="
                   good
                 "
               >
-
                 ${edge}
-
               </td>
 
             </tr>
 
           `;
-
         }
-
       )
       .join("");
-
 }
 
 
-/* =========================================================
-   ROUTE SELECTORS
-========================================================= */
-
+/* =========================
+   ROUTES
+========================= */
 function fillRoutes() {
-
   const routes =
-
     (
       DATA.routes ||
       []
     )
       .filter(
-
         (route) =>
-
-          route.overall &&
-
-          route.overall.count >=
-            2
-
+          route
+            .overall
+            ?.count >=
+          2
       )
       .sort(
-
         (
-          a,
-          b
+          routeA,
+          routeB
         ) =>
-
-          b.overall.count -
-
-          a.overall.count
-
+          routeB
+            .overall
+            .count
+          -
+          routeA
+            .overall
+            .count
       );
 
-
   const options =
-
     routes
       .map(
-
         (route) =>
-
           `<option value="${escapeHTML(
             String(
               route.key
@@ -1419,53 +892,41 @@ function fillRoutes() {
               route
             )
           )} (${route.overall.count})</option>`
-
       )
       .join("");
 
-
   const routeSelect =
-
     document.querySelector(
       "#routeSelect"
     );
 
-
   const fareRoute =
-
     document.querySelector(
       "#fareRoute"
     );
-
 
   if (routeSelect) {
 
     routeSelect.innerHTML =
       options;
 
-
     routeSelect
       .addEventListener(
-
         "change",
-
         (event) => {
 
           showRoute(
-
             String(
-              event.target.value ||
+              event
+                .target
+                .value ||
               ""
             ).trim()
-
           );
 
         }
-
       );
-
   }
-
 
   if (fareRoute) {
 
@@ -1474,182 +935,372 @@ function fillRoutes() {
 
   }
 
-
   if (
     routeSelect
       ?.value
   ) {
 
     showRoute(
-
       String(
         routeSelect.value
       ).trim()
+    );
 
+  }
+}
+
+
+function bookingOptionLabel(
+  provider,
+  pricingType
+) {
+  if (
+    provider ===
+    "Gojek"
+  ) {
+    return "Gojek";
+  }
+
+  const names = {
+    Fixed:
+      "Grab Fixed",
+
+    Metered:
+      "Grab Metered",
+
+    Premium:
+      "Grab Premium"
+  };
+
+  return (
+    names[
+      pricingType
+    ]
+    ||
+    `Grab ${pricingType}`
+  );
+}
+
+
+function getBookingOptions(
+  route
+) {
+  const options = [];
+
+  const pricingTypes =
+    route
+      .grab_pricing_types
+    || {};
+
+  const preferred = [
+    "Fixed",
+    "Metered",
+    "Premium"
+  ];
+
+
+  preferred.forEach(
+    (pricingType) => {
+
+      const stats =
+        pricingTypes[
+          pricingType
+        ];
+
+      if (!stats) {
+        return;
+      }
+
+      options.push(
+        {
+          id:
+            `grab-${pricingType.toLowerCase()}`,
+
+          provider:
+            "Grab",
+
+          pricingType,
+
+          label:
+            bookingOptionLabel(
+              "Grab",
+              pricingType
+            ),
+
+          stats,
+
+          hourly:
+            route
+              .grab_pricing_hourly
+              ?.[pricingType]
+            || {},
+
+          weekdays:
+            route
+              .grab_pricing_weekdays
+              ?.[pricingType]
+            || {}
+        }
+      );
+
+    }
+  );
+
+
+  Object
+    .entries(
+      pricingTypes
+    )
+    .filter(
+      (
+        [
+          pricingType
+        ]
+      ) =>
+        !preferred.includes(
+          pricingType
+        )
+    )
+    .forEach(
+      (
+        [
+          pricingType,
+          stats
+        ]
+      ) => {
+
+        options.push(
+          {
+            id:
+              `grab-${String(
+                pricingType
+              )
+                .toLowerCase()
+                .replace(
+                  /\s+/g,
+                  "-"
+                )}`,
+
+            provider:
+              "Grab",
+
+            pricingType,
+
+            label:
+              bookingOptionLabel(
+                "Grab",
+                pricingType
+              ),
+
+            stats,
+
+            hourly:
+              route
+                .grab_pricing_hourly
+                ?.[pricingType]
+              || {},
+
+            weekdays:
+              route
+                .grab_pricing_weekdays
+                ?.[pricingType]
+              || {}
+          }
+        );
+
+      }
+    );
+
+
+  if (
+    route
+      .providers
+      ?.Gojek
+  ) {
+
+    options.push(
+      {
+        id:
+          "gojek",
+
+        provider:
+          "Gojek",
+
+        pricingType:
+          "Standard",
+
+        label:
+          "Gojek",
+
+        stats:
+          route
+            .providers
+            .Gojek,
+
+        hourly:
+          route
+            .provider_hourly
+            ?.Gojek
+          || {},
+
+        weekdays:
+          route
+            .provider_weekdays
+            ?.Gojek
+          || {}
+      }
     );
 
   }
 
+  return options;
 }
 
 
-/* =========================================================
-   RIDES PAGE
-========================================================= */
+function optionTimingInsight(
+  hourly
+) {
+  return {
+    best:
+      createTimingInsight(
+        cheapestEntry(
+          hourly
+        )
+      ),
+
+    worst:
+      createTimingInsight(
+        mostExpensiveEntry(
+          hourly
+        )
+      )
+  };
+}
+
+
+function optionCell(
+  stats
+) {
+  if (!stats) {
+    return "—";
+  }
+
+  const reliable =
+    Number(
+      stats.count || 0
+    )
+    >=
+    minimumTimingSample();
+
+  return `
+
+    <strong>
+      ${money(
+        stats.average
+      )}
+    </strong>
+
+    <br>
+
+    <small
+      class="
+        muted
+      "
+    >
+
+      ${stats.count}
+      trip${
+        stats.count === 1
+          ? ""
+          : "s"
+      }
+
+      ${
+        reliable
+          ? ""
+          : " · low sample"
+      }
+
+    </small>
+
+  `;
+}
+
 
 function showRoute(key) {
-
   const cleanKey =
-
     String(
       key || ""
     ).trim();
 
-
   const route =
-
     (
       DATA.routes ||
       []
     )
       .find(
-
         (item) =>
-
           String(
-            item.key || ""
+            item.key ||
+            ""
           ).trim()
-
           ===
-
           cleanKey
-
       );
 
-
   if (!route) {
-
     return;
-
   }
 
 
   const minimumSample =
-
     minimumTimingSample();
 
-
   const confidence =
-
     confidenceLevel(
       route.overall.count
     );
 
-
   const bestHour =
-
     getBestHour(
       route
     );
 
-
   const worstHour =
-
     getWorstHour(
       route
     );
 
-
-  const comparison =
-
-    route
-      .provider_comparison;
-
-
-  let timingDifference =
-    null;
-
-
-  let timingDifferencePercent =
-    null;
-
-
-  if (
-    bestHour &&
-    worstHour
-  ) {
-
-    timingDifference =
-
-      Number(
-        worstHour
-          .stats
-          .average
-      )
-
-      -
-
-      Number(
-        bestHour
-          .stats
-          .average
-      );
-
-
-    timingDifferencePercent =
-
-      Number(
-        bestHour
-          .stats
-          .average
-      ) > 0
-
-        ? (
-
-            timingDifference
-
-            /
-
-            Number(
-              bestHour
-                .stats
-                .average
-            )
-
-          ) * 100
-
-        : null;
-
-  }
+  const bookingOptions =
+    getBookingOptions(
+      route
+    );
 
 
   const topRoutes =
-
     (
       DATA.routes ||
       []
     )
       .filter(
-
         (item) =>
-
           item
             .overall
             ?.count >=
           3
-
       )
       .sort(
-
         (
-          a,
-          b
+          routeA,
+          routeB
         ) =>
-
-          b.overall.count -
-
-          a.overall.count
-
+          routeB
+            .overall
+            .count
+          -
+          routeA
+            .overall
+            .count
       )
       .slice(
         0,
@@ -1657,45 +1308,72 @@ function showRoute(key) {
       );
 
 
-  const providerCards =
-
-    Object
-      .entries(
-        route.providers || {}
+  const reliableOptions =
+    bookingOptions
+      .filter(
+        (option) =>
+          Number(
+            option
+              .stats
+              .count ||
+            0
+          )
+          >=
+          minimumSample
       )
-      .map(
-
+      .sort(
         (
-          [
-            provider,
-            stats
-          ]
-        ) => {
+          optionA,
+          optionB
+        ) =>
+          Number(
+            optionA
+              .stats
+              .average
+          )
+          -
+          Number(
+            optionB
+              .stats
+              .average
+          )
+      );
 
 
-          const winner =
+  const lowestOption =
+    reliableOptions[0]
+    || null;
 
-            comparison
-              ?.cheaper ===
-            provider;
 
+  const optionCards =
+    bookingOptions
+      .map(
+        (option) => {
+
+          const stats =
+            option.stats;
+
+          const isLowest =
+            lowestOption
+              ?.id ===
+            option.id;
+
+          const confidenceText =
+            confidenceLevel(
+              stats.count
+            ).text;
 
           return `
 
             <div
-
               class="
                 ride-provider-card
-
                 ${
-                  winner
-
+                  isLowest
                     ? "provider-winner"
-
                     : ""
                 }
               "
-
             >
 
               <div
@@ -1706,28 +1384,25 @@ function showRoute(key) {
 
                 <strong>
 
-                  ${provider}
+                  ${escapeHTML(
+                    option.label
+                  )}
 
                 </strong>
 
-
                 ${
-                  winner
-
+                  isLowest
                     ? `
-
                       <span
                         class="
                           winner-badge
                         "
                       >
 
-                        Historical edge
+                        Lowest historical average
 
                       </span>
-
                     `
-
                     : ""
                 }
 
@@ -1758,7 +1433,11 @@ function showRoute(key) {
                 ·
 
                 ${stats.count}
-                trips
+                trip${
+                  stats.count === 1
+                    ? ""
+                    : "s"
+                }
 
               </div>
 
@@ -1808,131 +1487,84 @@ function showRoute(key) {
 
                 </div>
 
+
+                <div>
+
+                  <span>
+                    Lowest recorded
+                  </span>
+
+                  <strong>
+
+                    ${money(
+                      stats.min
+                    )}
+
+                  </strong>
+
+                </div>
+
+
+                <div>
+
+                  <span>
+                    Data confidence
+                  </span>
+
+                  <strong>
+
+                    ${confidenceText}
+
+                  </strong>
+
+                </div>
+
               </div>
 
             </div>
 
           `;
-
         }
-
       )
       .join("");
 
 
-  const hourlyEntries =
-
-    Object
-      .entries(
-        route.hourly || {}
-      )
-      .sort(
-
-        (
-          [a],
-          [b]
-        ) =>
-
-          Number(a) -
-          Number(b)
-
-      );
-
-
-  const maxHourlyAverage =
-
-    Math.max(
-
-      ...hourlyEntries
-        .map(
-
-          (
-            [
-              ,
-              stats
-            ]
-          ) =>
-
-            Number(
-              stats.average || 0
-            )
-
-        ),
-
-      1
-
-    );
-
-
-  const providerTimingCards =
-
-    Object
-      .keys(
-        route.providers || {}
-      )
+  const optionTimingCards =
+    bookingOptions
       .map(
+        (option) => {
 
-        (provider) => {
-
-
-          const insights =
-
-            getProviderTiming(
-              route,
-              provider
+          const insight =
+            optionTimingInsight(
+              option.hourly
             );
 
-
           if (
-
-            !insights
-              ?.best_hour
-
+            !insight.best
             &&
-
-            !insights
-              ?.worst_hour
-
+            !insight.worst
           ) {
-
             return "";
-
           }
 
-
-          const best =
-
-            insights
-              .best_hour;
-
-
-          const worst =
-
-            insights
-              .worst_hour;
-
-
           const gap =
-
-            best &&
-            worst
-
+            insight.best
+            &&
+            insight.worst
               ? Number(
-                  worst
+                  insight
+                    .worst
                     .stats
                     .average
                 )
-
                 -
-
                 Number(
-                  best
+                  insight
+                    .best
                     .stats
                     .average
                 )
-
               : null;
-
 
           return `
 
@@ -1950,7 +1582,9 @@ function showRoute(key) {
 
                 <strong>
 
-                  ${provider}
+                  ${escapeHTML(
+                    option.label
+                  )}
 
                 </strong>
 
@@ -1964,10 +1598,10 @@ function showRoute(key) {
               >
 
                 ${
-                  best
-
-                    ? best.label
-
+                  insight.best
+                    ? insight
+                        .best
+                        .label
                     : "Limited data"
                 }
 
@@ -2000,14 +1634,13 @@ function showRoute(key) {
                   <strong>
 
                     ${
-                      best
-
+                      insight.best
                         ? money(
-                            best
+                            insight
+                              .best
                               .stats
                               .average
                           )
-
                         : "—"
                     }
 
@@ -2025,10 +1658,10 @@ function showRoute(key) {
                   <strong>
 
                     ${
-                      worst
-
-                        ? worst.label
-
+                      insight.worst
+                        ? insight
+                            .worst
+                            .label
                         : "—"
                     }
 
@@ -2046,14 +1679,13 @@ function showRoute(key) {
                   <strong>
 
                     ${
-                      worst
-
+                      insight.worst
                         ? money(
-                            worst
+                            insight
+                              .worst
                               .stats
                               .average
                           )
-
                         : "—"
                     }
 
@@ -2072,11 +1704,9 @@ function showRoute(key) {
 
                     ${
                       gap != null
-
                         ? money(
                             gap
                           )
-
                         : "—"
                     }
 
@@ -2089,89 +1719,219 @@ function showRoute(key) {
             </div>
 
           `;
-
         }
-
       )
       .join("");
 
 
-  const weekdayOrder = [
-
-    "Monday",
-
-    "Tuesday",
-
-    "Wednesday",
-
-    "Thursday",
-
-    "Friday",
-
-    "Saturday",
-
-    "Sunday"
-
-  ];
-
-
-  const weekdayEntries =
-
-    weekdayOrder
-
-      .filter(
-
-        (day) =>
-
-          route
-            .weekdays
-            ?.[day]
-
+  const allOptionHours =
+    Array.from(
+      new Set(
+        bookingOptions
+          .flatMap(
+            (option) =>
+              Object.keys(
+                option.hourly ||
+                {}
+              )
+          )
       )
-
-      .map(
-
-        (day) => [
-
-          day,
-
-          route
-            .weekdays[
-              day
-            ]
-
-        ]
-
+    )
+      .sort(
+        (
+          hourA,
+          hourB
+        ) =>
+          Number(
+            hourA
+          )
+          -
+          Number(
+            hourB
+          )
       );
 
 
-  const maxWeekdayAverage =
+  const optionTimingTable =
+    allOptionHours.length
+      ? `
 
+        <div
+          class="
+            table-wrap
+          "
+
+          style="
+            margin-top:
+            20px;
+          "
+        >
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>
+                  Hour
+                </th>
+
+                ${bookingOptions
+                  .map(
+                    (option) =>
+                      `<th>${escapeHTML(
+                        option.label
+                      )}</th>`
+                  )
+                  .join("")}
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              ${allOptionHours
+                .map(
+                  (hour) => `
+
+                    <tr>
+
+                      <td>
+
+                        <strong>
+
+                          ${formatHour(
+                            hour
+                          )}
+
+                        </strong>
+
+                      </td>
+
+                      ${bookingOptions
+                        .map(
+                          (option) =>
+                            `<td>${optionCell(
+                              option
+                                .hourly
+                                ?.[hour]
+                            )}</td>`
+                        )
+                        .join("")}
+
+                    </tr>
+
+                  `
+                )
+                .join("")}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      `
+      : "";
+
+
+  const hourlyEntries =
+    Object
+      .entries(
+        route.hourly ||
+        {}
+      )
+      .sort(
+        (
+          [
+            hourA
+          ],
+          [
+            hourB
+          ]
+        ) =>
+          Number(
+            hourA
+          )
+          -
+          Number(
+            hourB
+          )
+      );
+
+
+  const maxHourlyAverage =
     Math.max(
-
-      ...weekdayEntries
+      ...hourlyEntries
         .map(
-
           (
             [
               ,
               stats
             ]
           ) =>
-
             Number(
-              stats.average || 0
+              stats.average ||
+              0
             )
-
         ),
-
       1
+    );
 
+
+  const weekdays = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ];
+
+
+  const weekdayEntries =
+    weekdays
+      .filter(
+        (day) =>
+          route
+            .weekdays
+            ?.[day]
+      )
+      .map(
+        (day) => [
+          day,
+          route
+            .weekdays[
+              day
+            ]
+        ]
+      );
+
+
+  const maxWeekdayAverage =
+    Math.max(
+      ...weekdayEntries
+        .map(
+          (
+            [
+              ,
+              stats
+            ]
+          ) =>
+            Number(
+              stats.average ||
+              0
+            )
+        ),
+      1
     );
 
 
   const cheapestWeekday =
-
     cheapestEntry(
       route.weekdays,
       minimumSample
@@ -2179,17 +1939,62 @@ function showRoute(key) {
 
 
   const expensiveWeekday =
-
     mostExpensiveEntry(
       route.weekdays,
       minimumSample
     );
 
 
-  const providerRecommendation =
+  let timingDifference =
+    null;
 
-    comparison
+  let timingPercent =
+    null;
 
+
+  if (
+    bestHour &&
+    worstHour
+  ) {
+
+    timingDifference =
+      Number(
+        worstHour
+          .stats
+          .average
+      )
+      -
+      Number(
+        bestHour
+          .stats
+          .average
+      );
+
+
+    timingPercent =
+      Number(
+        bestHour
+          .stats
+          .average
+      ) > 0
+        ? (
+            timingDifference
+            /
+            Number(
+              bestHour
+                .stats
+                .average
+            )
+          )
+          *
+          100
+        : null;
+
+  }
+
+
+  const optionSummary =
+    lowestOption
       ? `
 
         <div
@@ -2198,30 +2003,53 @@ function showRoute(key) {
           "
         >
 
-          Historically,
+          Among booking options with at least
+
+          ${minimumSample}
+
+          historical trips,
 
           <strong>
 
-            ${comparison.cheaper}
-
-          </strong>
-
-          has averaged
-
-          <strong>
-
-            ${money(
-              comparison.average_saving
+            ${escapeHTML(
+              lowestOption.label
             )}
 
           </strong>
 
-          less per trip on this route.
+          has the lowest historical average
+          on this route at
+
+          <strong>
+
+            ${money(
+              lowestOption
+                .stats
+                .average
+            )}
+
+          </strong>.
+
+
+          ${
+            route
+              .grab_pricing_types
+              ?.Metered
+              ? `
+
+                Metered trips are final fares you paid and
+                may be selected more often when fixed-price
+                quotes are already high, so treat this as
+                behavioural context rather than a perfect
+                like-for-like comparison.
+
+              `
+              : ""
+          }
 
         </div>
 
       `
-
       : `
 
         <div
@@ -2230,9 +2058,9 @@ function showRoute(key) {
           "
         >
 
-          There is not enough historical
-          data from both providers for a
-          reliable provider comparison.
+          There is not enough service-level history
+          on this route for a reliable comparison
+          between booking options.
 
         </div>
 
@@ -2240,21 +2068,16 @@ function showRoute(key) {
 
 
   const detail =
-
     document.querySelector(
       "#routeDetail"
     );
 
-
   if (!detail) {
-
     return;
-
   }
 
 
   detail.innerHTML = `
-
 
     <div
       class="
@@ -2365,11 +2188,8 @@ function showRoute(key) {
         <div>
 
           <h3>
-
             Most frequent routes
-
           </h3>
-
 
           <p>
 
@@ -2391,18 +2211,14 @@ function showRoute(key) {
 
         ${topRoutes
           .map(
-
             (
               item,
               index
             ) => {
 
-
-              const itemComparison =
-
+              const comparison =
                 item
                   .provider_comparison;
-
 
               return `
 
@@ -2410,15 +2226,13 @@ function showRoute(key) {
 
                   class="
                     route-rank-row
-
                     ${
                       String(
                         item.key
-                      ).trim() ===
+                      ).trim()
+                      ===
                       cleanKey
-
                         ? "active-route"
-
                         : ""
                     }
                   "
@@ -2458,16 +2272,22 @@ function showRoute(key) {
 
                     </strong>
 
-
                     <small>
 
-                      ${item.overall.count}
+                      ${
+                        item
+                          .overall
+                          .count
+                      }
+
                       trips
 
                       · median
 
                       ${money(
-                        item.overall.median
+                        item
+                          .overall
+                          .median
                       )}
 
                     </small>
@@ -2482,21 +2302,15 @@ function showRoute(key) {
                   >
 
                     ${
-                      itemComparison
-
+                      comparison
                         ? `
-
-                          ${itemComparison.cheaper}
-
+                          ${comparison.cheaper}
                           saves
-
                           ${money(
-                            itemComparison
+                            comparison
                               .average_saving
                           )}
-
                         `
-
                         : "Limited comparison"
                     }
 
@@ -2505,9 +2319,7 @@ function showRoute(key) {
                 </button>
 
               `;
-
             }
-
           )
           .join("")}
 
@@ -2530,9 +2342,7 @@ function showRoute(key) {
             route-eyebrow
           "
         >
-
           SELECTED ROUTE
-
         </div>
 
 
@@ -2546,12 +2356,10 @@ function showRoute(key) {
 
 
         <div
-
           class="
             confidence-badge
             ${confidence.className}
           "
-
         >
 
           ${confidence.text}
@@ -2573,15 +2381,15 @@ function showRoute(key) {
       >
 
         <span>
-
           Historical median
-
         </span>
 
         <strong>
 
           ${money(
-            route.overall.median
+            route
+              .overall
+              .median
           )}
 
         </strong>
@@ -2612,7 +2420,9 @@ function showRoute(key) {
         <strong>
 
           ${money(
-            route.overall.average
+            route
+              .overall
+              .average
           )}
 
         </strong>
@@ -2633,13 +2443,17 @@ function showRoute(key) {
         <strong>
 
           ${money(
-            route.overall.p25
+            route
+              .overall
+              .p25
           )}
 
           –
 
           ${money(
-            route.overall.p75
+            route
+              .overall
+              .p75
           )}
 
         </strong>
@@ -2660,7 +2474,9 @@ function showRoute(key) {
         <strong>
 
           ${money(
-            route.overall.min
+            route
+              .overall
+              .min
           )}
 
         </strong>
@@ -2681,24 +2497,14 @@ function showRoute(key) {
         <strong>
 
           ${money(
-            route.overall.max
+            route
+              .overall
+              .max
           )}
 
         </strong>
 
       </div>
-
-    </div>
-
-
-
-    <div
-      class="
-        route-intelligence-banner
-      "
-    >
-
-      ${providerRecommendation}
 
     </div>
 
@@ -2720,14 +2526,16 @@ function showRoute(key) {
 
           <h3>
 
-            Provider comparison
+            Booking option comparison
 
           </h3>
 
           <p>
 
-            Historical pricing for
-            this exact route.
+            Grab is separated into fixed,
+            metered and premium pricing
+            where those services exist
+            in your history.
 
           </p>
 
@@ -2738,11 +2546,22 @@ function showRoute(key) {
 
       <div
         class="
+          route-intelligence-banner
+        "
+      >
+
+        ${optionSummary}
+
+      </div>
+
+
+      <div
+        class="
           ride-provider-grid
         "
       >
 
-        ${providerCards}
+        ${optionCards}
 
       </div>
 
@@ -2770,7 +2589,6 @@ function showRoute(key) {
 
           </h3>
 
-
           <p>
 
             An hour needs at least
@@ -2778,8 +2596,8 @@ function showRoute(key) {
             ${minimumSample}
 
             historical trips before
-            it is treated as a
-            reliable timing pattern.
+            it is treated as a reliable
+            timing pattern.
 
           </p>
 
@@ -2802,18 +2620,14 @@ function showRoute(key) {
         >
 
           <span>
-
             Best reliable hour
-
           </span>
 
           <strong>
 
             ${
               bestHour
-
                 ? bestHour.label
-
                 : "Not enough data"
             }
 
@@ -2821,7 +2635,6 @@ function showRoute(key) {
 
           ${
             bestHour
-
               ? `
 
                 <small>
@@ -2847,7 +2660,6 @@ function showRoute(key) {
                 </small>
 
               `
-
               : ""
           }
 
@@ -2862,18 +2674,14 @@ function showRoute(key) {
         >
 
           <span>
-
             Highest-cost reliable hour
-
           </span>
 
           <strong>
 
             ${
               worstHour
-
                 ? worstHour.label
-
                 : "Not enough data"
             }
 
@@ -2881,7 +2689,6 @@ function showRoute(key) {
 
           ${
             worstHour
-
               ? `
 
                 <small>
@@ -2907,7 +2714,6 @@ function showRoute(key) {
                 </small>
 
               `
-
               : ""
           }
 
@@ -2917,9 +2723,7 @@ function showRoute(key) {
 
 
       ${
-        timingDifference !=
-        null
-
+        timingDifference != null
           ? `
 
             <div
@@ -2934,10 +2738,8 @@ function showRoute(key) {
                 "
               >
 
-                Based on your historical
-                data, travelling during the
-                highest-cost reliable hour
-                has averaged
+                The highest-cost reliable
+                hour has averaged
 
                 <strong>
 
@@ -2948,20 +2750,17 @@ function showRoute(key) {
                 </strong>
 
                 more than the best
-                reliable hour.
-
+                reliable hour
 
                 ${
-                  timingDifferencePercent !=
-                  null
-
+                  timingPercent != null
                     ? `
 
-                      That is approximately
+                      — about
 
                       <strong>
 
-                        ${timingDifferencePercent.toFixed(
+                        ${timingPercent.toFixed(
                           0
                         )}%
 
@@ -2970,8 +2769,7 @@ function showRoute(key) {
                       higher.
 
                     `
-
-                    : ""
+                    : "."
                 }
 
               </div>
@@ -2979,13 +2777,11 @@ function showRoute(key) {
             </div>
 
           `
-
           : ""
       }
 
 
       <div
-
         class="
           pattern-list
         "
@@ -2994,12 +2790,10 @@ function showRoute(key) {
           margin-top:
           20px;
         "
-
       >
 
         ${hourlyEntries
           .map(
-
             (
               [
                 hour,
@@ -3007,27 +2801,23 @@ function showRoute(key) {
               ]
             ) => {
 
-
               const width =
-
                 (
                   Number(
                     stats.average
                   )
-
                   /
-
                   maxHourlyAverage
-                ) * 100;
-
+                )
+                *
+                100;
 
               const reliable =
-
                 Number(
                   stats.count
-                ) >=
+                )
+                >=
                 minimumSample;
-
 
               return `
 
@@ -3041,9 +2831,7 @@ function showRoute(key) {
                     opacity:
                     ${
                       reliable
-
                         ? 1
-
                         : 0.48
                     };
                   "
@@ -3064,7 +2852,6 @@ function showRoute(key) {
 
                     </strong>
 
-
                     <small>
 
                       ${stats.count}
@@ -3072,9 +2859,7 @@ function showRoute(key) {
 
                       ${
                         reliable
-
                           ? ""
-
                           : " · low sample"
                       }
 
@@ -3120,9 +2905,7 @@ function showRoute(key) {
                 </div>
 
               `;
-
             }
-
           )
           .join("")}
 
@@ -3133,8 +2916,7 @@ function showRoute(key) {
 
 
     ${
-      providerTimingCards
-
+      bookingOptions.length
         ? `
 
           <div
@@ -3153,16 +2935,16 @@ function showRoute(key) {
 
                 <h3>
 
-                  Timing by provider
+                  Timing by booking option
 
                 </h3>
 
-
                 <p>
 
-                  The cheapest reliable
-                  hour can differ between
-                  Grab and Gojek.
+                  This separates Grab fixed
+                  and metered timing instead
+                  of blending all Grab rides
+                  together.
 
                 </p>
 
@@ -3171,20 +2953,47 @@ function showRoute(key) {
             </div>
 
 
-            <div
-              class="
-                ride-provider-grid
-              "
-            >
+            ${
+              optionTimingCards
+                ? `
 
-              ${providerTimingCards}
+                  <div
+                    class="
+                      ride-provider-grid
+                    "
+                  >
 
-            </div>
+                    ${optionTimingCards}
+
+                  </div>
+
+                `
+                : `
+
+                  <div
+                    class="
+                      recommendation-neutral
+                    "
+                  >
+
+                    No booking option currently
+                    has at least
+
+                    ${minimumSample}
+
+                    trips within the same hour.
+
+                  </div>
+
+                `
+            }
+
+
+            ${optionTimingTable}
 
           </div>
 
         `
-
         : ""
     }
 
@@ -3192,7 +3001,6 @@ function showRoute(key) {
 
     ${
       weekdayEntries.length
-
         ? `
 
           <div
@@ -3210,17 +3018,13 @@ function showRoute(key) {
               <div>
 
                 <h3>
-
                   Day-of-week patterns
-
                 </h3>
-
 
                 <p>
 
-                  Weekday differences
-                  are shown alongside
-                  the stronger hourly
+                  Weekday differences are shown
+                  alongside the stronger hourly
                   timing patterns.
 
                 </p>
@@ -3244,18 +3048,14 @@ function showRoute(key) {
               >
 
                 <span>
-
                   Lowest reliable weekday
-
                 </span>
 
                 <strong>
 
                   ${
                     cheapestWeekday
-
                       ? cheapestWeekday[0]
-
                       : "Not enough data"
                   }
 
@@ -3263,7 +3063,6 @@ function showRoute(key) {
 
                 ${
                   cheapestWeekday
-
                     ? `
 
                       <small>
@@ -3289,7 +3088,6 @@ function showRoute(key) {
                       </small>
 
                     `
-
                     : ""
                 }
 
@@ -3304,18 +3102,14 @@ function showRoute(key) {
               >
 
                 <span>
-
                   Highest reliable weekday
-
                 </span>
 
                 <strong>
 
                   ${
                     expensiveWeekday
-
                       ? expensiveWeekday[0]
-
                       : "Not enough data"
                   }
 
@@ -3323,7 +3117,6 @@ function showRoute(key) {
 
                 ${
                   expensiveWeekday
-
                     ? `
 
                       <small>
@@ -3349,7 +3142,6 @@ function showRoute(key) {
                       </small>
 
                     `
-
                     : ""
                 }
 
@@ -3366,7 +3158,6 @@ function showRoute(key) {
 
               ${weekdayEntries
                 .map(
-
                   (
                     [
                       day,
@@ -3387,9 +3178,7 @@ function showRoute(key) {
                       >
 
                         <strong>
-
                           ${day}
-
                         </strong>
 
                         <small>
@@ -3421,11 +3210,11 @@ function showRoute(key) {
                                 Number(
                                   stats.average
                                 )
-
                                 /
-
                                 maxWeekdayAverage
-                              ) * 100
+                              )
+                              *
+                              100
                             }%;
                           "
 
@@ -3449,7 +3238,6 @@ function showRoute(key) {
                     </div>
 
                   `
-
                 )
                 .join("")}
 
@@ -3458,7 +3246,6 @@ function showRoute(key) {
           </div>
 
         `
-
         : ""
     }
 
@@ -3479,10 +3266,18 @@ function showRoute(key) {
         <div>
 
           <h3>
-
-            Detailed provider statistics
-
+            Provider totals
           </h3>
+
+          <p>
+
+            Original overall
+            Grab-versus-Gojek view.
+
+            Grab here combines all
+            Grab booking types.
+
+          </p>
 
         </div>
 
@@ -3534,10 +3329,10 @@ function showRoute(key) {
 
             ${Object
               .entries(
-                route.providers || {}
+                route.providers ||
+                {}
               )
               .map(
-
                 (
                   [
                     provider,
@@ -3550,20 +3345,14 @@ function showRoute(key) {
                     <td>
 
                       <strong>
-
                         ${provider}
-
                       </strong>
 
                     </td>
 
-
                     <td>
-
                       ${stats.count}
-
                     </td>
-
 
                     <td>
 
@@ -3573,7 +3362,6 @@ function showRoute(key) {
 
                     </td>
 
-
                     <td>
 
                       ${money(
@@ -3581,7 +3369,6 @@ function showRoute(key) {
                       )}
 
                     </td>
-
 
                     <td>
 
@@ -3596,7 +3383,6 @@ function showRoute(key) {
                       )}
 
                     </td>
-
 
                     <td>
 
@@ -3615,7 +3401,6 @@ function showRoute(key) {
                   </tr>
 
                 `
-
               )
               .join("")}
 
@@ -3635,111 +3420,80 @@ function showRoute(key) {
       ".route-rank-row"
     )
     .forEach(
-
       (button) => {
 
         button.addEventListener(
-
           "click",
-
           () => {
 
             const routeKey =
-
               String(
                 button
                   .dataset
-                  .routeKey
-
-                || ""
+                  .routeKey ||
+                ""
               ).trim();
 
-
             const select =
-
               document.querySelector(
                 "#routeSelect"
               );
 
-
             if (select) {
-
               select.value =
                 routeKey;
-
             }
-
 
             showRoute(
               routeKey
             );
 
           }
-
         );
 
       }
-
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    TABS
-========================================================= */
-
+========================= */
 function wireTabs() {
-
   const tabs =
-
     document.querySelectorAll(
       ".tab"
     );
 
-
   const panels =
-
     document.querySelectorAll(
       ".panel"
     );
 
-
   tabs.forEach(
-
     (button) => {
 
       button.addEventListener(
-
         "click",
-
         () => {
 
           tabs.forEach(
-
             (tab) =>
-
               tab
                 .classList
                 .remove(
                   "active"
                 )
-
           );
 
-
           panels.forEach(
-
             (panel) =>
-
               panel
                 .classList
                 .remove(
                   "active"
                 )
-
           );
-
 
           button
             .classList
@@ -3747,257 +3501,172 @@ function wireTabs() {
               "active"
             );
 
-
-          const panel =
-
-            document.querySelector(
-
+          document
+            .querySelector(
               `#${
                 button
                   .dataset
                   .tab
               }`
-
+            )
+            ?.classList
+            .add(
+              "active"
             );
 
-
-          if (panel) {
-
-            panel
-              .classList
-              .add(
-                "active"
-              );
-
-          }
-
-
-          window.scrollTo({
-
-            top: 0,
-
-            left: 0,
-
-            behavior:
-              "auto"
-
-          });
+          window.scrollTo(
+            {
+              top: 0,
+              left: 0,
+              behavior: "auto"
+            }
+          );
 
         }
-
       );
 
     }
-
   );
-
 }
 
 
-/* =========================================================
+/* =========================
    TIMING-AWARE FARE CHECKER
-========================================================= */
-
+========================= */
 function fareScore(
   amount,
   stats
 ) {
-
   if (
     amount <=
-    stats.p10
+    Number(
+      stats.p10
+    )
   ) {
-
     return [
-
       5,
-
       "Exceptional value"
-
     ];
-
   }
-
 
   if (
     amount <=
-    stats.p25
+    Number(
+      stats.p25
+    )
   ) {
-
     return [
-
       4,
-
       "Very good"
-
     ];
-
   }
-
 
   if (
     amount <=
-    stats.median
+    Number(
+      stats.median
+    )
   ) {
-
     return [
-
       3,
-
       "Normal to good"
-
     ];
-
   }
-
 
   if (
     amount <=
-    stats.p75
+    Number(
+      stats.p75
+    )
   ) {
-
     return [
-
       2,
-
       "Somewhat expensive"
-
     ];
-
   }
-
 
   if (
     amount <=
-    stats.p90
+    Number(
+      stats.p90
+    )
   ) {
-
     return [
-
       1,
-
       "Expensive"
-
     ];
-
   }
-
 
   return [
-
     0,
-
     "Unusually expensive"
-
   ];
-
 }
 
 
 function localDateString(
   date = new Date()
 ) {
-
-  const year =
-
-    date.getFullYear();
-
-
-  const month =
-
-    String(
+  return (
+    `${date.getFullYear()}-`
+    +
+    `${String(
       date.getMonth() + 1
     ).padStart(
       2,
       "0"
-    );
-
-
-  const day =
-
-    String(
+    )}-`
+    +
+    `${String(
       date.getDate()
     ).padStart(
       2,
       "0"
-    );
-
-
-  return (
-
-    `${year}-` +
-    `${month}-` +
-    `${day}`
-
+    )}`
   );
-
 }
 
 
 function localTimeString(
   date = new Date()
 ) {
-
-  const hour =
-
-    String(
+  return (
+    `${String(
       date.getHours()
     ).padStart(
       2,
       "0"
-    );
-
-
-  const minute =
-
-    String(
+    )}:`
+    +
+    `${String(
       date.getMinutes()
     ).padStart(
       2,
       "0"
-    );
-
-
-  return (
-
-    `${hour}:` +
-    `${minute}`
-
+    )}`
   );
-
 }
 
 
 function weekdayFromDate(
   value
 ) {
-
   if (!value) {
-
     return null;
-
   }
 
-
   const [
-
     year,
-
     month,
-
     day
-
   ] =
-
     value
       .split("-")
       .map(
         Number
       );
 
-
   if (
-
     ![
       year,
       month,
@@ -4006,161 +3675,95 @@ function weekdayFromDate(
       .every(
         Number.isFinite
       )
-
   ) {
-
     return null;
-
   }
 
-
-  const date =
-
+  return [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ][
     new Date(
       year,
       month - 1,
       day
-    );
-
-
-  return [
-
-    "Sunday",
-
-    "Monday",
-
-    "Tuesday",
-
-    "Wednesday",
-
-    "Thursday",
-
-    "Friday",
-
-    "Saturday"
-
-  ][
-    date.getDay()
+    ).getDay()
   ];
-
 }
 
 
 function copyStats(stats) {
-
   if (!stats) {
-
     return null;
-
   }
 
-
   return {
-
     count:
-
       Number(
         stats.count || 0
       ),
 
-
     average:
-
       Number(
         stats.average || 0
       ),
 
-
     median:
-
       Number(
         stats.median || 0
       ),
 
-
     min:
-
       Number(
         stats.min || 0
       ),
 
-
     max:
-
       Number(
         stats.max || 0
       ),
 
-
     p10:
-
       Number(
-
         stats.p10
-
         ??
-
         stats.min
-
         ??
-
         0
-
       ),
-
 
     p25:
-
       Number(
-
         stats.p25
-
         ??
-
         stats.median
-
         ??
-
         0
-
       ),
-
 
     p75:
-
       Number(
-
         stats.p75
-
         ??
-
         stats.median
-
         ??
-
         0
-
       ),
 
-
     p90:
-
       Number(
-
         stats.p90
-
         ??
-
         stats.max
-
         ??
-
         0
-
       )
-
   };
-
 }
 
 
@@ -4168,164 +3771,111 @@ function scaleStats(
   stats,
   factor
 ) {
-
-  const copied =
-
+  const output =
     copyStats(
       stats
     );
 
-
-  if (!copied) {
-
+  if (!output) {
     return null;
-
   }
 
-
   const safeFactor =
-
     Math.max(
-
       0.85,
-
       Math.min(
-
         1.15,
-
         Number(
           factor || 1
         )
-
       )
-
     );
 
-
   [
-
     "average",
-
     "median",
-
     "min",
-
     "max",
-
     "p10",
-
     "p25",
-
     "p75",
-
     "p90"
+  ]
+    .forEach(
+      (key) => {
 
-  ].forEach(
-
-    (key) => {
-
-      copied[key] =
-
-        Number(
-
-          (
-            copied[key] *
-            safeFactor
-          )
-            .toFixed(
+        output[key] =
+          Number(
+            (
+              output[key]
+              *
+              safeFactor
+            ).toFixed(
               2
             )
+          );
 
-        );
+      }
+    );
 
-    }
-
-  );
-
-
-  copied
-    .adjustment_factor =
-
-    safeFactor;
-
-
-  return copied;
-
+  return output;
 }
 
 
-function reliableStats(stats) {
-
+function reliableStats(
+  stats
+) {
   return Boolean(
-
-    stats &&
-
+    stats
+    &&
     Number(
       stats.count || 0
-    ) >=
+    )
+    >=
     minimumTimingSample()
-
   );
-
 }
 
 
-function getFareDateContext() {
-
+function getFareContext() {
   const dateValue =
-
     document.querySelector(
       "#fareDate"
     )
       ?.value;
 
-
   const timeValue =
-
     document.querySelector(
       "#fareTime"
     )
       ?.value;
 
-
   const hour =
-
     timeValue
-
       ? String(
-
           Number(
-
             timeValue
-              .split(":")[0]
-
+              .split(
+                ":"
+              )[0]
           )
-
-        ).padStart(
-          2,
-          "0"
         )
-
+          .padStart(
+            2,
+            "0"
+          )
       : null;
 
-
   return {
-
     dateValue,
-
     timeValue,
-
     hour,
 
-
     weekday:
-
       weekdayFromDate(
         dateValue
       )
-
   };
-
 }
 
 
@@ -4334,11 +3884,8 @@ function getWeekdayStats(
   provider,
   weekday
 ) {
-
   if (!weekday) {
-
     return null;
-
   }
 
 
@@ -4348,46 +3895,32 @@ function getWeekdayStats(
   ) {
 
     const providerDay =
-
       route
         .provider_weekdays
         ?.[provider]
         ?.[weekday];
 
-
     if (
-
       reliableStats(
         providerDay
       )
-
     ) {
 
       return {
-
         stats:
           providerDay,
 
-
         source:
-
-          `${provider} + ` +
-          `${weekday}`,
-
+          `${provider} + ${weekday}`,
 
         baseAverage:
-
           Number(
-
             route
               .providers
               ?.[provider]
               ?.average
-
             || 0
-
           )
-
       };
 
     }
@@ -4396,51 +3929,37 @@ function getWeekdayStats(
 
 
   const routeDay =
-
     route
       .weekdays
       ?.[weekday];
 
 
   if (
-
     reliableStats(
       routeDay
     )
-
   ) {
 
     return {
-
       stats:
         routeDay,
 
-
       source:
-
-        `All providers + ` +
-        `${weekday}`,
-
+        `All providers + ${weekday}`,
 
       baseAverage:
-
         Number(
-
           route
             .overall
             ?.average
-
           || 0
-
         )
-
     };
 
   }
 
 
   return null;
-
 }
 
 
@@ -4450,73 +3969,50 @@ function selectFareBenchmark(
   hour,
   weekday
 ) {
-
   const minimumSample =
-
     minimumTimingSample();
-
 
   let timingStats =
     null;
 
-
-  let timingSource =
+  let source =
     null;
 
-
-  let timingLevel =
+  let level =
     null;
 
-
-  /*
-    1.
-    Route + provider + exact hour
-  */
 
   if (
-
     provider !==
     "Overall"
-
     &&
-
     hour
-
   ) {
 
     const providerHour =
-
       route
         .provider_hourly
         ?.[provider]
         ?.[hour];
 
-
     if (
-
-      providerHour
-
-      &&
-
       Number(
-        providerHour.count || 0
-      ) >=
+        providerHour
+          ?.count || 0
+      )
+      >=
       minimumSample
-
     ) {
 
       timingStats =
         providerHour;
 
+      source =
+        `${provider} · ${formatHour(
+          hour
+        )}`;
 
-      timingSource =
-
-        `${provider} · ` +
-        `${formatHour(hour)}`;
-
-
-      timingLevel =
-
+      level =
         "provider-hour";
 
     }
@@ -4524,54 +4020,35 @@ function selectFareBenchmark(
   }
 
 
-  /*
-    2.
-    Route + exact hour
-    across both providers
-  */
-
   if (
-
     !timingStats
-
     &&
-
     hour
-
   ) {
 
     const routeHour =
-
       route
         .hourly
         ?.[hour];
 
-
     if (
-
-      routeHour
-
-      &&
-
       Number(
-        routeHour.count || 0
-      ) >=
+        routeHour
+          ?.count || 0
+      )
+      >=
       minimumSample
-
     ) {
 
       timingStats =
         routeHour;
 
+      source =
+        `All providers · ${formatHour(
+          hour
+        )}`;
 
-      timingSource =
-
-        `All providers · ` +
-        `${formatHour(hour)}`;
-
-
-      timingLevel =
-
+      level =
         "route-hour";
 
     }
@@ -4580,314 +4057,180 @@ function selectFareBenchmark(
 
 
   const weekdayContext =
-
     getWeekdayStats(
-
       route,
-
       provider,
-
       weekday
-
     );
 
-
-  /*
-    If hourly data exists,
-    apply a limited weekday
-    adjustment.
-
-    The adjustment is capped
-    between -15% and +15%.
-  */
 
   if (
     timingStats
   ) {
 
-    let finalStats =
-
+    let stats =
       copyStats(
         timingStats
       );
-
 
     let weekdayAdjustment =
       null;
 
 
     if (
-
       weekdayContext
-
-      &&
-
-      weekdayContext
-        .baseAverage > 0
-
+        ?.baseAverage > 0
     ) {
 
-      const rawFactor =
-
-        Number(
-
-          weekdayContext
-            .stats
-            .average
-
-        )
-
-        /
-
-        weekdayContext
-          .baseAverage;
-
-
       const factor =
-
         Math.max(
-
           0.85,
-
           Math.min(
-
             1.15,
-
-            rawFactor
-
+            Number(
+              weekdayContext
+                .stats
+                .average
+            )
+            /
+            weekdayContext
+              .baseAverage
           )
-
         );
 
-
-      finalStats =
-
+      stats =
         scaleStats(
-
-          finalStats,
-
+          stats,
           factor
-
         );
-
 
       weekdayAdjustment = {
-
         factor,
 
-        rawFactor,
-
-
         source:
-
           weekdayContext
             .source,
 
-
         count:
-
           weekdayContext
             .stats
             .count
-
       };
 
     }
 
 
     return {
-
-      stats:
-        finalStats,
-
-
-      source:
-        timingSource,
-
-
-      level:
-        timingLevel,
-
+      stats,
+      source,
+      level,
 
       sampleCount:
-
         Number(
           timingStats.count || 0
         ),
 
-
       weekdayAdjustment
-
     };
 
   }
 
-
-  /*
-    3 / 4.
-    Provider weekday
-    or route weekday
-  */
 
   if (
     weekdayContext
   ) {
 
     return {
-
       stats:
-
         copyStats(
           weekdayContext.stats
         ),
 
-
       source:
-
-        weekdayContext
-          .source,
-
+        weekdayContext.source,
 
       level:
-
         provider !==
         "Overall"
-
           ? "provider-weekday"
-
           : "route-weekday",
 
-
       sampleCount:
-
         Number(
-
           weekdayContext
             .stats
-            .count
-
-          || 0
-
+            .count || 0
         ),
-
 
       weekdayAdjustment:
         null
-
     };
 
   }
 
 
-  /*
-    5.
-    Provider overall
-    for this route
-  */
-
   if (
-
     provider !==
     "Overall"
-
     &&
-
     route
       .providers
       ?.[provider]
-
   ) {
 
     return {
-
       stats:
-
         copyStats(
-
           route
             .providers[
               provider
             ]
-
         ),
-
 
       source:
-
-        `${provider} · ` +
-        `route overall`,
-
+        `${provider} · route overall`,
 
       level:
-
         "provider-route",
 
-
       sampleCount:
-
         Number(
-
           route
             .providers[
               provider
             ]
-            .count
-
-          || 0
-
+            .count || 0
         ),
-
 
       weekdayAdjustment:
         null
-
     };
 
   }
 
 
-  /*
-    6.
-    Route overall
-  */
-
   return {
-
     stats:
-
       copyStats(
         route.overall
       ),
 
-
     source:
-
       "Route overall",
 
-
     level:
-
       "route-overall",
 
-
     sampleCount:
-
       Number(
-
         route
           .overall
-          ?.count
-
-        || 0
-
+          ?.count || 0
       ),
-
 
     weekdayAdjustment:
       null
-
   };
-
 }
 
 
@@ -4897,238 +4240,168 @@ function providerContextEstimate(
   hour,
   weekday
 ) {
-
   if (
-
     !provider
-
     ||
-
     provider ===
     "Overall"
-
   ) {
-
     return null;
-
   }
 
 
   const minimumSample =
-
     minimumTimingSample();
 
 
   const providerHour =
-
     hour
-
       ? route
           .provider_hourly
           ?.[provider]
           ?.[hour]
-
       : null;
 
 
   if (
-
-    providerHour
-
-    &&
-
     Number(
-      providerHour.count || 0
-    ) >=
+      providerHour
+        ?.count || 0
+    )
+    >=
     minimumSample
-
   ) {
 
     let stats =
-
       copyStats(
         providerHour
       );
 
 
     const providerDay =
-
       weekday
-
         ? route
             .provider_weekdays
             ?.[provider]
             ?.[weekday]
-
         : null;
 
 
     const providerOverall =
-
       route
         .providers
         ?.[provider];
 
 
     if (
-
       reliableStats(
         providerDay
       )
-
       &&
-
       Number(
         providerOverall
           ?.average || 0
       ) > 0
-
     ) {
 
       stats =
-
         scaleStats(
-
           stats,
-
           Number(
-            providerDay.average
+            providerDay
+              .average
           )
-
           /
-
           Number(
-            providerOverall.average
+            providerOverall
+              .average
           )
-
         );
 
     }
 
 
     return {
-
       stats,
 
-
       source:
-
-        `${provider} · ` +
-        `${formatHour(hour)}`
-
+        `${provider} · ${formatHour(
+          hour
+        )}`
     };
 
   }
 
 
   const providerDay =
-
     weekday
-
       ? route
           .provider_weekdays
           ?.[provider]
           ?.[weekday]
-
       : null;
 
 
   if (
-
     reliableStats(
       providerDay
     )
-
   ) {
 
     return {
-
       stats:
-
         copyStats(
           providerDay
         ),
 
-
       source:
-
-        `${provider} · ` +
-        `${weekday}`
-
+        `${provider} · ${weekday}`
     };
 
   }
 
 
   const providerOverall =
-
     route
       .providers
       ?.[provider];
 
 
-  if (
-    providerOverall
-  ) {
+  return providerOverall
+    ? {
+        stats:
+          copyStats(
+            providerOverall
+          ),
 
-    return {
-
-      stats:
-
-        copyStats(
-          providerOverall
-        ),
-
-
-      source:
-
-        `${provider} · ` +
-        `route overall`
-
-    };
-
-  }
-
-
-  return null;
-
+        source:
+          `${provider} · route overall`
+      }
+    : null;
 }
 
 
 function ensureFareContextControls() {
-
   const grid =
-
     document.querySelector(
       "#fare .form-grid"
     );
 
-
   const button =
-
     document.querySelector(
       "#checkFare"
     );
 
-
   if (
-
     !grid
-
     ||
-
     !button
-
     ||
-
     document.querySelector(
       "#fareDate"
     )
-
   ) {
-
     return;
-
   }
 
 
@@ -5137,84 +4410,66 @@ function ensureFareContextControls() {
 
 
   const dateLabel =
-
     document.createElement(
       "label"
     );
-
 
   dateLabel.innerHTML = `
 
     Journey date
 
     <input
-
       id="
         fareDate
       "
-
       type="
         date
       "
-
       value="
         ${localDateString(
           now
         )}
       "
-
     >
 
   `;
 
 
   const timeLabel =
-
     document.createElement(
       "label"
     );
-
 
   timeLabel.innerHTML = `
 
     Journey time
 
     <input
-
       id="
         fareTime
       "
-
       type="
         time
       "
-
       value="
         ${localTimeString(
           now
         )}
       "
-
     >
 
   `;
 
 
   grid.insertBefore(
-
     dateLabel,
-
     button
-
   );
 
 
   grid.insertBefore(
-
     timeLabel,
-
     button
-
   );
 
 
@@ -5225,192 +4480,86 @@ function ensureFareContextControls() {
     );
 
 
-  /*
-    Add Fare Checker-specific
-    responsive styles without
-    requiring another CSS change.
-  */
-
   if (
-
     !document.querySelector(
       "#fareTimingStyles"
     )
-
   ) {
 
     const style =
-
       document.createElement(
         "style"
       );
 
-
     style.id =
-
       "fareTimingStyles";
-
 
     style.textContent = `
 
       .form-grid.fare-context-grid {
-
         grid-template-columns:
-
-          minmax(
-            210px,
-            2fr
-          )
-
-          minmax(
-            120px,
-            1fr
-          )
-
-          minmax(
-            125px,
-            1fr
-          )
-
-          minmax(
-            145px,
-            1fr
-          )
-
-          minmax(
-            120px,
-            1fr
-          )
-
+          minmax(210px,2fr)
+          minmax(120px,1fr)
+          minmax(125px,1fr)
+          minmax(145px,1fr)
+          minmax(120px,1fr)
           auto;
-
       }
-
 
       .fare-result-grid {
-
-        display:
-          grid;
-
+        display:grid;
         grid-template-columns:
-
-          minmax(
-            150px,
-            0.7fr
-          )
-
-          minmax(
-            0,
-            2fr
-          );
-
-        gap:
-          18px;
-
-        align-items:
-          center;
-
+          minmax(150px,.7fr)
+          minmax(0,2fr);
+        gap:18px;
+        align-items:center;
       }
-
 
       .fare-result-details {
-
-        display:
-          grid;
-
-        gap:
-          8px;
-
+        display:grid;
+        gap:8px;
       }
-
 
       .fare-reference {
-
-        padding:
-          11px
-          13px;
-
-        border:
-          1px solid
-          var(--line);
-
-        border-radius:
-          10px;
-
-        background:
-          #091827;
-
+        padding:11px 13px;
+        border:1px solid var(--line);
+        border-radius:10px;
+        background:#091827;
       }
-
 
       .fare-reference strong {
-
-        display:
-          block;
-
-        margin-top:
-          2px;
-
+        display:block;
+        margin-top:2px;
       }
-
 
       .fare-recommendation {
-
-        margin-top:
-          14px;
-
-        padding:
-          13px
-          15px;
-
-        border-radius:
-          11px;
-
-        background:
-          #0a1c2c;
-
-        border:
-          1px solid
-          var(--line);
-
+        margin-top:14px;
+        padding:13px 15px;
+        border-radius:11px;
+        background:#0a1c2c;
+        border:1px solid var(--line);
       }
 
-
-      @media (
-        max-width:
-        1100px
-      ) {
+      @media(max-width:1100px) {
 
         .form-grid.fare-context-grid {
-
           grid-template-columns:
-
-            1fr
-            1fr
-            1fr;
-
+            1fr 1fr 1fr;
         }
 
       }
 
-
-      @media (
-        max-width:
-        700px
-      ) {
+      @media(max-width:700px) {
 
         .form-grid.fare-context-grid,
         .fare-result-grid {
-
           grid-template-columns:
             1fr;
-
         }
 
       }
 
     `;
-
 
     document.head
       .appendChild(
@@ -5418,106 +4567,76 @@ function ensureFareContextControls() {
       );
 
   }
-
 }
 
 
 function checkFare() {
-
   const routeKey =
-
     String(
-
       document.querySelector(
         "#fareRoute"
       )
-        ?.value
-
-      || ""
-
+        ?.value ||
+      ""
     ).trim();
 
 
   const provider =
-
     document.querySelector(
       "#fareProvider"
     )
       ?.value
-
     ||
-
     "Overall";
 
 
   const amount =
-
     Number(
-
       document.querySelector(
         "#fareAmount"
       )
         ?.value
-
     );
 
 
   const resultBox =
-
     document.querySelector(
       "#fareResult"
     );
 
 
   const route =
-
     (
       DATA.routes ||
       []
     )
       .find(
-
         (item) =>
-
           String(
-            item.key || ""
+            item.key ||
+            ""
           ).trim()
-
           ===
-
           routeKey
-
       );
 
 
   if (
-
     !route
-
     ||
-
     !resultBox
-
     ||
-
     !Number.isFinite(
       amount
     )
-
     ||
-
     amount <= 0
-
   ) {
 
     if (resultBox) {
-
       resultBox.innerHTML =
-
         "Enter a valid fare amount.";
-
     }
-
 
     return;
 
@@ -5525,22 +4644,15 @@ function checkFare() {
 
 
   const context =
-
-    getFareDateContext();
+    getFareContext();
 
 
   const benchmark =
-
     selectFareBenchmark(
-
       route,
-
       provider,
-
       context.hour,
-
       context.weekday
-
     );
 
 
@@ -5550,10 +4662,7 @@ function checkFare() {
   ) {
 
     resultBox.innerHTML =
-
-      "Not enough historical data " +
-      "for that route and context.";
-
+      "Not enough historical data for that route and context.";
 
     return;
 
@@ -5561,51 +4670,37 @@ function checkFare() {
 
 
   const stats =
-
     benchmark.stats;
 
 
   const [
-
     score,
-
     description
-
   ] =
-
     fareScore(
-
       amount,
-
       stats
-
     );
 
 
   const difference =
-
     amount
-
     -
-
     Number(
       stats.median
     );
 
 
   const differenceText =
-
     difference >= 0
-
       ? `${money(
           difference
-        )} above`
-
+        )} above median`
       : `${money(
           Math.abs(
             difference
           )
-        )} below`;
+        )} below median`;
 
 
   let weekdayNote =
@@ -5613,24 +4708,20 @@ function checkFare() {
 
 
   if (
-
     benchmark
       .weekdayAdjustment
-
   ) {
 
     const percent =
-
       (
         benchmark
           .weekdayAdjustment
           .factor
-
         -
-
         1
-
-      ) * 100;
+      )
+      *
+      100;
 
 
     weekdayNote = `
@@ -5658,9 +4749,7 @@ function checkFare() {
 
           ${
             percent >= 0
-
               ? "+"
-
               : ""
           }
 
@@ -5682,68 +4771,50 @@ function checkFare() {
 
 
   if (
-
     provider ===
     "Grab"
-
     ||
-
     provider ===
     "Gojek"
-
   ) {
 
-    const otherProvider =
-
+    const other =
       provider ===
       "Grab"
-
         ? "Gojek"
-
         : "Grab";
 
 
-    const otherEstimate =
-
+    const estimate =
       providerContextEstimate(
-
         route,
-
-        otherProvider,
-
+        other,
         context.hour,
-
         context.weekday
-
       );
 
 
     if (
-      otherEstimate
+      estimate
         ?.stats
     ) {
 
       const otherMedian =
-
         Number(
-
-          otherEstimate
+          estimate
             .stats
             .median
-
         );
 
 
       const saving =
-
-        amount -
+        amount
+        -
         otherMedian;
 
 
       providerAdvice =
-
         saving > 1
-
           ? `
 
             <div
@@ -5755,13 +4826,13 @@ function checkFare() {
               <strong>
 
                 Check
-                ${otherProvider}
+                ${other}
                 before booking.
 
               </strong>
 
               Your historical
-              ${otherProvider}
+              ${other}
               benchmark for this
               context is about
 
@@ -5788,7 +4859,6 @@ function checkFare() {
             </div>
 
           `
-
           : `
 
             <div
@@ -5809,12 +4879,9 @@ function checkFare() {
     }
 
   }
-
   else if (
-
     route
       .provider_comparison
-
   ) {
 
     providerAdvice = `
@@ -5842,11 +4909,9 @@ function checkFare() {
         <strong>
 
           ${money(
-
             route
               .provider_comparison
               .average_saving
-
           )}
 
         </strong>
@@ -5880,9 +4945,7 @@ function checkFare() {
           ${score}
 
           <small>
-
             /5
-
           </small>
 
         </div>
@@ -5914,9 +4977,7 @@ function checkFare() {
               muted
             "
           >
-
             Quote
-
           </span>
 
           <strong>
@@ -5989,7 +5050,6 @@ function checkFare() {
             ·
 
             ${differenceText}
-            median
 
           </strong>
 
@@ -6036,87 +5096,58 @@ function checkFare() {
     ${providerAdvice}
 
   `;
-
 }
 
 
 function wireFareChecker() {
-
   ensureFareContextControls();
 
 
-  const button =
-
-    document.querySelector(
+  document
+    .querySelector(
       "#checkFare"
-    );
-
-
-  const input =
-
-    document.querySelector(
-      "#fareAmount"
-    );
-
-
-  if (button) {
-
-    button.addEventListener(
-
+    )
+    ?.addEventListener(
       "click",
-
       checkFare
-
     );
 
-  }
 
-
-  if (input) {
-
-    input.addEventListener(
-
+  document
+    .querySelector(
+      "#fareAmount"
+    )
+    ?.addEventListener(
       "keydown",
-
       (event) => {
 
         if (
           event.key ===
           "Enter"
         ) {
-
           checkFare();
-
         }
 
       }
-
     );
-
-  }
-
 }
 
 
-/* =========================================================
+/* =========================
    FOOD
-========================================================= */
-
+========================= */
 function renderFood() {
-
   const food =
     DATA.food;
 
 
   const summary =
-
     document.querySelector(
       "#foodSummary"
     );
 
 
   const topFood =
-
     document.querySelector(
       "#topFood"
     );
@@ -6137,11 +5168,8 @@ function renderFood() {
             label
           "
         >
-
           Orders
-
         </div>
-
 
         <div
           class="
@@ -6157,7 +5185,6 @@ function renderFood() {
 
 
       <div
-
         class="
           metric
         "
@@ -6166,7 +5193,6 @@ function renderFood() {
           margin-top:
           20px;
         "
-
       >
 
         <div
@@ -6174,11 +5200,8 @@ function renderFood() {
             label
           "
         >
-
           Total spend
-
         </div>
-
 
         <div
           class="
@@ -6202,9 +5225,10 @@ function renderFood() {
   if (topFood) {
 
     topFood.innerHTML =
-
       (
-        food.top_restaurants ||
+        food
+          .top_restaurants
+        ||
         []
       )
         .slice(
@@ -6212,7 +5236,6 @@ function renderFood() {
           8
         )
         .map(
-
           (
             restaurant,
             index
@@ -6231,11 +5254,11 @@ function renderFood() {
                   ${index + 1}.
 
                   ${label(
-                    restaurant.restaurant
+                    restaurant
+                      .restaurant
                   )}
 
                 </strong>
-
 
                 <div
                   class="
@@ -6249,7 +5272,8 @@ function renderFood() {
                   · avg
 
                   ${money(
-                    restaurant.average_order
+                    restaurant
+                      .average_order
                   )}
 
                 </div>
@@ -6260,7 +5284,8 @@ function renderFood() {
               <strong>
 
                 ${money(
-                  restaurant.total_spend
+                  restaurant
+                    .total_spend
                 )}
 
               </strong>
@@ -6268,82 +5293,64 @@ function renderFood() {
             </div>
 
           `
-
         )
         .join("");
 
   }
-
 }
 
 
-/* =========================================================
+/* =========================
    ASK MY DATA
-========================================================= */
-
+========================= */
 function answer(question) {
-
   const q =
-
     String(
-      question || ""
+      question ||
+      ""
     )
       .toLowerCase()
       .trim();
 
 
   const homeOffice =
-
     (
       DATA.routes ||
       []
     )
       .find(
-
         (route) =>
-
           String(
-            route.key || ""
+            route.key ||
+            ""
           ).trim()
-
           ===
-
           "HOME__OFFICE"
-
       );
 
 
   if (!q) {
 
     return (
-
       "Ask a question about " +
-
       "your rides, spending, " +
-
       "providers or food orders."
-
     );
 
   }
 
 
   if (
-
     q.includes(
       "food"
     )
-
     ||
-
     q.includes(
       "restaurant"
     )
-
   ) {
 
     const top =
-
       DATA
         .food
         .top_restaurants
@@ -6353,64 +5360,91 @@ function answer(question) {
     if (!top) {
 
       return (
-
         "No food-order data " +
-
         "is currently available."
-
       );
 
     }
 
 
-    return (
+    return `
 
-      `Your most frequently ordered ` +
+      Your most frequently
+      ordered restaurant is
 
-      `restaurant in this dataset is ` +
+      <strong>
 
-      `<strong>${label(
-        top.restaurant
-      )}</strong>, with ` +
+        ${label(
+          top.restaurant
+        )}
 
-      `<strong>${top.count} orders</strong> ` +
+      </strong>,
 
-      `and ` +
+      with
 
-      `<strong>${money(
-        top.total_spend
-      )}</strong> total spend.`
+      <strong>
 
-    );
+        ${top.count}
+        orders
+
+      </strong>
+
+      and
+
+      <strong>
+
+        ${money(
+          top.total_spend
+        )}
+
+      </strong>
+
+      total spend.
+
+    `;
 
   }
 
 
   if (
-
     q.includes(
       "ride"
     )
-
     &&
-
     q.includes(
       "spend"
     )
-
   ) {
 
-    return (
+    return `
 
-      `Your recorded ride spend is ` +
+      Your recorded ride spend is
 
-      `<strong>${money(
-        DATA.summary.ride_spend_sgd
-      )}</strong> across ` +
+      <strong>
 
-      `<strong>${DATA.summary.ride_transactions} rides</strong>.`
+        ${money(
+          DATA
+            .summary
+            .ride_spend_sgd
+        )}
 
-    );
+      </strong>
+
+      across
+
+      <strong>
+
+        ${
+          DATA
+            .summary
+            .ride_transactions
+        }
+
+        rides
+
+      </strong>.
+
+    `;
 
   }
 
@@ -6421,153 +5455,192 @@ function answer(question) {
     )
   ) {
 
-    return (
+    return `
 
-      `Across the supplied history, ` +
+      Recorded SGD spend is
 
-      `recorded SGD spend is ` +
+      <strong>
 
-      `<strong>${money(
-        DATA.summary.total_spend_sgd
-      )}</strong>. ` +
+        ${money(
+          DATA
+            .summary
+            .total_spend_sgd
+        )}
 
-      `This consists of ` +
+      </strong>.
 
-      `<strong>${money(
-        DATA.summary.ride_spend_sgd
-      )}</strong> on rides and ` +
+      This includes
 
-      `<strong>${money(
-        DATA.summary.food_spend_sgd
-      )}</strong> on GrabFood.`
+      <strong>
 
-    );
+        ${money(
+          DATA
+            .summary
+            .ride_spend_sgd
+        )}
+
+      </strong>
+
+      on rides and
+
+      <strong>
+
+        ${money(
+          DATA
+            .summary
+            .food_spend_sgd
+        )}
+
+      </strong>
+
+      on GrabFood.
+
+    `;
 
   }
 
 
   if (
-
     q.includes(
       "cheaper"
     )
-
     &&
-
     homeOffice
       ?.provider_comparison
-
   ) {
 
     const comparison =
-
       homeOffice
         .provider_comparison;
 
 
-    return (
+    return `
 
-      `For Home → Office, ` +
+      For Home → Office,
 
-      `<strong>${comparison.cheaper}</strong> ` +
+      <strong>
 
-      `has historically been cheaper ` +
+        ${comparison.cheaper}
 
-      `on average by about ` +
+      </strong>
 
-      `<strong>${money(
-        comparison.average_saving
-      )}</strong> per trip.`
+      has historically been
+      cheaper on average by
+      about
 
-    );
+      <strong>
+
+        ${money(
+          comparison
+            .average_saving
+        )}
+
+      </strong>
+
+      per trip.
+
+    `;
 
   }
 
 
   if (
-
     homeOffice
-
     &&
-
     (
-
       (
-
         q.includes(
           "home"
         )
-
         &&
-
         q.includes(
           "office"
         )
-
       )
-
       ||
-
       q.includes(
         "normal fare"
       )
-
     )
-
   ) {
 
-    return (
+    return `
 
-      `For Home → Office, your ` +
+      For Home → Office,
+      your historical median is
 
-      `historical median is ` +
+      <strong>
 
-      `<strong>${money(
-        homeOffice.overall.median
-      )}</strong>. ` +
+        ${money(
+          homeOffice
+            .overall
+            .median
+        )}
 
-      `The middle 50% of fares were ` +
+      </strong>.
 
-      `between ` +
+      The middle 50% of fares
+      were between
 
-      `<strong>${money(
-        homeOffice.overall.p25
-      )}</strong> and ` +
+      <strong>
 
-      `<strong>${money(
-        homeOffice.overall.p75
-      )}</strong> across ` +
+        ${money(
+          homeOffice
+            .overall
+            .p25
+        )}
 
-      `<strong>${homeOffice.overall.count} trips</strong>.`
+      </strong>
 
-    );
+      and
+
+      <strong>
+
+        ${money(
+          homeOffice
+            .overall
+            .p75
+        )}
+
+      </strong>
+
+      across
+
+      <strong>
+
+        ${homeOffice
+          .overall
+          .count}
+
+        trips
+
+      </strong>.
+
+    `;
 
   }
 
 
-  return (
+  return `
 
-    `I can currently answer questions about ` +
+    I can currently answer
+    questions about
 
-    `<strong>` +
+    <strong>
 
-    `spending, food orders, ` +
+      spending,
+      food orders,
+      Home → Office fares
+      and provider comparisons
 
-    `Home → Office fares and ` +
+    </strong>.
 
-    `provider comparisons` +
-
-    `</strong>.`
-
-  );
-
+  `;
 }
 
 
 function askQuestion() {
-
   const question =
-
     document.querySelector(
       "#agentQuestion"
     )
@@ -6575,7 +5648,6 @@ function askQuestion() {
 
 
   const answerBox =
-
     document.querySelector(
       "#agentAnswer"
     );
@@ -6584,46 +5656,39 @@ function askQuestion() {
   if (answerBox) {
 
     answerBox.innerHTML =
-
       answer(
         question
       );
 
   }
-
 }
 
 
 function wireAgent() {
-
   document
     .querySelectorAll(
       ".chips button"
     )
     .forEach(
-
       (button) => {
 
         button.addEventListener(
-
           "click",
-
           () => {
 
             const question =
-
-              button.dataset.q;
+              button
+                .dataset
+                .q;
 
 
             const input =
-
               document.querySelector(
                 "#agentQuestion"
               );
 
 
             const answerBox =
-
               document.querySelector(
                 "#agentAnswer"
               );
@@ -6640,7 +5705,6 @@ function wireAgent() {
             if (answerBox) {
 
               answerBox.innerHTML =
-
                 answer(
                   question
                 );
@@ -6648,47 +5712,28 @@ function wireAgent() {
             }
 
           }
-
         );
 
       }
-
     );
 
 
-  const askButton =
-
-    document.querySelector(
+  document
+    .querySelector(
       "#askButton"
-    );
-
-
-  const input =
-
-    document.querySelector(
-      "#agentQuestion"
-    );
-
-
-  if (askButton) {
-
-    askButton.addEventListener(
-
+    )
+    ?.addEventListener(
       "click",
-
       askQuestion
-
     );
 
-  }
 
-
-  if (input) {
-
-    input.addEventListener(
-
+  document
+    .querySelector(
+      "#agentQuestion"
+    )
+    ?.addEventListener(
       "keydown",
-
       (event) => {
 
         if (
@@ -6701,40 +5746,29 @@ function wireAgent() {
         }
 
       }
-
     );
-
-  }
-
 }
 
 
-/* =========================================================
+/* =========================
    START
-========================================================= */
-
+========================= */
 init().catch(
-
   (error) => {
 
     console.error(
-
       "Dashboard error:",
-
       error
-
     );
 
 
     document.body.innerHTML = `
 
       <main
-
         style="
           padding-top:
           40px;
         "
-
       >
 
         <article
@@ -6779,5 +5813,4 @@ init().catch(
     `;
 
   }
-
 );
