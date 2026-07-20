@@ -1034,6 +1034,73 @@
             "p90": 27.4
           }
         }
+      },
+      "distance": {
+        "distance_km": 11.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 81,
+          "average": 1.89,
+          "median": 1.9,
+          "min": 1.23,
+          "max": 3.11,
+          "p10": 1.46,
+          "p25": 1.58,
+          "p75": 2.15,
+          "p90": 2.28
+        },
+        "providers": {
+          "Grab": {
+            "count": 34,
+            "average": 2.0,
+            "median": 2.07,
+            "min": 1.3,
+            "max": 3.11,
+            "p10": 1.58,
+            "p25": 1.72,
+            "p75": 2.18,
+            "p90": 2.29
+          },
+          "Gojek": {
+            "count": 47,
+            "average": 1.81,
+            "median": 1.8,
+            "min": 1.23,
+            "max": 2.5,
+            "p10": 1.46,
+            "p25": 1.51,
+            "p75": 2.08,
+            "p90": 2.27
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 16,
+            "average": 1.85,
+            "median": 1.73,
+            "min": 1.3,
+            "max": 3.11,
+            "p10": 1.47,
+            "p25": 1.58,
+            "p75": 2.05,
+            "p90": 2.23
+          },
+          "Metered": {
+            "count": 18,
+            "average": 2.12,
+            "median": 2.16,
+            "min": 1.53,
+            "max": 2.47,
+            "p10": 1.92,
+            "p25": 2.07,
+            "p75": 2.2,
+            "p90": 2.29
+          }
+        }
       }
     },
     {
@@ -1732,6 +1799,62 @@
             "p90": 23.52
           }
         }
+      },
+      "distance": {
+        "distance_km": 14.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 52,
+          "average": 1.19,
+          "median": 1.16,
+          "min": 0.82,
+          "max": 1.92,
+          "p10": 0.99,
+          "p25": 1.08,
+          "p75": 1.29,
+          "p90": 1.4
+        },
+        "providers": {
+          "Grab": {
+            "count": 17,
+            "average": 1.2,
+            "median": 1.15,
+            "min": 0.82,
+            "max": 1.92,
+            "p10": 0.85,
+            "p25": 1.1,
+            "p75": 1.26,
+            "p90": 1.62
+          },
+          "Gojek": {
+            "count": 35,
+            "average": 1.19,
+            "median": 1.17,
+            "min": 0.97,
+            "max": 1.72,
+            "p10": 1.01,
+            "p25": 1.08,
+            "p75": 1.29,
+            "p90": 1.35
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 17,
+            "average": 1.2,
+            "median": 1.15,
+            "min": 0.82,
+            "max": 1.92,
+            "p10": 0.85,
+            "p25": 1.1,
+            "p75": 1.26,
+            "p90": 1.62
+          }
+        }
       }
     },
     {
@@ -2085,6 +2208,62 @@
             "p25": 20.6,
             "p75": 20.6,
             "p90": 20.6
+          }
+        }
+      },
+      "distance": {
+        "distance_km": 22.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 6,
+          "average": 0.96,
+          "median": 0.94,
+          "min": 0.86,
+          "max": 1.14,
+          "p10": 0.89,
+          "p25": 0.92,
+          "p75": 0.97,
+          "p90": 1.06
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 0.92,
+            "median": 0.92,
+            "min": 0.92,
+            "max": 0.92,
+            "p10": 0.92,
+            "p25": 0.92,
+            "p75": 0.92,
+            "p90": 0.92
+          },
+          "Gojek": {
+            "count": 5,
+            "average": 0.97,
+            "median": 0.95,
+            "min": 0.86,
+            "max": 1.14,
+            "p10": 0.89,
+            "p25": 0.94,
+            "p75": 0.98,
+            "p90": 1.07
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 0.92,
+            "median": 0.92,
+            "min": 0.92,
+            "max": 0.92,
+            "p10": 0.92,
+            "p25": 0.92,
+            "p75": 0.92,
+            "p90": 0.92
           }
         }
       }
@@ -3279,6 +3458,73 @@
             "p90": 27.4
           }
         }
+      },
+      "distance": {
+        "distance_km": 11.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 81,
+          "average": 1.89,
+          "median": 1.9,
+          "min": 1.23,
+          "max": 3.11,
+          "p10": 1.46,
+          "p25": 1.58,
+          "p75": 2.15,
+          "p90": 2.28
+        },
+        "providers": {
+          "Grab": {
+            "count": 34,
+            "average": 2.0,
+            "median": 2.07,
+            "min": 1.3,
+            "max": 3.11,
+            "p10": 1.58,
+            "p25": 1.72,
+            "p75": 2.18,
+            "p90": 2.29
+          },
+          "Gojek": {
+            "count": 47,
+            "average": 1.81,
+            "median": 1.8,
+            "min": 1.23,
+            "max": 2.5,
+            "p10": 1.46,
+            "p25": 1.51,
+            "p75": 2.08,
+            "p90": 2.27
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 16,
+            "average": 1.85,
+            "median": 1.73,
+            "min": 1.3,
+            "max": 3.11,
+            "p10": 1.47,
+            "p25": 1.58,
+            "p75": 2.05,
+            "p90": 2.23
+          },
+          "Metered": {
+            "count": 18,
+            "average": 2.12,
+            "median": 2.16,
+            "min": 1.53,
+            "max": 2.47,
+            "p10": 1.92,
+            "p25": 2.07,
+            "p75": 2.2,
+            "p90": 2.29
+          }
+        }
       }
     },
     {
@@ -3977,6 +4223,62 @@
             "p90": 23.52
           }
         }
+      },
+      "distance": {
+        "distance_km": 14.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 52,
+          "average": 1.19,
+          "median": 1.16,
+          "min": 0.82,
+          "max": 1.92,
+          "p10": 0.99,
+          "p25": 1.08,
+          "p75": 1.29,
+          "p90": 1.4
+        },
+        "providers": {
+          "Grab": {
+            "count": 17,
+            "average": 1.2,
+            "median": 1.15,
+            "min": 0.82,
+            "max": 1.92,
+            "p10": 0.85,
+            "p25": 1.1,
+            "p75": 1.26,
+            "p90": 1.62
+          },
+          "Gojek": {
+            "count": 35,
+            "average": 1.19,
+            "median": 1.17,
+            "min": 0.97,
+            "max": 1.72,
+            "p10": 1.01,
+            "p25": 1.08,
+            "p75": 1.29,
+            "p90": 1.35
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 17,
+            "average": 1.2,
+            "median": 1.15,
+            "min": 0.82,
+            "max": 1.92,
+            "p10": 0.85,
+            "p25": 1.1,
+            "p75": 1.26,
+            "p90": 1.62
+          }
+        }
       }
     },
     {
@@ -4629,6 +4931,62 @@
             "p90": 27.3
           }
         }
+      },
+      "distance": {
+        "distance_km": 14.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 12,
+          "average": 1.52,
+          "median": 1.39,
+          "min": 1.01,
+          "max": 1.97,
+          "p10": 1.28,
+          "p25": 1.37,
+          "p75": 1.71,
+          "p90": 1.94
+        },
+        "providers": {
+          "Grab": {
+            "count": 5,
+            "average": 1.43,
+            "median": 1.39,
+            "min": 1.01,
+            "max": 1.95,
+            "p10": 1.16,
+            "p25": 1.39,
+            "p75": 1.39,
+            "p90": 1.73
+          },
+          "Gojek": {
+            "count": 7,
+            "average": 1.58,
+            "median": 1.56,
+            "min": 1.27,
+            "max": 1.97,
+            "p10": 1.31,
+            "p25": 1.35,
+            "p75": 1.77,
+            "p90": 1.92
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 5,
+            "average": 1.43,
+            "median": 1.39,
+            "min": 1.01,
+            "max": 1.95,
+            "p10": 1.16,
+            "p25": 1.39,
+            "p75": 1.39,
+            "p90": 1.73
+          }
+        }
       }
     },
     {
@@ -5085,6 +5443,73 @@
             "p25": 29.5,
             "p75": 29.5,
             "p90": 29.5
+          }
+        }
+      },
+      "distance": {
+        "distance_km": 23.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 7,
+          "average": 1.46,
+          "median": 1.45,
+          "min": 1.2,
+          "max": 1.73,
+          "p10": 1.23,
+          "p25": 1.32,
+          "p75": 1.61,
+          "p90": 1.7
+        },
+        "providers": {
+          "Grab": {
+            "count": 2,
+            "average": 1.4,
+            "median": 1.4,
+            "min": 1.26,
+            "max": 1.54,
+            "p10": 1.28,
+            "p25": 1.33,
+            "p75": 1.47,
+            "p90": 1.51
+          },
+          "Gojek": {
+            "count": 5,
+            "average": 1.49,
+            "median": 1.45,
+            "min": 1.2,
+            "max": 1.73,
+            "p10": 1.27,
+            "p25": 1.38,
+            "p75": 1.69,
+            "p90": 1.71
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 1.54,
+            "median": 1.54,
+            "min": 1.54,
+            "max": 1.54,
+            "p10": 1.54,
+            "p25": 1.54,
+            "p75": 1.54,
+            "p90": 1.54
+          },
+          "Metered": {
+            "count": 1,
+            "average": 1.26,
+            "median": 1.26,
+            "min": 1.26,
+            "max": 1.26,
+            "p10": 1.26,
+            "p25": 1.26,
+            "p75": 1.26,
+            "p90": 1.26
           }
         }
       }
@@ -5596,6 +6021,62 @@
             "p90": 42.4
           }
         }
+      },
+      "distance": {
+        "distance_km": 23.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 7,
+          "average": 1.53,
+          "median": 1.42,
+          "min": 1.24,
+          "max": 1.97,
+          "p10": 1.25,
+          "p25": 1.3,
+          "p75": 1.75,
+          "p90": 1.87
+        },
+        "providers": {
+          "Grab": {
+            "count": 3,
+            "average": 1.43,
+            "median": 1.25,
+            "min": 1.24,
+            "max": 1.8,
+            "p10": 1.24,
+            "p25": 1.25,
+            "p75": 1.53,
+            "p90": 1.69
+          },
+          "Gojek": {
+            "count": 4,
+            "average": 1.61,
+            "median": 1.55,
+            "min": 1.36,
+            "max": 1.97,
+            "p10": 1.38,
+            "p25": 1.4,
+            "p75": 1.76,
+            "p90": 1.89
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 3,
+            "average": 1.43,
+            "median": 1.25,
+            "min": 1.24,
+            "max": 1.8,
+            "p10": 1.24,
+            "p25": 1.25,
+            "p75": 1.53,
+            "p90": 1.69
+          }
+        }
       }
     },
     {
@@ -5949,6 +6430,62 @@
             "p25": 20.6,
             "p75": 20.6,
             "p90": 20.6
+          }
+        }
+      },
+      "distance": {
+        "distance_km": 22.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 6,
+          "average": 0.96,
+          "median": 0.94,
+          "min": 0.86,
+          "max": 1.14,
+          "p10": 0.89,
+          "p25": 0.92,
+          "p75": 0.97,
+          "p90": 1.06
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 0.92,
+            "median": 0.92,
+            "min": 0.92,
+            "max": 0.92,
+            "p10": 0.92,
+            "p25": 0.92,
+            "p75": 0.92,
+            "p90": 0.92
+          },
+          "Gojek": {
+            "count": 5,
+            "average": 0.97,
+            "median": 0.95,
+            "min": 0.86,
+            "max": 1.14,
+            "p10": 0.89,
+            "p25": 0.94,
+            "p75": 0.98,
+            "p90": 1.07
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 0.92,
+            "median": 0.92,
+            "min": 0.92,
+            "max": 0.92,
+            "p10": 0.92,
+            "p25": 0.92,
+            "p75": 0.92,
+            "p90": 0.92
           }
         }
       }
@@ -6885,6 +7422,62 @@
             "p90": 22.2
           }
         }
+      },
+      "distance": {
+        "distance_km": 22.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 5,
+          "average": 1.06,
+          "median": 1.0,
+          "min": 0.88,
+          "max": 1.24,
+          "p10": 0.93,
+          "p25": 0.99,
+          "p75": 1.19,
+          "p90": 1.22
+        },
+        "providers": {
+          "Grab": {
+            "count": 3,
+            "average": 1.06,
+            "median": 1.0,
+            "min": 0.99,
+            "max": 1.19,
+            "p10": 0.99,
+            "p25": 1.0,
+            "p75": 1.1,
+            "p90": 1.15
+          },
+          "Gojek": {
+            "count": 2,
+            "average": 1.06,
+            "median": 1.06,
+            "min": 0.88,
+            "max": 1.24,
+            "p10": 0.92,
+            "p25": 0.97,
+            "p75": 1.15,
+            "p90": 1.2
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 3,
+            "average": 1.06,
+            "median": 1.0,
+            "min": 0.99,
+            "max": 1.19,
+            "p10": 0.99,
+            "p25": 1.0,
+            "p75": 1.1,
+            "p90": 1.15
+          }
+        }
       }
     },
     {
@@ -7326,6 +7919,62 @@
             "p25": 23.5,
             "p75": 23.5,
             "p90": 23.5
+          }
+        }
+      },
+      "distance": {
+        "distance_km": 10.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 4,
+          "average": 2.24,
+          "median": 2.4,
+          "min": 1.57,
+          "max": 2.57,
+          "p10": 1.8,
+          "p25": 2.16,
+          "p75": 2.48,
+          "p90": 2.53
+        },
+        "providers": {
+          "Grab": {
+            "count": 3,
+            "average": 2.12,
+            "median": 2.35,
+            "min": 1.57,
+            "max": 2.45,
+            "p10": 1.73,
+            "p25": 1.96,
+            "p75": 2.4,
+            "p90": 2.43
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 2.57,
+            "median": 2.57,
+            "min": 2.57,
+            "max": 2.57,
+            "p10": 2.57,
+            "p25": 2.57,
+            "p75": 2.57,
+            "p90": 2.57
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 3,
+            "average": 2.12,
+            "median": 2.35,
+            "min": 1.57,
+            "max": 2.45,
+            "p10": 1.73,
+            "p25": 1.96,
+            "p75": 2.4,
+            "p90": 2.43
           }
         }
       }
@@ -8064,6 +8713,62 @@
             "p90": 17.8
           }
         }
+      },
+      "distance": {
+        "distance_km": 16.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 3,
+          "average": 1.07,
+          "median": 1.08,
+          "min": 0.96,
+          "max": 1.16,
+          "p10": 0.98,
+          "p25": 1.02,
+          "p75": 1.12,
+          "p90": 1.15
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 1.08,
+            "median": 1.08,
+            "min": 1.08,
+            "max": 1.08,
+            "p10": 1.08,
+            "p25": 1.08,
+            "p75": 1.08,
+            "p90": 1.08
+          },
+          "Gojek": {
+            "count": 2,
+            "average": 1.06,
+            "median": 1.06,
+            "min": 0.96,
+            "max": 1.16,
+            "p10": 0.98,
+            "p25": 1.01,
+            "p75": 1.11,
+            "p90": 1.14
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 1.08,
+            "median": 1.08,
+            "min": 1.08,
+            "max": 1.08,
+            "p10": 1.08,
+            "p25": 1.08,
+            "p75": 1.08,
+            "p90": 1.08
+          }
+        }
       }
     },
     {
@@ -8434,6 +9139,73 @@
             "p90": 37.78
           }
         }
+      },
+      "distance": {
+        "distance_km": 20.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 3,
+          "average": 1.63,
+          "median": 1.84,
+          "min": 1.17,
+          "max": 1.86,
+          "p10": 1.31,
+          "p25": 1.51,
+          "p75": 1.85,
+          "p90": 1.86
+        },
+        "providers": {
+          "Grab": {
+            "count": 2,
+            "average": 1.51,
+            "median": 1.51,
+            "min": 1.17,
+            "max": 1.84,
+            "p10": 1.24,
+            "p25": 1.34,
+            "p75": 1.68,
+            "p90": 1.78
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 1.86,
+            "median": 1.86,
+            "min": 1.86,
+            "max": 1.86,
+            "p10": 1.86,
+            "p25": 1.86,
+            "p75": 1.86,
+            "p90": 1.86
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 1.17,
+            "median": 1.17,
+            "min": 1.17,
+            "max": 1.17,
+            "p10": 1.17,
+            "p25": 1.17,
+            "p75": 1.17,
+            "p90": 1.17
+          },
+          "Metered": {
+            "count": 1,
+            "average": 1.84,
+            "median": 1.84,
+            "min": 1.84,
+            "max": 1.84,
+            "p10": 1.84,
+            "p25": 1.84,
+            "p75": 1.84,
+            "p90": 1.84
+          }
+        }
       }
     },
     {
@@ -8793,6 +9565,73 @@
             "p90": 20.47
           }
         }
+      },
+      "distance": {
+        "distance_km": 10.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 3,
+          "average": 2.16,
+          "median": 2.05,
+          "min": 2.03,
+          "max": 2.39,
+          "p10": 2.03,
+          "p25": 2.04,
+          "p75": 2.22,
+          "p90": 2.32
+        },
+        "providers": {
+          "Grab": {
+            "count": 2,
+            "average": 2.22,
+            "median": 2.22,
+            "min": 2.05,
+            "max": 2.39,
+            "p10": 2.08,
+            "p25": 2.13,
+            "p75": 2.3,
+            "p90": 2.35
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 2.03,
+            "median": 2.03,
+            "min": 2.03,
+            "max": 2.03,
+            "p10": 2.03,
+            "p25": 2.03,
+            "p75": 2.03,
+            "p90": 2.03
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 2.39,
+            "median": 2.39,
+            "min": 2.39,
+            "max": 2.39,
+            "p10": 2.39,
+            "p25": 2.39,
+            "p75": 2.39,
+            "p90": 2.39
+          },
+          "Metered": {
+            "count": 1,
+            "average": 2.05,
+            "median": 2.05,
+            "min": 2.05,
+            "max": 2.05,
+            "p10": 2.05,
+            "p25": 2.05,
+            "p75": 2.05,
+            "p90": 2.05
+          }
+        }
       }
     },
     {
@@ -9137,6 +9976,62 @@
             "p90": 19.5
           }
         }
+      },
+      "distance": {
+        "distance_km": 12.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 3,
+          "average": 1.85,
+          "median": 1.62,
+          "min": 1.54,
+          "max": 2.39,
+          "p10": 1.56,
+          "p25": 1.58,
+          "p75": 2.01,
+          "p90": 2.24
+        },
+        "providers": {
+          "Grab": {
+            "count": 2,
+            "average": 2.01,
+            "median": 2.01,
+            "min": 1.62,
+            "max": 2.39,
+            "p10": 1.7,
+            "p25": 1.82,
+            "p75": 2.2,
+            "p90": 2.31
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 1.54,
+            "median": 1.54,
+            "min": 1.54,
+            "max": 1.54,
+            "p10": 1.54,
+            "p25": 1.54,
+            "p75": 1.54,
+            "p90": 1.54
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 2,
+            "average": 2.01,
+            "median": 2.01,
+            "min": 1.62,
+            "max": 2.39,
+            "p10": 1.7,
+            "p25": 1.82,
+            "p75": 2.2,
+            "p90": 2.31
+          }
+        }
       }
     },
     {
@@ -9426,6 +10321,62 @@
             "p90": 31.8
           }
         }
+      },
+      "distance": {
+        "distance_km": 19.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 1.61,
+          "median": 1.61,
+          "min": 1.59,
+          "max": 1.63,
+          "p10": 1.6,
+          "p25": 1.6,
+          "p75": 1.62,
+          "p90": 1.63
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 1.63,
+            "median": 1.63,
+            "min": 1.63,
+            "max": 1.63,
+            "p10": 1.63,
+            "p25": 1.63,
+            "p75": 1.63,
+            "p90": 1.63
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 1.59,
+            "median": 1.59,
+            "min": 1.59,
+            "max": 1.59,
+            "p10": 1.59,
+            "p25": 1.59,
+            "p75": 1.59,
+            "p90": 1.59
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 1.63,
+            "median": 1.63,
+            "min": 1.63,
+            "max": 1.63,
+            "p10": 1.63,
+            "p25": 1.63,
+            "p75": 1.63,
+            "p90": 1.63
+          }
+        }
       }
     },
     {
@@ -9702,6 +10653,62 @@
             "p25": 11.7,
             "p75": 11.7,
             "p90": 11.7
+          }
+        }
+      },
+      "distance": {
+        "distance_km": 3.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 3.45,
+          "median": 3.45,
+          "min": 3.0,
+          "max": 3.9,
+          "p10": 3.09,
+          "p25": 3.23,
+          "p75": 3.67,
+          "p90": 3.81
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 3.9,
+            "median": 3.9,
+            "min": 3.9,
+            "max": 3.9,
+            "p10": 3.9,
+            "p25": 3.9,
+            "p75": 3.9,
+            "p90": 3.9
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 3.0,
+            "median": 3.0,
+            "min": 3.0,
+            "max": 3.0,
+            "p10": 3.0,
+            "p25": 3.0,
+            "p75": 3.0,
+            "p90": 3.0
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 3.9,
+            "median": 3.9,
+            "min": 3.9,
+            "max": 3.9,
+            "p10": 3.9,
+            "p25": 3.9,
+            "p75": 3.9,
+            "p90": 3.9
           }
         }
       }
@@ -10004,6 +11011,62 @@
             "p90": 28.9
           }
         }
+      },
+      "distance": {
+        "distance_km": 24.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 1.1,
+          "median": 1.1,
+          "min": 1.0,
+          "max": 1.2,
+          "p10": 1.02,
+          "p25": 1.05,
+          "p75": 1.15,
+          "p90": 1.18
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 1.2,
+            "median": 1.2,
+            "min": 1.2,
+            "max": 1.2,
+            "p10": 1.2,
+            "p25": 1.2,
+            "p75": 1.2,
+            "p90": 1.2
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 1.0,
+            "median": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "p10": 1.0,
+            "p25": 1.0,
+            "p75": 1.0,
+            "p90": 1.0
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 1.2,
+            "median": 1.2,
+            "min": 1.2,
+            "max": 1.2,
+            "p10": 1.2,
+            "p25": 1.2,
+            "p75": 1.2,
+            "p90": 1.2
+          }
+        }
       }
     },
     {
@@ -10171,7 +11234,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 19.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 1.64,
+          "median": 1.64,
+          "min": 1.42,
+          "max": 1.86,
+          "p10": 1.46,
+          "p25": 1.53,
+          "p75": 1.75,
+          "p90": 1.81
+        },
+        "providers": {
+          "Gojek": {
+            "count": 2,
+            "average": 1.64,
+            "median": 1.64,
+            "min": 1.42,
+            "max": 1.86,
+            "p10": 1.46,
+            "p25": 1.53,
+            "p75": 1.75,
+            "p90": 1.81
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "COMPASSVALE__HOME",
@@ -10471,6 +11567,62 @@
             "p90": 24.9
           }
         }
+      },
+      "distance": {
+        "distance_km": 26.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 0.97,
+          "median": 0.97,
+          "min": 0.96,
+          "max": 0.98,
+          "p10": 0.96,
+          "p25": 0.96,
+          "p75": 0.98,
+          "p90": 0.98
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 0.96,
+            "median": 0.96,
+            "min": 0.96,
+            "max": 0.96,
+            "p10": 0.96,
+            "p25": 0.96,
+            "p75": 0.96,
+            "p90": 0.96
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 0.98,
+            "median": 0.98,
+            "min": 0.98,
+            "max": 0.98,
+            "p10": 0.98,
+            "p25": 0.98,
+            "p75": 0.98,
+            "p90": 0.98
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 0.96,
+            "median": 0.96,
+            "min": 0.96,
+            "max": 0.96,
+            "p10": 0.96,
+            "p25": 0.96,
+            "p75": 0.96,
+            "p90": 0.96
+          }
+        }
       }
     },
     {
@@ -10649,7 +11801,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 13.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 1.33,
+          "median": 1.33,
+          "min": 1.3,
+          "max": 1.37,
+          "p10": 1.3,
+          "p25": 1.31,
+          "p75": 1.35,
+          "p90": 1.36
+        },
+        "providers": {
+          "Gojek": {
+            "count": 2,
+            "average": 1.33,
+            "median": 1.33,
+            "min": 1.3,
+            "max": 1.37,
+            "p10": 1.3,
+            "p25": 1.31,
+            "p75": 1.35,
+            "p90": 1.36
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "HOME__GAYATHRI LITTLE INDIA",
@@ -16772,5 +17957,13 @@
       "p75": 29.01,
       "p90": 40.47
     }
+  },
+  "distance_analysis": {
+    "generated_on": "2026-07-20",
+    "routes_with_distance": 18,
+    "distance_source": "OneMap",
+    "distance_precision_km": 0.5,
+    "cost_per_km_enabled": true,
+    "note": "Cost per kilometre is calculated from historical final fares divided by rounded driving distance. It should be used as an additional comparison signal rather than the sole fare predictor."
   }
 }
