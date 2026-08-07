@@ -2620,147 +2620,56 @@ function wireTabs() {
 }
 
 /* =========================================================
-   TIMING-AWARE FARE CHECKER
-   Distance is displayed on Rides only for now.
+   SERVICE + DISTANCE AWARE FARE CHECKER
 ========================================================= */
 function fareScore(
   amount,
   stats
 ) {
-  if (
-    amount <=
-    Number(
-      stats.p10
-    )
-  ) {
-    return [
-      5,
-      "Exceptional value"
-    ];
+  if (amount <= Number(stats.p10)) {
+    return [5, "Exceptional value"];
   }
 
-  if (
-    amount <=
-    Number(
-      stats.p25
-    )
-  ) {
-    return [
-      4,
-      "Very good"
-    ];
+  if (amount <= Number(stats.p25)) {
+    return [4, "Very good"];
   }
 
-  if (
-    amount <=
-    Number(
-      stats.median
-    )
-  ) {
-    return [
-      3,
-      "Normal to good"
-    ];
+  if (amount <= Number(stats.median)) {
+    return [3, "Normal to good"];
   }
 
-  if (
-    amount <=
-    Number(
-      stats.p75
-    )
-  ) {
-    return [
-      2,
-      "Somewhat expensive"
-    ];
+  if (amount <= Number(stats.p75)) {
+    return [2, "Somewhat expensive"];
   }
 
-  if (
-    amount <=
-    Number(
-      stats.p90
-    )
-  ) {
-    return [
-      1,
-      "Expensive"
-    ];
+  if (amount <= Number(stats.p90)) {
+    return [1, "Expensive"];
   }
 
-  return [
-    0,
-    "Unusually expensive"
-  ];
+  return [0, "Unusually expensive"];
 }
 
-function localDateString(
-  date = new Date()
-) {
+function localDateString(date = new Date()) {
   return (
-    `${date.getFullYear()}-`
-    +
-    `${String(
-      date.getMonth() + 1
-    ).padStart(
-      2,
-      "0"
-    )}-`
-    +
-    `${String(
-      date.getDate()
-    ).padStart(
-      2,
-      "0"
-    )}`
+    `${date.getFullYear()}-` +
+    `${String(date.getMonth() + 1).padStart(2, "0")}-` +
+    `${String(date.getDate()).padStart(2, "0")}`
   );
 }
 
-function localTimeString(
-  date = new Date()
-) {
+function localTimeString(date = new Date()) {
   return (
-    `${String(
-      date.getHours()
-    ).padStart(
-      2,
-      "0"
-    )}:`
-    +
-    `${String(
-      date.getMinutes()
-    ).padStart(
-      2,
-      "0"
-    )}`
+    `${String(date.getHours()).padStart(2, "0")}:` +
+    `${String(date.getMinutes()).padStart(2, "0")}`
   );
 }
 
 function weekdayFromDate(value) {
-  if (!value) {
-    return null;
-  }
+  if (!value) return null;
 
-  const [
-    year,
-    month,
-    day
-  ] =
-    value
-      .split("-")
-      .map(
-        Number
-      );
+  const [year, month, day] = value.split("-").map(Number);
 
-  if (
-    ![
-      year,
-      month,
-      day
-    ]
-      .every(
-        Number.isFinite
-      )
-  ) {
+  if (![year, month, day].every(Number.isFinite)) {
     return null;
   }
 
@@ -2772,113 +2681,34 @@ function weekdayFromDate(value) {
     "Thursday",
     "Friday",
     "Saturday"
-  ][
-    new Date(
-      year,
-      month - 1,
-      day
-    ).getDay()
-  ];
+  ][new Date(year, month - 1, day).getDay()];
 }
 
 function copyStats(stats) {
-  if (!stats) {
-    return null;
-  }
+  if (!stats) return null;
 
   return {
-    count:
-      Number(
-        stats.count ||
-        0
-      ),
-
-    average:
-      Number(
-        stats.average ||
-        0
-      ),
-
-    median:
-      Number(
-        stats.median ||
-        0
-      ),
-
-    min:
-      Number(
-        stats.min ||
-        0
-      ),
-
-    max:
-      Number(
-        stats.max ||
-        0
-      ),
-
-    p10:
-      Number(
-        stats.p10
-        ??
-        stats.min
-        ??
-        0
-      ),
-
-    p25:
-      Number(
-        stats.p25
-        ??
-        stats.median
-        ??
-        0
-      ),
-
-    p75:
-      Number(
-        stats.p75
-        ??
-        stats.median
-        ??
-        0
-      ),
-
-    p90:
-      Number(
-        stats.p90
-        ??
-        stats.max
-        ??
-        0
-      )
+    count: Number(stats.count || 0),
+    average: Number(stats.average || 0),
+    median: Number(stats.median || 0),
+    min: Number(stats.min || 0),
+    max: Number(stats.max || 0),
+    p10: Number(stats.p10 ?? stats.min ?? 0),
+    p25: Number(stats.p25 ?? stats.median ?? 0),
+    p75: Number(stats.p75 ?? stats.median ?? 0),
+    p90: Number(stats.p90 ?? stats.max ?? 0)
   };
 }
 
-function scaleStats(
-  stats,
-  factor
-) {
-  const out =
-    copyStats(
-      stats
-    );
+function scaleStats(stats, factor) {
+  const output = copyStats(stats);
 
-  if (!out) {
-    return null;
-  }
+  if (!output) return null;
 
-  const safe =
-    Math.max(
-      0.85,
-      Math.min(
-        1.15,
-        Number(
-          factor ||
-          1
-        )
-      )
-    );
+  const safeFactor = Math.max(
+    0.85,
+    Math.min(1.15, Number(factor || 1))
+  );
 
   [
     "average",
@@ -2889,1109 +2719,803 @@ function scaleStats(
     "p25",
     "p75",
     "p90"
-  ]
-    .forEach(
-      (key) => {
-
-        out[key] =
-          Number(
-            (
-              out[key]
-              *
-              safe
-            ).toFixed(
-              2
-            )
-          );
-
-      }
+  ].forEach((key) => {
+    output[key] = Number(
+      (output[key] * safeFactor).toFixed(2)
     );
+  });
 
-  return out;
+  return output;
 }
 
-const reliableStats =
-  (stats) =>
-    Boolean(
-      stats
-      &&
-      Number(
-        stats.count ||
-        0
-      )
-      >=
-      minimumTimingSample()
-    );
+function reliableStats(stats) {
+  return Boolean(
+    stats &&
+    Number(stats.count || 0) >= minimumTimingSample()
+  );
+}
 
 function getFareContext() {
-  const dateValue =
-    document.querySelector(
-      "#fareDate"
-    )
-      ?.value;
+  const dateValue = document.querySelector("#fareDate")?.value;
+  const timeValue = document.querySelector("#fareTime")?.value;
 
-  const timeValue =
-    document.querySelector(
-      "#fareTime"
-    )
-      ?.value;
-
-  const hour =
-    timeValue
-      ? String(
-          Number(
-            timeValue
-              .split(
-                ":"
-              )[0]
-          )
-        )
-          .padStart(
-            2,
-            "0"
-          )
-      : null;
+  const hour = timeValue
+    ? String(Number(timeValue.split(":")[0])).padStart(2, "0")
+    : null;
 
   return {
     dateValue,
     timeValue,
     hour,
-
-    weekday:
-      weekdayFromDate(
-        dateValue
-      )
+    weekday: weekdayFromDate(dateValue)
   };
 }
 
-function getWeekdayStats(
-  route,
-  provider,
-  weekday
-) {
-  if (!weekday) {
-    return null;
+function findRouteByKey(routeKey) {
+  const cleanKey = String(routeKey || "").trim();
+
+  return (DATA.routes || []).find(
+    (route) => String(route.key || "").trim() === cleanKey
+  );
+}
+
+function availableGrabPricingTypes(route) {
+  const pricingTypes = Object.keys(route?.grab_pricing_types || {})
+    .filter((value) => value && value !== "Food");
+
+  const order = ["Fixed", "Metered", "Premium"];
+
+  return [
+    ...order.filter((value) => pricingTypes.includes(value)),
+    ...pricingTypes.filter((value) => !order.includes(value))
+  ];
+}
+
+function pricingTypeDisplay(value) {
+  if (!value || value === "Any") return "Grab - not sure";
+  return `Grab ${value}`;
+}
+
+function updateFarePricingControl() {
+  const provider = document.querySelector("#fareProvider")?.value || "Overall";
+  const labelElement = document.querySelector("#farePricingLabel");
+  const select = document.querySelector("#farePricingType");
+
+  if (!labelElement || !select) return;
+
+  if (provider !== "Grab") {
+    labelElement.style.display = "none";
+    select.value = "Any";
+    return;
   }
 
-  if (
-    provider !==
-    "Overall"
-  ) {
+  labelElement.style.display = "block";
 
-    const providerDay =
-      route
-        .provider_weekdays
-        ?.[provider]
-        ?.[weekday];
+  const route = findRouteByKey(
+    document.querySelector("#fareRoute")?.value
+  );
 
-    if (
-      reliableStats(
-        providerDay
-      )
-    ) {
+  const pricingTypes = availableGrabPricingTypes(route);
+  const previousValue = select.value;
 
-      return {
-        stats:
-          providerDay,
-
-        source:
-          `${provider} + ${weekday}`,
-
-        baseAverage:
-          Number(
-            route
-              .providers
-              ?.[provider]
-              ?.average
-            ||
-            0
-          )
-      };
-
-    }
-
-  }
-
-  const routeDay =
-    route
-      .weekdays
-      ?.[weekday];
-
-  if (
-    reliableStats(
-      routeDay
+  select.innerHTML = [
+    `<option value="Any">Not sure / any Grab</option>`,
+    ...pricingTypes.map(
+      (pricingType) =>
+        `<option value="${escapeHTML(pricingType)}">${escapeHTML(
+          pricingTypeDisplay(pricingType)
+        )}</option>`
     )
-  ) {
+  ].join("");
 
-    return {
-      stats:
-        routeDay,
+  if (pricingTypes.includes(previousValue)) {
+    select.value = previousValue;
+  } else if (pricingTypes.includes("Fixed")) {
+    select.value = "Fixed";
+  } else {
+    select.value = "Any";
+  }
+}
 
-      source:
-        `All providers + ${weekday}`,
+function getRouteWeekdayContext(route, weekday) {
+  if (!weekday) return null;
 
-      baseAverage:
-        Number(
-          route
-            .overall
-            ?.average
-          ||
-          0
-        )
-    };
+  const stats = route?.weekdays?.[weekday];
 
+  if (!reliableStats(stats)) return null;
+
+  return {
+    stats,
+    source: `All providers + ${weekday}`,
+    baseAverage: Number(route?.overall?.average || 0)
+  };
+}
+
+function getProviderWeekdayContext(route, provider, weekday) {
+  if (!weekday || provider === "Overall") return null;
+
+  const stats = route?.provider_weekdays?.[provider]?.[weekday];
+
+  if (!reliableStats(stats)) return null;
+
+  return {
+    stats,
+    source: `${provider} + ${weekday}`,
+    baseAverage: Number(route?.providers?.[provider]?.average || 0)
+  };
+}
+
+function getGrabPricingWeekdayContext(route, pricingType, weekday) {
+  if (!weekday || !pricingType || pricingType === "Any") return null;
+
+  const stats = route?.grab_pricing_weekdays?.[pricingType]?.[weekday];
+
+  if (!reliableStats(stats)) return null;
+
+  return {
+    stats,
+    source: `${pricingTypeDisplay(pricingType)} + ${weekday}`,
+    baseAverage: Number(
+      route?.grab_pricing_types?.[pricingType]?.average || 0
+    )
+  };
+}
+
+function strongestWeekdayContext(route, provider, pricingType, weekday) {
+  if (provider === "Grab" && pricingType && pricingType !== "Any") {
+    const pricingContext = getGrabPricingWeekdayContext(
+      route,
+      pricingType,
+      weekday
+    );
+
+    if (pricingContext) return pricingContext;
   }
 
-  return null;
+  const providerContext = getProviderWeekdayContext(
+    route,
+    provider,
+    weekday
+  );
+
+  if (providerContext) return providerContext;
+
+  return getRouteWeekdayContext(route, weekday);
 }
 
 function selectFareBenchmark(
   route,
   provider,
+  pricingType,
   hour,
   weekday
 ) {
-  const minimum =
-    minimumTimingSample();
+  const minimum = minimumTimingSample();
 
-  let timingStats =
-    null;
+  let timingStats = null;
+  let source = null;
+  let level = null;
 
-  let source =
-    null;
-
-  let level =
-    null;
-
+  // 1. Grab pricing type + exact hour.
   if (
-    provider !==
-    "Overall"
-    &&
+    provider === "Grab" &&
+    pricingType &&
+    pricingType !== "Any" &&
     hour
   ) {
+    const stats = route?.grab_pricing_hourly?.[pricingType]?.[hour];
 
-    const providerHour =
-      route
-        .provider_hourly
-        ?.[provider]
-        ?.[hour];
-
-    if (
-      Number(
-        providerHour
-          ?.count ||
-        0
-      )
-      >=
-      minimum
-    ) {
-
-      timingStats =
-        providerHour;
-
-      source =
-        `${provider} · ${formatHour(
-          hour
-        )}`;
-
-      level =
-        "provider-hour";
-
+    if (Number(stats?.count || 0) >= minimum) {
+      timingStats = stats;
+      source = `${pricingTypeDisplay(pricingType)} · ${formatHour(hour)}`;
+      level = "grab-pricing-hour";
     }
-
   }
 
-  if (
-    !timingStats
-    &&
-    hour
-  ) {
+  // 2. Provider + exact hour.
+  if (!timingStats && provider !== "Overall" && hour) {
+    const stats = route?.provider_hourly?.[provider]?.[hour];
 
-    const routeHour =
-      route
-        .hourly
-        ?.[hour];
-
-    if (
-      Number(
-        routeHour
-          ?.count ||
-        0
-      )
-      >=
-      minimum
-    ) {
-
-      timingStats =
-        routeHour;
-
-      source =
-        `All providers · ${formatHour(
-          hour
-        )}`;
-
-      level =
-        "route-hour";
-
+    if (Number(stats?.count || 0) >= minimum) {
+      timingStats = stats;
+      source = `${provider} · ${formatHour(hour)}`;
+      level = "provider-hour";
     }
-
   }
 
-  const weekdayContext =
-    getWeekdayStats(
-      route,
-      provider,
-      weekday
-    );
+  // 3. Route + exact hour across providers.
+  if (!timingStats && hour) {
+    const stats = route?.hourly?.[hour];
 
-  if (
-    timingStats
-  ) {
+    if (Number(stats?.count || 0) >= minimum) {
+      timingStats = stats;
+      source = `All providers · ${formatHour(hour)}`;
+      level = "route-hour";
+    }
+  }
 
-    let stats =
-      copyStats(
-        timingStats
-      );
+  const weekdayContext = strongestWeekdayContext(
+    route,
+    provider,
+    pricingType,
+    weekday
+  );
 
-    let weekdayAdjustment =
-      null;
+  // Apply a capped weekday adjustment to a reliable hourly benchmark.
+  if (timingStats) {
+    let stats = copyStats(timingStats);
+    let weekdayAdjustment = null;
 
-    if (
-      weekdayContext
-        ?.baseAverage > 0
-    ) {
+    if (weekdayContext?.baseAverage > 0) {
+      const rawFactor =
+        Number(weekdayContext.stats.average) /
+        Number(weekdayContext.baseAverage);
 
-      const factor =
-        Math.max(
-          0.85,
-          Math.min(
-            1.15,
-            Number(
-              weekdayContext
-                .stats
-                .average
-            )
-            /
-            weekdayContext
-              .baseAverage
-          )
-        );
+      const factor = Math.max(0.85, Math.min(1.15, rawFactor));
 
-      stats =
-        scaleStats(
-          stats,
-          factor
-        );
+      stats = scaleStats(stats, factor);
 
       weekdayAdjustment = {
         factor,
-
-        source:
-          weekdayContext
-            .source,
-
-        count:
-          weekdayContext
-            .stats
-            .count
+        source: weekdayContext.source,
+        count: Number(weekdayContext.stats.count || 0)
       };
-
     }
 
     return {
       stats,
       source,
       level,
-
-      sampleCount:
-        Number(
-          timingStats.count ||
-          0
-        ),
-
+      sampleCount: Number(timingStats.count || 0),
       weekdayAdjustment
     };
-
   }
 
+  // 4. Grab pricing type + weekday.
   if (
-    weekdayContext
+    provider === "Grab" &&
+    pricingType &&
+    pricingType !== "Any"
   ) {
+    const pricingDay = getGrabPricingWeekdayContext(
+      route,
+      pricingType,
+      weekday
+    );
+
+    if (pricingDay) {
+      return {
+        stats: copyStats(pricingDay.stats),
+        source: pricingDay.source,
+        level: "grab-pricing-weekday",
+        sampleCount: Number(pricingDay.stats.count || 0),
+        weekdayAdjustment: null
+      };
+    }
+  }
+
+  // 5. Provider + weekday.
+  const providerDay = getProviderWeekdayContext(route, provider, weekday);
+
+  if (providerDay) {
+    return {
+      stats: copyStats(providerDay.stats),
+      source: providerDay.source,
+      level: "provider-weekday",
+      sampleCount: Number(providerDay.stats.count || 0),
+      weekdayAdjustment: null
+    };
+  }
+
+  // 6. Route + weekday.
+  const routeDay = getRouteWeekdayContext(route, weekday);
+
+  if (routeDay) {
+    return {
+      stats: copyStats(routeDay.stats),
+      source: routeDay.source,
+      level: "route-weekday",
+      sampleCount: Number(routeDay.stats.count || 0),
+      weekdayAdjustment: null
+    };
+  }
+
+  // 7. Grab pricing type overall.
+  if (
+    provider === "Grab" &&
+    pricingType &&
+    pricingType !== "Any" &&
+    route?.grab_pricing_types?.[pricingType]
+  ) {
+    const stats = route.grab_pricing_types[pricingType];
 
     return {
-      stats:
-        copyStats(
-          weekdayContext.stats
-        ),
-
-      source:
-        weekdayContext.source,
-
-      level:
-        provider !==
-        "Overall"
-          ? "provider-weekday"
-          : "route-weekday",
-
-      sampleCount:
-        Number(
-          weekdayContext
-            .stats
-            .count ||
-          0
-        ),
-
-      weekdayAdjustment:
-        null
+      stats: copyStats(stats),
+      source: `${pricingTypeDisplay(pricingType)} · route overall`,
+      level: "grab-pricing-route",
+      sampleCount: Number(stats.count || 0),
+      weekdayAdjustment: null
     };
-
   }
 
-  if (
-    provider !==
-    "Overall"
-    &&
-    route
-      .providers
-      ?.[provider]
-  ) {
+  // 8. Provider overall.
+  if (provider !== "Overall" && route?.providers?.[provider]) {
+    const stats = route.providers[provider];
 
     return {
-      stats:
-        copyStats(
-          route
-            .providers[
-              provider
-            ]
-        ),
-
-      source:
-        `${provider} · route overall`,
-
-      level:
-        "provider-route",
-
-      sampleCount:
-        Number(
-          route
-            .providers[
-              provider
-            ]
-            .count ||
-          0
-        ),
-
-      weekdayAdjustment:
-        null
+      stats: copyStats(stats),
+      source: `${provider} · route overall`,
+      level: "provider-route",
+      sampleCount: Number(stats.count || 0),
+      weekdayAdjustment: null
     };
-
   }
 
+  // 9. Route overall.
   return {
-    stats:
-      copyStats(
-        route.overall
-      ),
-
-    source:
-      "Route overall",
-
-    level:
-      "route-overall",
-
-    sampleCount:
-      Number(
-        route
-          .overall
-          ?.count ||
-        0
-      ),
-
-    weekdayAdjustment:
-      null
+    stats: copyStats(route.overall),
+    source: "Route overall",
+    level: "route-overall",
+    sampleCount: Number(route?.overall?.count || 0),
+    weekdayAdjustment: null
   };
 }
 
-function providerContextEstimate(
-  route,
-  provider,
-  hour,
-  weekday
-) {
-  if (
-    !provider
-    ||
-    provider ===
-    "Overall"
-  ) {
-    return null;
-  }
-
-  const minimum =
-    minimumTimingSample();
-
-  const providerHour =
-    hour
-      ? route
-          .provider_hourly
-          ?.[provider]
-          ?.[hour]
-      : null;
+function costPerKmReference(route, provider, pricingType) {
+  if (!route?.cost_per_km) return null;
 
   if (
-    Number(
-      providerHour
-        ?.count ||
-      0
-    )
-    >=
-    minimum
+    provider === "Grab" &&
+    pricingType &&
+    pricingType !== "Any"
   ) {
+    const pricingStats =
+      route.cost_per_km?.grab_pricing_types?.[pricingType];
 
-    let stats =
-      copyStats(
-        providerHour
-      );
-
-    const providerDay =
-      weekday
-        ? route
-            .provider_weekdays
-            ?.[provider]
-            ?.[weekday]
-        : null;
-
-    const providerOverall =
-      route
-        .providers
-        ?.[provider];
-
-    if (
-      reliableStats(
-        providerDay
-      )
-      &&
-      Number(
-        providerOverall
-          ?.average ||
-        0
-      ) > 0
-    ) {
-
-      stats =
-        scaleStats(
-          stats,
-          Number(
-            providerDay
-              .average
-          )
-          /
-          Number(
-            providerOverall
-              .average
-          )
-        );
-
+    if (pricingStats) {
+      return {
+        stats: pricingStats,
+        label: pricingTypeDisplay(pricingType)
+      };
     }
-
-    return {
-      stats,
-
-      source:
-        `${provider} · ${formatHour(
-          hour
-        )}`
-    };
-
   }
 
-  const providerDay =
-    weekday
-      ? route
-          .provider_weekdays
-          ?.[provider]
-          ?.[weekday]
-      : null;
+  if (provider !== "Overall") {
+    const providerStats = route.cost_per_km?.providers?.[provider];
 
-  if (
-    reliableStats(
-      providerDay
-    )
-  ) {
-
-    return {
-      stats:
-        copyStats(
-          providerDay
-        ),
-
-      source:
-        `${provider} · ${weekday}`
-    };
-
+    if (providerStats) {
+      return {
+        stats: providerStats,
+        label: provider
+      };
+    }
   }
 
-  const overall =
-    route
-      .providers
-      ?.[provider];
+  if (route.cost_per_km?.overall) {
+    return {
+      stats: route.cost_per_km.overall,
+      label: "Route overall"
+    };
+  }
 
-  return overall
-    ? {
-        stats:
-          copyStats(
-            overall
-          ),
+  return null;
+}
 
-        source:
-          `${provider} · route overall`
-      }
-    : null;
+function contextualCostPerKm(stats, distanceKm) {
+  if (!stats || !distanceKm || distanceKm <= 0) return null;
+
+  return {
+    p25: Number(stats.p25 || 0) / distanceKm,
+    median: Number(stats.median || 0) / distanceKm,
+    p75: Number(stats.p75 || 0) / distanceKm,
+    average: Number(stats.average || 0) / distanceKm
+  };
+}
+
+function alternativeBenchmark(route, provider, context) {
+  if (provider === "Grab") {
+    return {
+      label: "Gojek",
+      benchmark: selectFareBenchmark(
+        route,
+        "Gojek",
+        "Any",
+        context.hour,
+        context.weekday
+      )
+    };
+  }
+
+  if (provider === "Gojek") {
+    const grabType = route?.grab_pricing_types?.Fixed
+      ? "Fixed"
+      : "Any";
+
+    return {
+      label: grabType === "Fixed" ? "Grab Fixed" : "Grab",
+      benchmark: selectFareBenchmark(
+        route,
+        "Grab",
+        grabType,
+        context.hour,
+        context.weekday
+      )
+    };
+  }
+
+  return null;
 }
 
 function ensureFareContextControls() {
-  const grid =
-    document.querySelector(
-      "#fare .form-grid"
-    );
+  const grid = document.querySelector("#fare .form-grid");
+  const button = document.querySelector("#checkFare");
 
-  const button =
-    document.querySelector(
-      "#checkFare"
-    );
+  if (!grid || !button) return;
 
-  if (
-    !grid
-    ||
-    !button
-    ||
-    document.querySelector(
-      "#fareDate"
-    )
-  ) {
-    return;
+  const now = new Date();
+
+  if (!document.querySelector("#farePricingType")) {
+    const pricingLabel = document.createElement("label");
+    pricingLabel.id = "farePricingLabel";
+    pricingLabel.innerHTML = `
+      Grab pricing type
+      <select id="farePricingType">
+        <option value="Any">Not sure / any Grab</option>
+      </select>
+    `;
+
+    const amountLabel = document.querySelector("#fareAmount")?.closest("label");
+    grid.insertBefore(pricingLabel, amountLabel || button);
   }
 
-  const now =
-    new Date();
+  if (!document.querySelector("#fareDate")) {
+    const dateLabel = document.createElement("label");
+    dateLabel.innerHTML = `
+      Journey date
+      <input
+        id="fareDate"
+        type="date"
+        value="${localDateString(now)}"
+      >
+    `;
 
-  const dateLabel =
-    document.createElement(
-      "label"
-    );
+    grid.insertBefore(dateLabel, button);
+  }
 
-  dateLabel.innerHTML = `
-    Journey date
+  if (!document.querySelector("#fareTime")) {
+    const timeLabel = document.createElement("label");
+    timeLabel.innerHTML = `
+      Journey time
+      <input
+        id="fareTime"
+        type="time"
+        value="${localTimeString(now)}"
+      >
+    `;
 
-    <input
-      id="fareDate"
-      type="date"
-      value="${localDateString(
-        now
-      )}"
-    >
-  `;
+    grid.insertBefore(timeLabel, button);
+  }
 
-  const timeLabel =
-    document.createElement(
-      "label"
-    );
+  grid.classList.add("fare-context-grid");
 
-  timeLabel.innerHTML = `
-    Journey time
-
-    <input
-      id="fareTime"
-      type="time"
-      value="${localTimeString(
-        now
-      )}"
-    >
-  `;
-
-  grid.insertBefore(
-    dateLabel,
-    button
-  );
-
-  grid.insertBefore(
-    timeLabel,
-    button
-  );
-
-  grid
-    .classList
-    .add(
-      "fare-context-grid"
-    );
-
-  if (
-    !document.querySelector(
-      "#fareTimingStyles"
-    )
-  ) {
-
-    const style =
-      document.createElement(
-        "style"
-      );
-
-    style.id =
-      "fareTimingStyles";
+  if (!document.querySelector("#fareTimingStyles")) {
+    const style = document.createElement("style");
+    style.id = "fareTimingStyles";
 
     style.textContent = `
-
       .form-grid.fare-context-grid {
-        grid-template-columns:
-          minmax(210px,2fr)
-          minmax(120px,1fr)
-          minmax(125px,1fr)
-          minmax(145px,1fr)
-          minmax(120px,1fr)
-          auto;
+        grid-template-columns: repeat(3, minmax(170px, 1fr));
+        align-items: end;
+      }
+
+      .form-grid.fare-context-grid label {
+        min-width: 0;
+      }
+
+      .form-grid.fare-context-grid #checkFare {
+        align-self: end;
+        min-height: 44px;
       }
 
       .fare-result-grid {
-        display:grid;
-        grid-template-columns:
-          minmax(150px,.7fr)
-          minmax(0,2fr);
-        gap:18px;
-        align-items:center;
+        display: grid;
+        grid-template-columns: minmax(150px,.7fr) minmax(0,2fr);
+        gap: 18px;
+        align-items: start;
       }
 
       .fare-result-details {
-        display:grid;
-        gap:8px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0,1fr));
+        gap: 8px;
       }
 
       .fare-reference {
-        padding:11px 13px;
-        border:1px solid var(--line);
-        border-radius:10px;
-        background:#091827;
+        padding: 11px 13px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #091827;
       }
 
       .fare-reference strong {
-        display:block;
-        margin-top:2px;
+        display: block;
+        margin-top: 2px;
       }
 
       .fare-recommendation {
-        margin-top:14px;
-        padding:13px 15px;
-        border-radius:11px;
-        background:#0a1c2c;
-        border:1px solid var(--line);
+        margin-top: 14px;
+        padding: 13px 15px;
+        border-radius: 11px;
+        background: #0a1c2c;
+        border: 1px solid var(--line);
       }
 
-      @media(max-width:1100px) {
+      .fare-efficiency-good {
+        color: #8fe3b6;
+      }
 
+      .fare-efficiency-high {
+        color: #ffcc80;
+      }
+
+      @media(max-width: 1050px) {
         .form-grid.fare-context-grid {
-          grid-template-columns:
-            1fr 1fr 1fr;
+          grid-template-columns: repeat(2, minmax(170px,1fr));
         }
-
       }
 
-      @media(max-width:700px) {
-
+      @media(max-width: 700px) {
         .form-grid.fare-context-grid,
-        .fare-result-grid {
-          grid-template-columns:
-            1fr;
+        .fare-result-grid,
+        .fare-result-details {
+          grid-template-columns: 1fr;
         }
-
       }
-
     `;
 
-    document.head
-      .appendChild(
-        style
-      );
+    document.head.appendChild(style);
   }
+
+  updateFarePricingControl();
 }
 
 function checkFare() {
-  const routeKey =
-    String(
-      document.querySelector(
-        "#fareRoute"
-      )
-        ?.value ||
-      ""
-    ).trim();
+  const route = findRouteByKey(
+    document.querySelector("#fareRoute")?.value
+  );
 
   const provider =
-    document.querySelector(
-      "#fareProvider"
-    )
-      ?.value
-    ||
-    "Overall";
+    document.querySelector("#fareProvider")?.value || "Overall";
 
-  const amount =
-    Number(
-      document.querySelector(
-        "#fareAmount"
-      )
-        ?.value
-    );
+  const pricingType =
+    provider === "Grab"
+      ? document.querySelector("#farePricingType")?.value || "Any"
+      : "Any";
 
-  const resultBox =
-    document.querySelector(
-      "#fareResult"
-    );
+  const amount = Number(
+    document.querySelector("#fareAmount")?.value
+  );
 
-  const route =
-    (
-      DATA.routes ||
-      []
-    )
-      .find(
-        (item) =>
-          String(
-            item.key ||
-            ""
-          ).trim()
-          ===
-          routeKey
-      );
+  const resultBox = document.querySelector("#fareResult");
 
   if (
-    !route
-    ||
-    !resultBox
-    ||
-    !Number.isFinite(
-      amount
-    )
-    ||
+    !route ||
+    !resultBox ||
+    !Number.isFinite(amount) ||
     amount <= 0
   ) {
-
     if (resultBox) {
-      resultBox.innerHTML =
-        "Enter a valid fare amount.";
+      resultBox.innerHTML = "Enter a valid fare amount.";
     }
-
     return;
   }
 
-  const context =
-    getFareContext();
+  const context = getFareContext();
 
-  const benchmark =
-    selectFareBenchmark(
-      route,
-      provider,
-      context.hour,
-      context.weekday
-    );
+  const benchmark = selectFareBenchmark(
+    route,
+    provider,
+    pricingType,
+    context.hour,
+    context.weekday
+  );
 
-  if (
-    !benchmark
-      ?.stats
-  ) {
-
+  if (!benchmark?.stats) {
     resultBox.innerHTML =
       "Not enough historical data for that route and context.";
-
     return;
   }
 
-  const stats =
-    benchmark.stats;
+  const stats = benchmark.stats;
+  const [score, description] = fareScore(amount, stats);
 
-  const [
-    score,
-    description
-  ] =
-    fareScore(
-      amount,
-      stats
-    );
-
-  const difference =
-    amount
-    -
-    Number(
-      stats.median
-    );
+  const difference = amount - Number(stats.median);
 
   const differenceText =
     difference >= 0
-      ? `${money(
-          difference
-        )} above median`
-      : `${money(
-          Math.abs(
-            difference
-          )
-        )} below median`;
+      ? `${money(difference)} above median`
+      : `${money(Math.abs(difference))} below median`;
 
-  let weekdayNote =
-    "";
+  const distanceKm = routeDistanceKm(route);
+  const quoteCostPerKm =
+    distanceKm && distanceKm > 0
+      ? amount / distanceKm
+      : null;
 
-  if (
-    benchmark
-      .weekdayAdjustment
-  ) {
+  const contextCostPerKm = contextualCostPerKm(
+    stats,
+    distanceKm
+  );
 
+  const historicEfficiency = costPerKmReference(
+    route,
+    provider,
+    pricingType
+  );
+
+  let weekdayNote = "";
+
+  if (benchmark.weekdayAdjustment) {
     const percent =
-      (
-        benchmark
-          .weekdayAdjustment
-          .factor
-        -
-        1
-      )
-      *
-      100;
+      (benchmark.weekdayAdjustment.factor - 1) * 100;
 
     weekdayNote = `
       <div class="fare-reference">
-
-        <span class="muted">
-          Weekday adjustment
-        </span>
-
+        <span class="muted">Weekday adjustment</span>
         <strong>
-          ${context.weekday}
-          historical pattern:
-
-          ${
-            percent >= 0
-              ? "+"
-              : ""
-          }
-
-          ${percent.toFixed(
-            0
-          )}%
+          ${context.weekday} pattern:
+          ${percent >= 0 ? "+" : ""}${percent.toFixed(0)}%
         </strong>
-
       </div>
     `;
   }
 
-  let providerAdvice =
-    "";
+  let efficiencyNote = "";
 
   if (
-    provider ===
-    "Grab"
-    ||
-    provider ===
-    "Gojek"
+    quoteCostPerKm != null &&
+    Number(historicEfficiency?.stats?.average || 0) > 0
   ) {
+    const historical = Number(historicEfficiency.stats.average);
+    const deltaPercent = ((quoteCostPerKm / historical) - 1) * 100;
 
-    const other =
-      provider ===
-      "Grab"
-        ? "Gojek"
-        : "Grab";
+    let className = "";
+    let wording = "close to";
 
-    const estimate =
-      providerContextEstimate(
-        route,
-        other,
-        context.hour,
-        context.weekday
-      );
-
-    if (
-      estimate
-        ?.stats
-    ) {
-
-      const otherMedian =
-        Number(
-          estimate
-            .stats
-            .median
-        );
-
-      const saving =
-        amount
-        -
-        otherMedian;
-
-      providerAdvice =
-        saving > 1
-          ? `
-            <div class="fare-recommendation">
-
-              <strong>
-                Check
-                ${other}
-                before booking.
-              </strong>
-
-              Your historical
-              ${other}
-              benchmark for this
-              context is about
-
-              <strong>
-                ${money(
-                  otherMedian
-                )}
-              </strong>,
-
-              roughly
-
-              <strong>
-                ${money(
-                  saving
-                )}
-              </strong>
-
-              below this quote.
-
-            </div>
-          `
-          : `
-            <div class="fare-recommendation">
-
-              The alternative provider
-              does not show a meaningful
-              historical saving for this
-              context.
-
-            </div>
-          `;
+    if (deltaPercent >= 15) {
+      className = "fare-efficiency-high";
+      wording = "higher than";
+    } else if (deltaPercent <= -10) {
+      className = "fare-efficiency-good";
+      wording = "lower than";
     }
 
-  }
-  else if (
-    route
-      .provider_comparison
-  ) {
-
-    providerAdvice = `
-      <div class="fare-recommendation">
-
-        Historically,
-
-        <strong>
-          ${
-            route
-              .provider_comparison
-              .cheaper
-          }
-        </strong>
-
-        has averaged
-
-        <strong>
-          ${money(
-            route
-              .provider_comparison
-              .average_saving
-          )}
-        </strong>
-
-        less per trip on this
-        route overall.
-
+    efficiencyNote = `
+      <div class="fare-recommendation ${className}">
+        This quote is
+        <strong>${formatCostPerKm(quoteCostPerKm)}</strong>.
+        Your ${escapeHTML(historicEfficiency.label)} historical average is
+        <strong>${formatCostPerKm(historical)}</strong> —
+        ${Math.abs(deltaPercent).toFixed(0)}%
+        ${wording} that benchmark.
       </div>
     `;
   }
 
-  resultBox.innerHTML = `
+  let providerAdvice = "";
+  const alternative = alternativeBenchmark(route, provider, context);
 
-    <div class="fare-result-grid">
+  if (alternative?.benchmark?.stats) {
+    const otherMedian = Number(alternative.benchmark.stats.median);
+    const saving = amount - otherMedian;
 
-      <div>
+    providerAdvice =
+      saving > 1
+        ? `
+          <div class="fare-recommendation">
+            <strong>Check ${escapeHTML(alternative.label)} before booking.</strong>
+            Its historical benchmark for this time/context is about
+            <strong>${money(otherMedian)}</strong>, roughly
+            <strong>${money(saving)}</strong> below this quote.
+          </div>
+        `
+        : `
+          <div class="fare-recommendation">
+            ${escapeHTML(alternative.label)} does not show a meaningful
+            historical saving versus this quote for the selected context.
+          </div>
+        `;
+  } else if (provider === "Overall" && route.provider_comparison) {
+    providerAdvice = `
+      <div class="fare-recommendation">
+        Historically,
+        <strong>${route.provider_comparison.cheaper}</strong>
+        has averaged
+        <strong>${money(route.provider_comparison.average_saving)}</strong>
+        less per trip on this route overall.
+      </div>
+    `;
+  }
 
-        <div class="score">
-          ${score}
+  const pricingTypeCard =
+    provider === "Grab"
+      ? `
+        <div class="fare-reference">
+          <span class="muted">Grab pricing type</span>
+          <strong>${escapeHTML(pricingTypeDisplay(pricingType))}</strong>
+        </div>
+      `
+      : "";
 
-          <small>
-            /5
-          </small>
+  const distanceCards =
+    distanceKm
+      ? `
+        <div class="fare-reference">
+          <span class="muted">Driving distance</span>
+          <strong>${formatDistance(distanceKm)}</strong>
         </div>
 
-        <strong>
-          ${description}
-        </strong>
+        <div class="fare-reference">
+          <span class="muted">Quote cost per km</span>
+          <strong>${formatCostPerKm(quoteCostPerKm)}</strong>
+        </div>
 
+        ${
+          contextCostPerKm
+            ? `
+              <div class="fare-reference">
+                <span class="muted">Context S$/km range</span>
+                <strong>
+                  ${formatCostPerKm(contextCostPerKm.p25)} –
+                  ${formatCostPerKm(contextCostPerKm.p75)}
+                </strong>
+              </div>
+            `
+            : ""
+        }
+      `
+      : "";
+
+  resultBox.innerHTML = `
+    <div class="fare-result-grid">
+      <div>
+        <div class="score">
+          ${score}<small>/5</small>
+        </div>
+
+        <strong>${description}</strong>
       </div>
 
       <div class="fare-result-details">
-
         <div class="fare-reference">
-
-          <span class="muted">
-            Quote
-          </span>
-
-          <strong>
-            ${money(
-              amount
-            )}
-          </strong>
-
+          <span class="muted">Quote</span>
+          <strong>${money(amount)}</strong>
         </div>
 
         <div class="fare-reference">
-
-          <span class="muted">
-            Expected range
-            for this context
-          </span>
-
-          <strong>
-            ${money(
-              stats.p25
-            )}
-            –
-            ${money(
-              stats.p75
-            )}
-          </strong>
-
+          <span class="muted">Expected fare range</span>
+          <strong>${money(stats.p25)} – ${money(stats.p75)}</strong>
         </div>
 
         <div class="fare-reference">
-
-          <span class="muted">
-            Context median
-          </span>
-
-          <strong>
-            ${money(
-              stats.median
-            )}
-            ·
-            ${differenceText}
-          </strong>
-
+          <span class="muted">Context median</span>
+          <strong>${money(stats.median)} · ${differenceText}</strong>
         </div>
 
         <div class="fare-reference">
-
-          <span class="muted">
-            Benchmark used
-          </span>
-
+          <span class="muted">Benchmark used</span>
           <strong>
-            ${benchmark.source}
-            ·
-            ${benchmark.sampleCount}
-            historical trips
+            ${benchmark.source} · ${benchmark.sampleCount} historical trips
           </strong>
-
         </div>
 
+        ${pricingTypeCard}
+        ${distanceCards}
         ${weekdayNote}
-
       </div>
-
     </div>
 
+    ${efficiencyNote}
     ${providerAdvice}
   `;
 }
@@ -3999,32 +3523,29 @@ function checkFare() {
 function wireFareChecker() {
   ensureFareContextControls();
 
-  document
-    .querySelector(
-      "#checkFare"
-    )
-    ?.addEventListener(
-      "click",
-      checkFare
-    );
+  document.querySelector("#fareProvider")?.addEventListener(
+    "change",
+    updateFarePricingControl
+  );
 
-  document
-    .querySelector(
-      "#fareAmount"
-    )
-    ?.addEventListener(
-      "keydown",
-      (event) => {
+  document.querySelector("#fareRoute")?.addEventListener(
+    "change",
+    updateFarePricingControl
+  );
 
-        if (
-          event.key ===
-          "Enter"
-        ) {
-          checkFare();
-        }
+  document.querySelector("#checkFare")?.addEventListener(
+    "click",
+    checkFare
+  );
 
+  document.querySelector("#fareAmount")?.addEventListener(
+    "keydown",
+    (event) => {
+      if (event.key === "Enter") {
+        checkFare();
       }
-    );
+    }
+  );
 }
 
 /* =========================================================

@@ -1,460 +1,157 @@
 <!doctype html>
-
 <html lang="en">
-
 <head>
-
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ride &amp; Food Intelligence</title>
+  <link rel="stylesheet" href="styles.css?v=5">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  >
-
-  <title>
-    Ride & Food Intelligence
-  </title>
-
-
-  <!--
-    Version number forces browsers to load
-    the latest CSS instead of a cached copy.
-  -->
-
-  <link
-    rel="stylesheet"
-    href="styles.css?v=5"
-  >
-
-
-  <!--
-    Final safety rules for the monthly chart.
-
-    These override any older cached layout rules
-    and prevent a horizontal scrollbar.
-  -->
-
+  <!-- Monthly-chart safety rules retained from the working site. -->
   <style>
-
-    .chart-card {
-      overflow: hidden !important;
-    }
-
-
+    .chart-card { overflow: hidden !important; }
     .monthly-chart {
       width: 100% !important;
-
       min-width: 0 !important;
-
       max-width: 100% !important;
-
       overflow: hidden !important;
     }
-
-
     .monthly-bars {
       width: 100% !important;
-
       min-width: 0 !important;
-
       max-width: 100% !important;
-
       display: flex !important;
-
       justify-content: space-between !important;
-
       align-items: stretch !important;
-
       gap: 4px !important;
-
       overflow-x: hidden !important;
-
       overflow-y: hidden !important;
-
       scrollbar-width: none !important;
     }
-
-
-    .monthly-bars::-webkit-scrollbar {
-      display: none !important;
-    }
-
-
+    .monthly-bars::-webkit-scrollbar { display: none !important; }
     .month-column {
       flex: 1 1 0 !important;
-
       width: auto !important;
-
       min-width: 0 !important;
-
       max-width: none !important;
     }
-
-
     .month-bar-area {
       width: 100% !important;
-
       min-width: 0 !important;
     }
-
-
-    .month-stack {
-      width: min(
-        34px,
-        72%
-      ) !important;
-    }
-
-
+    .month-stack { width: min(34px,72%) !important; }
     .month-value {
       font-size: 9px !important;
-
       overflow: hidden !important;
-
       white-space: nowrap !important;
     }
-
-
     .month-label {
       min-width: 0 !important;
-
       font-size: 9px !important;
-
       white-space: nowrap !important;
-
       overflow: hidden !important;
     }
-
   </style>
-
 </head>
-
-
 <body>
-
-
-  <!-- =====================================================
-       HEADER
-  ====================================================== -->
-
   <header class="hero">
-
     <div>
-
-      <div class="eyebrow">
-        PERSONAL INTELLIGENCE
-      </div>
-
-      <h1>
-        Ride &amp; Food Intelligence
-      </h1>
-
-      <p>
-        Historical Grab + Gojek patterns,
-        fare benchmarking and food insights.
-      </p>
-
+      <div class="eyebrow">PERSONAL INTELLIGENCE</div>
+      <h1>Ride &amp; Food Intelligence</h1>
+      <p>Historical Grab + Gojek patterns, service-aware fare benchmarking, distance efficiency and food insights.</p>
     </div>
-
-
-    <div class="privacy-pill">
-      Aggregated data only
-    </div>
-
+    <div class="privacy-pill">Aggregated data only</div>
   </header>
 
-
-
-  <!-- =====================================================
-       NAVIGATION
-  ====================================================== -->
-
   <nav class="tabs">
-
-    <button
-      class="tab active"
-      data-tab="overview"
-    >
-      Overview
-    </button>
-
-
-    <button
-      class="tab"
-      data-tab="rides"
-    >
-      Rides
-    </button>
-
-
-    <button
-      class="tab"
-      data-tab="fare"
-    >
-      Fare Checker
-    </button>
-
-
-    <button
-      class="tab"
-      data-tab="food"
-    >
-      Food
-    </button>
-
-
-    <button
-      class="tab"
-      data-tab="agent"
-    >
-      Ask My Data
-    </button>
-
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="rides">Rides</button>
+    <button class="tab" data-tab="fare">Fare Checker</button>
+    <button class="tab" data-tab="food">Food</button>
+    <button class="tab" data-tab="agent">Ask My Data</button>
   </nav>
 
-
-
-  <!-- =====================================================
-       MAIN
-  ====================================================== -->
-
   <main>
-
-
-
-    <!-- ===================================================
-         OVERVIEW
-    ==================================================== -->
-
-    <section
-      id="overview"
-      class="panel active"
-    >
-
-
-      <div
-        id="summaryCards"
-        class="cards"
-      >
-      </div>
-
-
+    <section id="overview" class="panel active">
+      <div id="summaryCards" class="cards"></div>
 
       <div class="grid two">
-
-
-        <!-- MONTHLY SPEND -->
-
         <article class="card chart-card">
-
-          <h2>
-            Monthly spend
-          </h2>
-
-          <!--
-             replaces this placeholder
-            with the HTML/CSS monthly chart.
-          -->
-
-          <div id="monthlyChart">
-          </div>
-
+          <h2>Monthly spend</h2>
+          <div id="monthlyChart"></div>
         </article>
-
-
-
-        <!-- PROVIDER SNAPSHOT -->
 
         <article class="card">
-
-          <h2>
-            Provider snapshot
-          </h2>
-
-          <div id="providerSnapshot">
-          </div>
-
+          <h2>Provider snapshot</h2>
+          <div id="providerSnapshot"></div>
         </article>
-
-
       </div>
 
-
-
-      <!-- CORE ROUTES -->
-
       <article class="card">
-
-        <h2>
-          Core routes
-        </h2>
-
-
+        <h2>Core routes</h2>
         <div class="table-wrap">
-
           <table>
-
             <thead>
-
               <tr>
-
-                <th>
-                  Route
-                </th>
-
-                <th>
-                  Trips
-                </th>
-
-                <th>
-                  Typical
-                </th>
-
-                <th>
-                  Grab avg
-                </th>
-
-                <th>
-                  Gojek avg
-                </th>
-
-                <th>
-                  Historical edge
-                </th>
-
+                <th>Route</th>
+                <th>Trips</th>
+                <th>Typical</th>
+                <th>Grab avg</th>
+                <th>Gojek avg</th>
+                <th>Historical edge</th>
               </tr>
-
             </thead>
-
-
-            <tbody id="coreRoutes">
-            </tbody>
-
+            <tbody id="coreRoutes"></tbody>
           </table>
-
         </div>
-
       </article>
-
-
     </section>
 
-
-
-    <!-- ===================================================
-         RIDES
-    ==================================================== -->
-
-    <section
-      id="rides"
-      class="panel"
-    >
-
+    <section id="rides" class="panel">
       <article class="card">
-
-
         <div class="section-head">
-
           <div>
-
-            <h2>
-              Route Explorer
-            </h2>
-
-            <p>
-              Compare your historical fare
-              distribution and timing patterns.
-            </p>
-
+            <h2>Route Explorer</h2>
+            <p>Compare historical fares, Grab booking types, timing, driving distance and S$/km.</p>
           </div>
-
-
-          <select id="routeSelect">
-          </select>
-
+          <select id="routeSelect"></select>
         </div>
-
-
-        <div id="routeDetail">
-        </div>
-
-
+        <div id="routeDetail"></div>
       </article>
-
     </section>
 
-
-
-    <!-- ===================================================
-         FARE CHECKER
-    ==================================================== -->
-
-    <section
-      id="fare"
-      class="panel"
-    >
-
+    <section id="fare" class="panel">
       <article class="card fare-box">
-
-
-        <h2>
-          Is this quoted fare good?
-        </h2>
-
-
+        <h2>Is this quoted fare good?</h2>
         <p>
-
-          Enter a current quote and compare
-          it with your own history.
-
+          Compare a current quote with your own history using route, provider,
+          Grab pricing type, time of travel, weekday, driving distance and S$/km.
           The score is from 0 to 5.
-
         </p>
 
-
-
         <div class="form-grid">
-
-
           <label>
-
             Route
-
-            <select id="fareRoute">
-            </select>
-
+            <select id="fareRoute"></select>
           </label>
 
-
-
           <label>
-
             Provider
-
             <select id="fareProvider">
-
-              <option>
-                Grab
-              </option>
-
-              <option>
-                Gojek
-              </option>
-
-              <option value="Overall">
-                Either / overall
-              </option>
-
+              <option>Grab</option>
+              <option>Gojek</option>
+              <option value="Overall">Either / overall</option>
             </select>
-
           </label>
 
-
+          <label id="farePricingLabel">
+            Grab pricing type
+            <select id="farePricingType">
+              <option value="Any">Not sure / any Grab</option>
+            </select>
+          </label>
 
           <label>
-
             Quoted fare (SGD)
-
             <input
               id="fareAmount"
               type="number"
@@ -462,227 +159,62 @@
               min="0"
               placeholder="e.g. 24.90"
             >
-
           </label>
 
-
-
-          <button id="checkFare">
-
-            Check fare
-
-          </button>
-
-
+          <button id="checkFare">Check fare</button>
         </div>
 
-
-
-        <div
-          id="fareResult"
-          class="result-box muted"
-        >
-
-          Enter a fare to compare
-          it with your history.
-
+        <div id="fareResult" class="result-box muted">
+          Enter a fare to compare it with your history.
         </div>
-
-
       </article>
-
     </section>
 
-
-
-    <!-- ===================================================
-         FOOD
-    ==================================================== -->
-
-    <section
-      id="food"
-      class="panel"
-    >
-
-
+    <section id="food" class="panel">
       <div class="grid two">
-
-
         <article class="card">
-
-          <h2>
-            Food overview
-          </h2>
-
-          <div id="foodSummary">
-          </div>
-
+          <h2>Food overview</h2>
+          <div id="foodSummary"></div>
         </article>
 
-
-
         <article class="card">
-
-          <h2>
-            Most ordered
-          </h2>
-
-          <div id="topFood">
-          </div>
-
+          <h2>Most ordered</h2>
+          <div id="topFood"></div>
         </article>
-
-
       </div>
-
-
     </section>
 
-
-
-    <!-- ===================================================
-         ASK MY DATA
-    ==================================================== -->
-
-    <section
-      id="agent"
-      class="panel"
-    >
-
-
+    <section id="agent" class="panel">
       <article class="card">
-
-
-        <h2>
-          Ask My Data
-        </h2>
-
-
+        <h2>Ask My Data</h2>
         <p>
-
-          This first version answers common
-          questions from the aggregated dataset
-          without sending your data to an
-          external AI service.
-
+          This version answers common questions from the aggregated dataset
+          without sending your data to an external AI service.
         </p>
 
-
-
         <div class="chips">
-
-
-          <button
-            data-q="
-              What is my normal fare
-              from home to office?
-            "
-          >
-            Home → Office fare
-          </button>
-
-
-
-          <button
-            data-q="
-              Which is cheaper
-              from home to office?
-            "
-          >
-            Cheaper to office
-          </button>
-
-
-
-          <button
-            data-q="
-              How much have I spent
-              on rides?
-            "
-          >
-            Ride spend
-          </button>
-
-
-
-          <button
-            data-q="
-              What food do I order most?
-            "
-          >
-            Top food
-          </button>
-
-
+          <button data-q="What is my normal fare from home to office?">Home → Office fare</button>
+          <button data-q="Which is cheaper from home to office?">Cheaper to office</button>
+          <button data-q="How much have I spent on rides?">Ride spend</button>
+          <button data-q="What food do I order most?">Top food</button>
         </div>
-
-
 
         <div class="ask-row">
-
-
-          <input
-            id="agentQuestion"
-            placeholder="
-              Ask about fares,
-              routes,
-              spending or food
-            "
-          >
-
-
-          <button id="askButton">
-            Ask
-          </button>
-
-
+          <input id="agentQuestion" placeholder="Ask about fares, routes, spending or food">
+          <button id="askButton">Ask</button>
         </div>
 
-
-
-        <div
-          id="agentAnswer"
-          class="result-box"
-        >
-
-          Try one of the quick
-          questions above.
-
+        <div id="agentAnswer" class="result-box">
+          Try one of the quick questions above.
         </div>
-
-
       </article>
-
-
     </section>
-
-
   </main>
 
-
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
-
   <footer>
-
-    Based on historical data only.
-    It does not query live Grab or Gojek prices.
-
+    Based on historical data only. It does not query live Grab or Gojek prices.
   </footer>
 
-
-
-  <!--
-    Version number forces browser to load
-    the newest JavaScript.
-  -->
-
-  <script src="app.js?v=13">
-  </script>
-
-
+  <script src="app.js?v=14"></script>
 </body>
-
 </html>
