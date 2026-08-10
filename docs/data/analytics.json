@@ -11790,6 +11790,62 @@
             "p90": 31.8
           }
         }
+      },
+      "distance": {
+        "distance_km": 20.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 1.57,
+          "median": 1.57,
+          "min": 1.56,
+          "max": 1.59,
+          "p10": 1.56,
+          "p25": 1.56,
+          "p75": 1.58,
+          "p90": 1.59
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 1.59,
+            "median": 1.59,
+            "min": 1.59,
+            "max": 1.59,
+            "p10": 1.59,
+            "p25": 1.59,
+            "p75": 1.59,
+            "p90": 1.59
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 1.56,
+            "median": 1.56,
+            "min": 1.56,
+            "max": 1.56,
+            "p10": 1.56,
+            "p25": 1.56,
+            "p75": 1.56,
+            "p90": 1.56
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 1.59,
+            "median": 1.59,
+            "min": 1.59,
+            "max": 1.59,
+            "p10": 1.59,
+            "p25": 1.59,
+            "p75": 1.59,
+            "p90": 1.59
+          }
+        }
       }
     },
     {
@@ -12824,6 +12880,62 @@
             "p90": 30.5
           }
         }
+      },
+      "distance": {
+        "distance_km": 21.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 2,
+          "average": 1.39,
+          "median": 1.39,
+          "min": 1.37,
+          "max": 1.42,
+          "p10": 1.37,
+          "p25": 1.38,
+          "p75": 1.41,
+          "p90": 1.41
+        },
+        "providers": {
+          "Grab": {
+            "count": 1,
+            "average": 1.42,
+            "median": 1.42,
+            "min": 1.42,
+            "max": 1.42,
+            "p10": 1.42,
+            "p25": 1.42,
+            "p75": 1.42,
+            "p90": 1.42
+          },
+          "Gojek": {
+            "count": 1,
+            "average": 1.37,
+            "median": 1.37,
+            "min": 1.37,
+            "max": 1.37,
+            "p10": 1.37,
+            "p25": 1.37,
+            "p75": 1.37,
+            "p90": 1.37
+          }
+        },
+        "grab_pricing_types": {
+          "Fixed": {
+            "count": 1,
+            "average": 1.42,
+            "median": 1.42,
+            "min": 1.42,
+            "max": 1.42,
+            "p10": 1.42,
+            "p25": 1.42,
+            "p75": 1.42,
+            "p90": 1.42
+          }
+        }
       }
     },
     {
@@ -13503,7 +13615,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 21.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 2.19,
+          "median": 2.19,
+          "min": 2.19,
+          "max": 2.19,
+          "p10": 2.19,
+          "p25": 2.19,
+          "p75": 2.19,
+          "p90": 2.19
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 2.19,
+            "median": 2.19,
+            "min": 2.19,
+            "max": 2.19,
+            "p10": 2.19,
+            "p25": 2.19,
+            "p75": 2.19,
+            "p90": 2.19
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "CRAFTSMEN COFFEE (THOMSON)__ION ORCHARD",
@@ -13648,7 +13793,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 3.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 4.17,
+          "median": 4.17,
+          "min": 4.17,
+          "max": 4.17,
+          "p10": 4.17,
+          "p25": 4.17,
+          "p75": 4.17,
+          "p90": 4.17
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 4.17,
+            "median": 4.17,
+            "min": 4.17,
+            "max": 4.17,
+            "p10": 4.17,
+            "p25": 4.17,
+            "p75": 4.17,
+            "p90": 4.17
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "FRASERS HOUSE__HOME",
@@ -14149,7 +14327,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 27.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.64,
+          "median": 1.64,
+          "min": 1.64,
+          "max": 1.64,
+          "p10": 1.64,
+          "p25": 1.64,
+          "p75": 1.64,
+          "p90": 1.64
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.64,
+            "median": 1.64,
+            "min": 1.64,
+            "max": 1.64,
+            "p10": 1.64,
+            "p25": 1.64,
+            "p75": 1.64,
+            "p90": 1.64
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "HOME__ANNALAKSHMI RESTAURANT",
@@ -14294,7 +14505,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 24.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.49,
+          "median": 1.49,
+          "min": 1.49,
+          "max": 1.49,
+          "p10": 1.49,
+          "p25": 1.49,
+          "p75": 1.49,
+          "p90": 1.49
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.49,
+            "median": 1.49,
+            "min": 1.49,
+            "max": 1.49,
+            "p10": 1.49,
+            "p25": 1.49,
+            "p75": 1.49,
+            "p90": 1.49
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "HOME__CRAFTSMEN COFFEE (THOMSON)",
@@ -14439,7 +14683,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 18.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.3,
+          "median": 1.3,
+          "min": 1.3,
+          "max": 1.3,
+          "p10": 1.3,
+          "p25": 1.3,
+          "p75": 1.3,
+          "p90": 1.3
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.3,
+            "median": 1.3,
+            "min": 1.3,
+            "max": 1.3,
+            "p10": 1.3,
+            "p25": 1.3,
+            "p75": 1.3,
+            "p90": 1.3
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "HOME__DECATHLON - JOO KOON",
@@ -14584,7 +14861,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 13.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.48,
+          "median": 1.48,
+          "min": 1.48,
+          "max": 1.48,
+          "p10": 1.48,
+          "p25": 1.48,
+          "p75": 1.48,
+          "p90": 1.48
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.48,
+            "median": 1.48,
+            "min": 1.48,
+            "max": 1.48,
+            "p10": 1.48,
+            "p25": 1.48,
+            "p75": 1.48,
+            "p90": 1.48
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "HOME__FULLERTON HOTEL",
@@ -15263,7 +15573,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 22.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.88,
+          "median": 1.88,
+          "min": 1.88,
+          "max": 1.88,
+          "p10": 1.88,
+          "p25": 1.88,
+          "p75": 1.88,
+          "p90": 1.88
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.88,
+            "median": 1.88,
+            "min": 1.88,
+            "max": 1.88,
+            "p10": 1.88,
+            "p25": 1.88,
+            "p75": 1.88,
+            "p90": 1.88
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "HOME__PAN PACIFIC ORCHARD",
@@ -15764,7 +16107,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 21.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.77,
+          "median": 1.77,
+          "min": 1.77,
+          "max": 1.77,
+          "p10": 1.77,
+          "p25": 1.77,
+          "p75": 1.77,
+          "p90": 1.77
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.77,
+            "median": 1.77,
+            "min": 1.77,
+            "max": 1.77,
+            "p10": 1.77,
+            "p25": 1.77,
+            "p75": 1.77,
+            "p90": 1.77
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "HOME__V_PLACE",
@@ -17155,7 +17531,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 14.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.08,
+          "median": 1.08,
+          "min": 1.08,
+          "max": 1.08,
+          "p10": 1.08,
+          "p25": 1.08,
+          "p75": 1.08,
+          "p90": 1.08
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.08,
+            "median": 1.08,
+            "min": 1.08,
+            "max": 1.08,
+            "p10": 1.08,
+            "p25": 1.08,
+            "p75": 1.08,
+            "p90": 1.08
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "PAN PACIFIC ORCHARD__HOME",
@@ -18368,7 +18777,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 12.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.5,
+          "median": 1.5,
+          "min": 1.5,
+          "max": 1.5,
+          "p10": 1.5,
+          "p25": 1.5,
+          "p75": 1.5,
+          "p90": 1.5
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.5,
+            "median": 1.5,
+            "min": 1.5,
+            "max": 1.5,
+            "p10": 1.5,
+            "p25": 1.5,
+            "p75": 1.5,
+            "p90": 1.5
+          }
+        },
+        "grab_pricing_types": {}
+      }
     },
     {
       "key": "WEST MALL__VIVOCITY",
@@ -18513,7 +18955,40 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {},
-      "grab_pricing_weekdays": {}
+      "grab_pricing_weekdays": {},
+      "distance": {
+        "distance_km": 16.0,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 1,
+          "average": 1.82,
+          "median": 1.82,
+          "min": 1.82,
+          "max": 1.82,
+          "p10": 1.82,
+          "p25": 1.82,
+          "p75": 1.82,
+          "p90": 1.82
+        },
+        "providers": {
+          "Gojek": {
+            "count": 1,
+            "average": 1.82,
+            "median": 1.82,
+            "min": 1.82,
+            "max": 1.82,
+            "p10": 1.82,
+            "p25": 1.82,
+            "p75": 1.82,
+            "p90": 1.82
+          }
+        },
+        "grab_pricing_types": {}
+      }
     }
   ],
   "food": {
@@ -18699,10 +19174,10 @@
   },
   "distance_analysis": {
     "generated_on": "2026-08-10",
-    "routes_with_distance": 43,
+    "routes_with_distance": 56,
     "distance_source": "OneMap",
     "distance_precision_km": 0.5,
     "cost_per_km_enabled": true,
-    "note": "Cost per kilometre is calculated from historical final fares divided by rounded driving distance. It is an additional comparison signal, not the sole fare predictor."
+    "note": "Cost per kilometre is calculated from historical final fares divided by rounded driving distance. It should be used as an additional comparison signal rather than the sole fare predictor."
   }
 }
