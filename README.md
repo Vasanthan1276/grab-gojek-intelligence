@@ -2,17 +2,17 @@
 
 A privacy-conscious static dashboard for analysing personal Grab and Gojek history, comparing current ride quotes with historical behaviour, and tracking ride efficiency without publishing raw personal travel records.
 
-## Current historical baseline
+## Current data foundation
 
-The currently published analytics baseline contains the previously imported reports:
+The private historical seed used for the refresh pipeline starts from the previously validated baseline:
 
-- 318 total historical transactions processed
+- 318 total historical transactions
 - 292 rides
 - 26 GrabFood orders
-- SGD 7,908.75 total recorded spend in the supplied reports
-- One MYR 15.45 Grab ride is retained only in the source summary and is not mixed into SGD analytics
+- SGD 7,908.75 recorded spend
+- one MYR 15.45 Grab ride retained in the private history/source summary but not mixed into SGD fare analytics
 
-**Important:** these figures remain the baseline until a new Grab/Gojek history refresh is processed. Rides taken after the last source export are not automatically included yet.
+After a historical refresh is run, the figures shown in `docs/data/analytics.json` and on the dashboard become the current source of truth and may be higher than this seed baseline.
 
 ## Current dashboard capabilities
 
@@ -20,14 +20,11 @@ The currently published analytics baseline contains the previously imported repo
 
 - Route-level historical fare distributions
 - Grab vs Gojek comparison
-- Grab ride classification into:
-  - Grab Fixed
-  - Grab Metered
-  - Grab Premium / Plus where present
-- Hour-of-day pricing patterns
+- Grab classification into Fixed, Metered and Premium / Plus where present
+- Exact-hour pricing patterns
 - Day-of-week patterns
-- Minimum sample threshold before a timing pattern is treated as reliable
 - Provider-specific timing patterns
+- Minimum sample threshold before a timing pattern is treated as reliable
 - Driving distance for trusted routes using OneMap
 - Average and median S$/km
 - Booking-option S$/km comparison
@@ -46,7 +43,7 @@ The Fare Checker can use:
 - quote S$/km
 - historical S$/km
 
-The benchmark fallback order is designed to prefer the most specific reliable evidence first:
+The benchmark fallback order prefers the most specific reliable evidence first:
 
 1. Grab pricing type + exact hour
 2. Provider + exact hour
@@ -58,150 +55,205 @@ The benchmark fallback order is designed to prefer the most specific reliable ev
 8. Provider overall for the route
 9. Route overall
 
-A timing benchmark may receive a limited weekday adjustment. The adjustment is capped to avoid overreacting to small historical differences.
-
-### Fare score
-
-The dashboard rates a quoted fare from **0 to 5** against the selected historical benchmark:
-
-- 5: exceptional historical value
-- 4: very good
-- 3: normal-to-good
-- 2: somewhat expensive
-- 1: expensive
-- 0: unusually expensive
-
-The score is a historical comparison, not a live Grab or Gojek quote.
-
-Cost per kilometre is used as an additional cross-check. It should not be treated as the sole predictor because short journeys, booking fees, surge pricing, tolls, waiting time and metered conditions can materially affect S$/km.
+The dashboard scores a quote from 0 to 5. Cost/km is a cross-check rather than the sole predictor because booking fees, surge pricing, tolls, waiting time and metered conditions can materially affect S$/km.
 
 ## Privacy model
 
-The public GitHub Pages site contains **aggregated analytics only**.
+The public GitHub repository and GitHub Pages site should contain aggregated analytics only.
 
-It should not contain:
+Never publish:
 
 - original Grab/Gojek PDFs
-- phone numbers or email addresses from reports
-- booking codes
-- exact home address
-- exact V Place address
-- exact Compassvale address
-- private coordinates
+- exact private addresses
 - raw transaction-level history
-- OneMap password or credentials
+- booking codes
+- phone numbers or email addresses from reports
+- private coordinates
+- OneMap credentials
+- `config/private_aliases.json`
+- anything inside `local_private/` or `local_data/`
 
-Private residential/work locations are converted into aliases such as:
+Private locations are converted to safe aliases such as `HOME`, `OFFICE`, `V_PLACE` and `COMPASSVALE` before public analytics are generated.
 
-- `HOME`
-- `OFFICE`
-- `V_PLACE`
-- `COMPASSVALE`
+## Production-safe historical refresh
 
-The public route-distance file stores only safe aliases and rounded driving distances.
+The project now has a local refresh pipeline designed specifically to prevent raw personal reports from entering the public GitHub repository.
 
-## OneMap distance setup
+```text
+fresh Grab/Gojek PDFs (local only)
+        ↓
+import + private location normalisation
+        ↓
+merge with private historical master
+        ↓
+deduplicate overlapping report periods
+        ↓
+classify Grab Fixed / Metered / Premium
+        ↓
+rebuild route + hour + weekday analytics
+        ↓
+apply existing OneMap route distances
+        ↓
+recalculate S$/km
+        ↓
+privacy + shrinkage validation
+        ↓
+docs/data/analytics.json
+```
 
-The route-distance workflow uses these GitHub Actions secrets:
+### Why the refresh runs locally
 
-- `ONEMAP_EMAIL`
-- `ONEMAP_PASSWORD`
-- `PRIVATE_LOCATIONS_JSON`
+The repository is public. Original ride reports and the transaction-level master therefore must not be sent through a public GitHub Actions workflow or committed to the repository.
 
-There is **no need to manually maintain an `ONEMAP_TOKEN` secret**. The distance script authenticates with OneMap when the workflow runs and obtains a temporary access token for that run.
+The private inputs stay on the local computer. Only the aggregated `docs/data/analytics.json` is committed.
 
-### Distance workflows
+## One-time local setup
 
-Run in this order when locations/distances need to be refreshed:
+### 1. Keep a local copy of the repository
+
+GitHub Desktop is recommended on Windows because it makes it easy to see exactly which files will be committed.
+
+### 2. Install Python
+
+Use Python 3.12 or later. During installation, enable **Add Python to PATH**.
+
+### 3. Tesseract OCR
+
+Grab statement PDFs currently require Tesseract OCR. The refresh script automatically checks the normal Windows Tesseract installation folders.
+
+Gojek-only refreshes do not need Tesseract.
+
+### 4. Private aliases
+
+Run:
+
+```text
+setup_private_aliases.bat
+```
+
+Enter distinctive fragments for the private aliases requested. The resulting file is:
+
+```text
+config/private_aliases.json
+```
+
+It is ignored by Git and must remain local.
+
+### 5. Private historical master
+
+Place the supplied private seed at:
+
+```text
+local_private/transactions.json
+```
+
+`local_private/` is ignored by Git. Do not upload this file through the GitHub website.
+
+## Updating history with new reports
+
+Put fresh exports here:
+
+```text
+local_data/grab/
+local_data/gojek/
+```
+
+It is safe for the new reports to overlap the previous reporting period. The refresh uses provider + timestamp + fare + currency + category as the stable deduplication fingerprint, so overlapping exports should not double-count the same journey.
+
+Then double-click:
+
+```text
+refresh_history.bat
+```
+
+On the first run it creates a local `.venv` and installs the Python packages in `requirements.txt`.
+
+The refresh produces:
+
+```text
+docs/data/analytics.json                 PUBLIC aggregated output
+local_private/transactions.json          PRIVATE master
+local_private/last_refresh_report.json   PRIVATE refresh report
+local_private/backups/...                PRIVATE analytics backups
+```
+
+The script includes a safety stop if the regenerated transaction count unexpectedly becomes lower than the currently published analytics count.
+
+## Route publishing rule
+
+All previously trusted routes remain trusted.
+
+For a brand-new route, the refresh automatically publishes it only when:
+
+- it has at least 2 historical rides, and
+- both location labels look clean enough for public analytics.
+
+One-off or questionable new routes remain in the private master and are listed in `local_private/last_refresh_report.json` for later review. This prevents OCR-garbage locations from polluting the public dashboard.
+
+## After a successful local refresh
+
+Review the refreshed dashboard and then commit only the safe public changes, principally:
+
+```text
+docs/data/analytics.json
+```
+
+If the refresh introduced a new route that does not yet have a driving distance, run the GitHub Actions workflows in this order:
 
 1. **Build Route Distances**
 2. **Enrich Distance Metrics**
-3. GitHub Pages deploys the updated public analytics
 
-The distance workflow now supports the trusted route set, including public destinations such as Madras New Woodlands, Rendezvous Restaurant and Gayathri Little India where they exist in the analytics data.
+The OneMap workflow continues to request a temporary access token automatically from `ONEMAP_EMAIL` and `ONEMAP_PASSWORD`; there is no manually maintained `ONEMAP_TOKEN` secret.
 
 ## Repository structure
 
 ```text
 docs/
-  index.html                 Public dashboard page
-  styles.css                 Dashboard styling
-  app.js                     Dashboard + Fare Checker logic
+  index.html
+  styles.css
+  app.js
   data/
-    analytics.json           Aggregated public analytics only
+    analytics.json              Public aggregated analytics
 
 scripts/
-  import_grab_pdf.py         Grab PDF importer + service classification
-  import_gojek_pdf.py        Gojek importer
-  normalization.py           Privacy-safe location normalisation
-  build_route_distances.py   OneMap driving-distance calculation
-  enrich_distance_metrics.py
-                             Adds distance + S$/km to analytics
+  import_grab_pdf.py            Grab importer + service detection
+  import_gojek_pdf.py           Gojek importer
+  normalization.py              Location normalisation
+  build_analytics.py            Full service/timing analytics builder
+  refresh_history.py            Safe local merge + rebuild pipeline
+  setup_private_aliases.py      One-time local privacy alias setup
+  build_route_distances.py      OneMap driving-distance builder
+  enrich_distance_metrics.py    Distance + S$/km enrichment
 
 config/
-  route_distances.json       Safe aliases + rounded route distances
+  route_distances.json          Public rounded route distances
+  private_aliases.json          PRIVATE/local only, Git ignored
+
+local_data/                     PRIVATE/local only, Git ignored
+  grab/
+  gojek/
+
+local_private/                  PRIVATE/local only, Git ignored
+  transactions.json
+  last_refresh_report.json
 
 .github/workflows/
   deploy-pages.yml
   build-route-distances.yml
   enrich-distance-metrics.yml
-```
 
-## Publishing on GitHub Pages
-
-1. Keep the repository public only for aggregated output and non-sensitive code.
-2. Keep all private credentials in GitHub Actions Secrets.
-3. Keep raw ride reports outside the public repository.
-4. Use GitHub Pages / GitHub Actions to deploy the `docs` site.
-
-## Historical data refresh
-
-The project does **not yet have a single production-safe end-to-end refresh workflow** for newly downloaded Grab and Gojek reports.
-
-Until that is completed, avoid running an older analytics builder that could replace the richer hourly, service-type and distance-enriched analytics with a simpler file.
-
-The next data-engineering milestone is one controlled update pipeline:
-
-```text
-new Grab/Gojek reports
-        ↓
-deduplicate transactions
-        ↓
-classify Grab Fixed / Metered / Premium
-        ↓
-normalise private/public locations
-        ↓
-rebuild route + hourly + weekday analytics
-        ↓
-calculate/update OneMap distances
-        ↓
-calculate S$/km
-        ↓
-validate analytics.json
-        ↓
-publish dashboard
+refresh_history.bat
+setup_private_aliases.bat
 ```
 
 ## Recommended next improvements
 
-1. Validate the service + distance-aware Fare Checker against real current quotes.
-2. Add live quote logging, including quotes that were **not** booked.
-3. Build the production-safe historical-data refresh pipeline.
-4. Use similar-distance journeys as a fallback for new or low-history routes.
-5. Expand Ask My Data beyond predefined questions.
-6. Expand food-order intelligence.
+1. Refresh the historical data with the post-trip Grab/Gojek reports.
+2. Add live quote logging, including quotes that were not booked.
+3. Use similar-distance journeys as a fallback for new or low-history routes.
+4. Expand Ask My Data beyond predefined questions.
+5. Expand food-order intelligence.
 
-## Why live quote logging matters
+## Why live quote logging is still important
 
-Completed transaction reports only tell us the ride eventually booked. They do not show high quotes that were rejected.
-
-A future quote logger should be able to record examples such as:
-
-```text
-Grab Fixed: S$31
-Grab Metered: available
-Gojek: S$24
-Booked: Gojek at S$24
-```
-
-That will make future provider recommendations substantially more informative than completed-trip history alone.
+Completed transaction reports show only the ride eventually booked. They do not show a high quote that was rejected. A later quote logger can record Grab Fixed, Grab Metered and Gojek quotes together with the option ultimately selected. That will provide stronger evidence for future booking recommendations than completed-trip history alone.

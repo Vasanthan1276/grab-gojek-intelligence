@@ -1,0 +1,51 @@
+GRAB + GOJEK HISTORICAL REFRESH UPDATE
+======================================
+
+PUBLIC REPOSITORY FILES TO REPLACE / ADD
+----------------------------------------
+Copy these files into the matching locations in your LOCAL repository:
+
+  scripts/build_analytics.py
+  scripts/refresh_history.py
+  scripts/setup_private_aliases.py
+  refresh_history.bat
+  setup_private_aliases.bat
+  requirements.txt
+  .gitignore
+  README.md
+
+The local_data/grab and local_data/gojek folders in this package contain only harmless placeholder text files.
+They are ignored by Git.
+
+PRIVATE FILE - DO NOT UPLOAD TO GITHUB
+--------------------------------------
+The historical seed is supplied separately as:
+
+  transactions-baseline-private.json
+
+Put it on your computer at:
+
+  local_private/transactions.json
+
+Do NOT drag this private file into the GitHub website.
+Do NOT commit local_private/.
+
+ONE-TIME SETUP
+--------------
+1. Run setup_private_aliases.bat.
+2. Enter distinctive report-text fragments for HOME, OFFICE, V_PLACE and COMPASSVALE as required.
+3. Put the private seed at local_private/transactions.json.
+
+WHEN YOU HAVE FRESH REPORTS
+---------------------------
+1. Put Grab PDFs in local_data/grab/.
+2. Put Gojek PDFs in local_data/gojek/.
+3. Double-click refresh_history.bat.
+4. Review the summary shown at the end.
+5. Check docs/data/analytics.json / the dashboard.
+6. Commit ONLY public/aggregated files.
+7. If new routes have no distance, run:
+     Build Route Distances
+     Enrich Distance Metrics
+
+Fresh reports may overlap the old reporting period; duplicates are automatically skipped.

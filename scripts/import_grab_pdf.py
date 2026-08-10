@@ -101,11 +101,15 @@ def _date_rows(
 ):
     """
     Extract transaction date/time rows.
+
+    Tesseract can occasionally merge the end of one Grab transaction
+    timestamp with the beginning of the next transaction into a single
+    OCR line. This parser extracts all date and time tokens in reading
+    order instead of assuming one clean date line followed by one clean
+    time line.
     """
 
-    width, height = (
-        image.size
-    )
+    width, height = image.size
 
     y0 = int(
         height
@@ -119,21 +123,9 @@ def _date_rows(
 
     crop = image.crop(
         (
-            int(
-                width
-                *
-                115
-                /
-                BASE_W
-            ),
+            int(width * 115 / BASE_W),
             y0,
-            int(
-                width
-                *
-                315
-                /
-                BASE_W
-            ),
+            int(width * 315 / BASE_W),
             height
         )
     )
@@ -141,13 +133,7 @@ def _date_rows(
     crop = crop.resize(
         (
             400,
-            (
-                height
-                -
-                y0
-            )
-            *
-            2
+            (height - y0) * 2
         )
     )
 
@@ -165,118 +151,139 @@ def _date_rows(
             "line_num"
         ]
     ):
-
         group = group.sort_values(
             "left"
         )
 
         text = " ".join(
-            group.text.astype(
-                str
-            )
+            group.text.astype(str)
+        )
+
+        top = float(
+            group.top.min()
+        )
+
+        bottom = float(
+            (group.top + group.height).max()
         )
 
         lines.append(
             (
-                float(
-                    group.top.min()
-                ),
-                float(
-                    (
-                        group.top
-                        +
-                        group.height
-                    ).max()
-                ),
+                top,
+                bottom,
                 text
             )
         )
 
-    lines.sort()
+    lines.sort(
+        key=lambda item: item[0]
+    )
 
-    output = []
+    date_pattern = re.compile(
+        r"\b(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})\b",
+        re.I
+    )
 
-    index = 0
+    time_pattern = re.compile(
+        r"\b(\d{1,2}:\d{2})\s*(AM|PM)\b",
+        re.I
+    )
 
-    while index < (
-        len(lines)
-        -
-        1
-    ):
+    events = []
 
-        date_text = (
-            lines[index][2]
-            .strip()
-        )
+    for top, bottom, text in lines:
+        line_center = (top + bottom) / 2
 
-        time_text = (
-            lines[index + 1][2]
-            .strip()
-        )
-
-        date_match = re.match(
-            r"\d{1,2}\s+[A-Z][a-z]{2}\s+\d{4}",
-            date_text
-        )
-
-        time_match = re.search(
-            r"\d{1,2}:\d{2}(?:AM|PM)",
-            time_text,
-            re.I
-        )
-
-        if (
-            date_match
-            and
-            time_match
-        ):
-
-            datetime_value = datetime.strptime(
-                (
-                    re.sub(
-                        r",$",
-                        "",
-                        date_text
+        for match in date_pattern.finditer(text):
+            events.append(
+                {
+                    "kind": "date",
+                    "position": match.start(),
+                    "line_top": top,
+                    "line_center": line_center,
+                    "text": (
+                        f"{match.group(1)} "
+                        f"{match.group(2).title()} "
+                        f"{match.group(3)}"
                     )
-                    +
-                    " "
-                    +
-                    time_text.upper()
-                ),
-                "%d %b %Y %I:%M%p"
+                }
             )
 
-            center = (
-                y0
-                +
-                (
-                    (
-                        lines[index][0]
-                        +
-                        lines[index + 1][1]
+        for match in time_pattern.finditer(text):
+            events.append(
+                {
+                    "kind": "time",
+                    "position": match.start(),
+                    "line_top": top,
+                    "line_center": line_center,
+                    "text": (
+                        f"{match.group(1)}"
+                        f"{match.group(2).upper()}"
                     )
-                    /
-                    2
+                }
+            )
+
+    events.sort(
+        key=lambda item: (
+            item["line_top"],
+            item["position"]
+        )
+    )
+
+    output = []
+    pending_date = None
+
+    for event in events:
+        if event["kind"] == "date":
+            pending_date = event
+            continue
+
+        if event["kind"] != "time" or pending_date is None:
+            continue
+
+        datetime_text = (
+            pending_date["text"]
+            +
+            " "
+            +
+            event["text"]
+        )
+
+        try:
+            datetime_value = datetime.strptime(
+                datetime_text,
+                "%d %b %Y %I:%M%p"
+            )
+        except ValueError:
+            pending_date = None
+            continue
+
+        center = (
+            y0
+            +
+            (
+                (
+                    pending_date["line_center"]
+                    +
+                    event["line_center"]
                 )
                 /
                 2
             )
+            /
+            2
+        )
 
-            output.append(
-                (
-                    datetime_value,
-                    center
-                )
+        output.append(
+            (
+                datetime_value,
+                center
             )
+        )
 
-            index += 2
-
-        else:
-
-            index += 1
+        pending_date = None
 
     return output
-
 
 # ============================================================
 # AMOUNT EXTRACTION

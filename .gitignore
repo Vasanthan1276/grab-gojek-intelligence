@@ -8,3 +8,6 @@ config/private_aliases.json
 .venv/
 __pycache__/
 *.pyc
+
+# Local refresh scratch/backup files
+*.tmp
