@@ -19538,10 +19538,10 @@
   },
   "distance_analysis": {
     "generated_on": "2026-08-10",
-    "routes_with_distance": 47,
+    "routes_with_distance": 44,
     "distance_source": "OneMap",
     "distance_precision_km": 0.5,
     "cost_per_km_enabled": true,
-    "note": "Cost per kilometre is calculated from historical final fares divided by rounded driving distance. It is an additional comparison signal, not the sole fare predictor."
+    "note": "Cost per kilometre is calculated from historical final fares divided by rounded driving distance. It should be used as an additional comparison signal rather than the sole fare predictor."
   }
 }
