@@ -2,12 +2,15 @@
   "generated_on": "2026-08-10",
   "privacy_note": "Exact private addresses and coordinates are not stored. Published driving distances are rounded.",
   "distance_rounding_km": 0.5,
-  "route_count": 44,
+  "route_count": 56,
+  "newly_calculated_count": 56,
+  "carried_forward_count": 0,
+  "routes_without_distance": 0,
   "routes": {
     "HOME__OFFICE": {
       "origin": "HOME",
       "destination": "OFFICE",
-      "historical_trips": 81,
+      "historical_trips": 89,
       "distance_km": 11.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
@@ -16,7 +19,7 @@
     "OFFICE__HOME": {
       "origin": "OFFICE",
       "destination": "HOME",
-      "historical_trips": 52,
+      "historical_trips": 59,
       "distance_km": 14.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
@@ -112,6 +115,15 @@
       "route_type": "drive",
       "source": "OneMap"
     },
+    "HOME__GAYATHRI LITTLE INDIA": {
+      "origin": "HOME",
+      "destination": "GAYATHRI LITTLE INDIA",
+      "historical_trips": 3,
+      "distance_km": 20.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
     "HOME__JEM": {
       "origin": "HOME",
       "destination": "JEM",
@@ -148,9 +160,9 @@
       "route_type": "drive",
       "source": "OneMap"
     },
-    "HOME__GAYATHRI LITTLE INDIA": {
+    "HOME__SAMY'S CURRY": {
       "origin": "HOME",
-      "destination": "GAYATHRI LITTLE INDIA",
+      "destination": "SAMY'S CURRY",
       "historical_trips": 2,
       "distance_km": 20.0,
       "distance_precision_km": 0.5,
@@ -184,6 +196,15 @@
       "route_type": "drive",
       "source": "OneMap"
     },
+    "OFFICE__KUMAR MESS - CLEMENTI": {
+      "origin": "OFFICE",
+      "destination": "KUMAR MESS - CLEMENTI",
+      "historical_trips": 2,
+      "distance_km": 21.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
     "ANCHORPOINT__HOME": {
       "origin": "ANCHORPOINT",
       "destination": "HOME",
@@ -211,6 +232,24 @@
       "route_type": "drive",
       "source": "OneMap"
     },
+    "CLARKE QUAY CENTRAL__HOME": {
+      "origin": "CLARKE QUAY CENTRAL",
+      "destination": "HOME",
+      "historical_trips": 1,
+      "distance_km": 21.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "CRAFTSMEN COFFEE (THOMSON)__ION ORCHARD": {
+      "origin": "CRAFTSMEN COFFEE (THOMSON)",
+      "destination": "ION ORCHARD",
+      "historical_trips": 1,
+      "distance_km": 3.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
     "FRASERS HOUSE__HOME": {
       "origin": "FRASERS HOUSE",
       "destination": "HOME",
@@ -229,20 +268,47 @@
       "route_type": "drive",
       "source": "OneMap"
     },
+    "GEORGES MADBAR & GRILL__HOME": {
+      "origin": "GEORGES MADBAR & GRILL",
+      "destination": "HOME",
+      "historical_trips": 1,
+      "distance_km": 27.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__ANNALAKSHMI RESTAURANT": {
+      "origin": "HOME",
+      "destination": "ANNALAKSHMI RESTAURANT",
+      "historical_trips": 1,
+      "distance_km": 24.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__CRAFTSMEN COFFEE (THOMSON)": {
+      "origin": "HOME",
+      "destination": "CRAFTSMEN COFFEE (THOMSON)",
+      "historical_trips": 1,
+      "distance_km": 18.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__DECATHLON - JOO KOON": {
+      "origin": "HOME",
+      "destination": "DECATHLON - JOO KOON",
+      "historical_trips": 1,
+      "distance_km": 13.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
     "HOME__FULLERTON HOTEL": {
       "origin": "HOME",
       "destination": "FULLERTON HOTEL",
       "historical_trips": 1,
       "distance_km": 23.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__GAYATRI RESTAURANT": {
-      "origin": "HOME",
-      "destination": "GAYATRI RESTAURANT",
-      "historical_trips": 1,
-      "distance_km": 20.0,
       "distance_precision_km": 0.5,
       "route_type": "drive",
       "source": "OneMap"
@@ -265,6 +331,15 @@
       "route_type": "drive",
       "source": "OneMap"
     },
+    "HOME__NALAN RESTAURANT CITY HALL": {
+      "origin": "HOME",
+      "destination": "NALAN RESTAURANT CITY HALL",
+      "historical_trips": 1,
+      "distance_km": 22.5,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
     "HOME__PAN PACIFIC ORCHARD": {
       "origin": "HOME",
       "destination": "PAN PACIFIC ORCHARD",
@@ -279,6 +354,15 @@
       "destination": "PARKROYAL ON BEACH ROAD",
       "historical_trips": 1,
       "distance_km": 22.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "HOME__SUPER THAI BY SOI AROY @ PASIR": {
+      "origin": "HOME",
+      "destination": "SUPER THAI BY SOI AROY @ PASIR",
+      "historical_trips": 1,
+      "distance_km": 21.0,
       "distance_precision_km": 0.5,
       "route_type": "drive",
       "source": "OneMap"
@@ -346,6 +430,15 @@
       "route_type": "drive",
       "source": "OneMap"
     },
+    "OFFICE__YEW TEE POINT": {
+      "origin": "OFFICE",
+      "destination": "YEW TEE POINT",
+      "historical_trips": 1,
+      "distance_km": 14.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
     "PAN PACIFIC ORCHARD__HOME": {
       "origin": "PAN PACIFIC ORCHARD",
       "destination": "HOME",
@@ -396,6 +489,24 @@
       "destination": "HOME",
       "historical_trips": 1,
       "distance_km": 14.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "V_PLACE__VIVOCITY": {
+      "origin": "V_PLACE",
+      "destination": "VIVOCITY",
+      "historical_trips": 1,
+      "distance_km": 12.0,
+      "distance_precision_km": 0.5,
+      "route_type": "drive",
+      "source": "OneMap"
+    },
+    "WEST MALL__VIVOCITY": {
+      "origin": "WEST MALL",
+      "destination": "VIVOCITY",
+      "historical_trips": 1,
+      "distance_km": 16.0,
       "distance_precision_km": 0.5,
       "route_type": "drive",
       "source": "OneMap"
