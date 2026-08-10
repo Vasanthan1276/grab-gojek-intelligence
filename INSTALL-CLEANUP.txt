@@ -1,0 +1,62 @@
+GRAB + GOJEK PRIVACY / ROUTE CLEANUP UPDATE
+10 Aug 2026
+
+WHAT THIS PACKAGE CHANGES
+-------------------------
+1. Re-normalises the existing private master on every refresh.
+2. Consolidates legacy readable work labels into OFFICE.
+3. Prevents PRIVATE_xxxxxx routes from being published even if trusted before.
+4. Removes the 60-route cap from Build Route Distances.
+5. Adds precise OneMap searches for currently unresolved public POIs.
+6. Preserves an existing valid rounded distance during a temporary OneMap failure.
+7. Updates README.md and .gitignore.
+
+FILES TO REPLACE
+----------------
+.gitignore
+README.md
+scripts/normalization.py
+scripts/build_analytics.py
+scripts/refresh_history.py
+scripts/build_route_distances.py
+
+DO NOT DELETE / REPLACE
+-----------------------
+config/private_aliases.json
+local_private/transactions.json
+local_data/
+scripts/import_grab_pdf.py
+
+INSTALL
+-------
+1. Make sure GitHub Desktop has Pulled the latest remote changes.
+2. Extract this ZIP.
+3. Copy the CONTENTS of the extracted grab-gojek-cleanup-update-2026-08-10
+   folder into the root of your local grab-gojek-intelligence repository.
+4. Choose "Replace the files in the destination" when Windows asks.
+5. Open GitHub Desktop. You should see only the public files above as changes.
+   You should NOT see local_private/, local_data/ or config/private_aliases.json.
+
+FIRST CLEANUP RUN
+-----------------
+6. Double-click refresh_history.bat.
+
+You may leave the same Grab/Gojek PDFs in local_data. Because they overlap the
+existing private master, the refresh should skip duplicates.
+
+If you have not added any newer reports since the 343-transaction refresh,
+the private master should normally remain 343 transactions. The PUBLIC route
+count may decrease. That is expected because duplicate work labels and
+PRIVATE_xxxxxx routes are being removed from public analytics.
+
+7. Send the final command-window summary for review BEFORE committing.
+
+AFTER REVIEW
+------------
+8. Commit and Push the safe public changes in GitHub Desktop.
+9. Run GitHub Actions in this order:
+      Build Route Distances
+      Enrich Distance Metrics
+
+The distance workflow now processes every current public route and no longer
+stops at 60.

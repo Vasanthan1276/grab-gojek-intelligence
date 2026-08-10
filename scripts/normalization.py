@@ -8,10 +8,7 @@ from pathlib import Path
 
 
 def _clean(value: str) -> str:
-    """
-    Clean location text before matching.
-    """
-
+    """Clean location text before matching."""
     value = (
         str(value or "")
         .replace("‘", "")
@@ -23,28 +20,17 @@ def _clean(value: str) -> str:
     return re.sub(
         r"\s+",
         " ",
-        value
-    ).strip(
-        " ,._-|;:"
-    )
+        value,
+    ).strip(" ,._-|;:")
 
 
-def load_aliases(
-    path: str | Path | None
-):
+def load_aliases(path: str | Path | None):
     """
     Load optional private aliases.
 
-    These aliases can be stored locally
-    without exposing exact private addresses
-    in the public GitHub repository.
+    The file is local-only and is ignored by Git.
     """
-
-    if (
-        not path
-        or
-        not Path(path).exists()
-    ):
+    if not path or not Path(path).exists():
         return []
 
     data = json.loads(
@@ -59,146 +45,134 @@ def load_aliases(
     )
 
 
-def normalize_location(
-    value: str,
-    aliases=None
-) -> str:
-    """
-    Convert raw Grab and Gojek location names
-    into consistent location labels.
-    """
-
-    value = _clean(
-        value
-    )
-
-    upper = value.upper()
-
-
-    # =====================================================
-    # PRIVATE USER ALIASES
-    #
-    # These are checked first.
-    #
-    # Examples:
-    #
-    # HOME
-    # OFFICE
-    # V_PLACE
-    #
-    # Exact private addresses do not need to be
-    # stored in this public script.
-    # =====================================================
-
+def _matches_private_alias(
+    upper: str,
+    aliases,
+) -> str | None:
     for rule in aliases or []:
+        alias = str(
+            rule.get(
+                "alias",
+                ""
+            )
+        ).strip()
 
         fragments = (
             rule.get(
                 "contains",
                 []
             )
+            or []
         )
 
-        if any(
-            str(fragment).upper()
-            in upper
-
-            for fragment
-            in fragments
-        ):
-            return rule[
-                "alias"
-            ]
-
-
-    # =====================================================
-    # KNOWN SAFE / PUBLIC-FACING LOCATION LABELS
-    #
-    # These rules allow readable names to remain
-    # visible in the dashboard.
-    # =====================================================
-
-    public_rules = {
-
-        # User-friendly area label.
-        #
-        # This catches Compassvale addresses without
-        # publishing an exact residential address.
-        "COMPASSVALE":
-            "COMPASSVALE",
-
-        "WEST COAST PLAZA":
-            "WEST COAST PLAZA",
-
-        "VIVOCITY":
-            "VIVOCITY",
-
-        "CAUSEWAY POINT":
-            "CAUSEWAY POINT",
-
-        "JEM":
-            "JEM",
-
-        "ION ORCHARD":
-            "ION ORCHARD",
-
-        "MUSTAFA CENTRE":
-            "MUSTAFA CENTRE",
-
-        "PAN PACIFIC ORCHARD":
-            "PAN PACIFIC ORCHARD",
-
-        "CHANGI AIRPORT":
-            "CHANGI AIRPORT",
-
-        "MARINA BAY SANDS":
-            "MARINA BAY SANDS"
-    }
-
-
-    for (
-        needle,
-        location_label
-    ) in public_rules.items():
-
-        if needle in upper:
-
-            return (
-                location_label
+        if (
+            alias
+            and
+            any(
+                str(fragment).strip().upper() in upper
+                for fragment in fragments
+                if str(fragment).strip()
             )
+        ):
+            return alias
+
+    return None
 
 
-    # =====================================================
-    # PRIVACY FALLBACK
-    #
-    # Any address-looking location that has not already
-    # been recognised is converted into an anonymous,
-    # repeatable identifier.
-    #
-    # Example:
-    #
-    # PRIVATE_A1B2C3
-    #
-    # The same address will always generate the same ID.
-    # =====================================================
+def normalize_location(
+    value: str,
+    aliases=None,
+) -> str:
+    """
+    Convert raw Grab/Gojek location names into consistent public-safe labels.
 
+    Private aliases are checked first. Legacy readable workplace labels are
+    consolidated into OFFICE. Existing PRIVATE_xxxxxx hashes remain private
+    because their original addresses cannot be reconstructed from the hash.
+    """
+    value = _clean(
+        value
+    )
+
+    upper = value.upper()
+
+    if not upper:
+        return "UNKNOWN"
+
+    matched_alias = _matches_private_alias(
+        upper,
+        aliases,
+    )
+
+    if matched_alias:
+        return matched_alias
+
+    if upper == "PRIVATE_PLACE_1":
+        return "COMPASSVALE"
+
+    if upper in {
+        "HOME",
+        "OFFICE",
+        "V_PLACE",
+        "COMPASSVALE",
+    }:
+        return upper
+
+    # Generic legacy work cleanup without publishing a private workplace address.
+    if (
+        "OFFICE" in upper
+        or "(WORK" in upper
+        or (
+            "SEMICONDUCTOR" in upper
+            and "ASIA" in upper
+        )
+    ):
+        return "OFFICE"
+
+    public_rules = [
+        ("COMPASSVALE", "COMPASSVALE"),
+        ("WEST COAST PLAZA", "WEST COAST PLAZA"),
+        ("VIVOCITY", "VIVOCITY"),
+        ("CAUSEWAY POINT", "CAUSEWAY POINT"),
+        ("JEM", "JEM"),
+        ("ION ORCHARD", "ION ORCHARD"),
+        ("MUSTAFA CENTRE", "MUSTAFA CENTRE"),
+        ("PAN PACIFIC ORCHARD", "PAN PACIFIC ORCHARD"),
+        ("CHANGI AIRPORT", "CHANGI AIRPORT"),
+        ("MARINA BAY SANDS", "MARINA BAY SANDS"),
+        ("THE STAR VISTA", "THE STAR VISTA"),
+        ("CLEMENTI MALL", "CLEMENTI MALL"),
+        ("MADRAS NEW WOODLANDS", "MADRAS NEW WOODLANDS"),
+        ("NEW MADRAS WOODLANDS", "MADRAS NEW WOODLANDS"),
+        ("NEW WOODLANDS MADRAS", "MADRAS NEW WOODLANDS"),
+        ("RENDEZVOUS RESTAURANT", "RENDEZVOUS RESTAURANT"),
+        ("GAYATHRI LITTLE INDIA", "GAYATHRI LITTLE INDIA"),
+        ("GAYATHRI RESTAURANT", "GAYATHRI LITTLE INDIA"),
+        ("GAYATRI RESTAURANT", "GAYATHRI LITTLE INDIA"),
+        ("SAMY'S CURRY", "SAMY'S CURRY"),
+        ("SAMYS CURRY", "SAMY'S CURRY"),
+        ("YEW TEE POINT / YEWTEE", "YEW TEE POINT"),
+        ("YEWTEE POINT", "YEW TEE POINT"),
+        ("YEW TEE POINT", "YEW TEE POINT"),
+    ]
+
+    for needle, location_label in public_rules:
+        if needle in upper:
+            return location_label
+
+    if upper.startswith("PRIVATE_"):
+        return upper
+
+    # Unrecognised address-looking locations are anonymised.
     if re.match(
         r"^(BLK\s*)?\d+\s+",
-        upper
+        upper,
     ):
-
         digest = hashlib.sha1(
             upper.encode()
         ).hexdigest()[:6].upper()
 
-        return (
-            f"PRIVATE_{digest}"
-        )
-
-
-    # =====================================================
-    # GENERAL LOCATION
-    # =====================================================
+        return f"PRIVATE_{digest}"
 
     return (
         upper[:80]

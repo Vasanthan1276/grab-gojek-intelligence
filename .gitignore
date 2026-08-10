@@ -9,5 +9,6 @@ config/private_aliases.json
 __pycache__/
 *.pyc
 
-# Local refresh scratch/backup files
+# Local refresh scratch / backup files
 *.tmp
+*.bak

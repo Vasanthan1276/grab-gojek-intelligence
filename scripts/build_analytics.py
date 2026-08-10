@@ -106,13 +106,23 @@ def _hour_label(key: str) -> str:
     return f"{key}:00–{key}:59"
 
 
-def _looks_publishable_location(value: str) -> bool:
+def is_publishable_location(value: str) -> bool:
+    """
+    Return True only when a location label is safe enough for public analytics.
+
+    Historical trust never bypasses this privacy check.
+    """
     text = str(value or "").strip().upper()
+
     if not text or text == "UNKNOWN":
         return False
+
     if len(text) > 80:
         return False
-    # Common OCR-garbage hints from the original Grab statement.
+
+    if text.startswith("PRIVATE_"):
+        return False
+
     suspicious = [
         "SEMICONDUCTOR ,",
         "SEMICONDUCTOR .",
@@ -123,9 +133,17 @@ def _looks_publishable_location(value: str) -> bool:
         "IE APE",
         "INA MI",
         "INA.",
-        "BUILDING, MICRON ASIA ADMIN",
+        "BUILDING,",
+        "((WORK",
     ]
-    return not any(token in text for token in suspicious)
+
+    if any(token in text for token in suspicious):
+        return False
+
+    if "OFFICE" in text and text != "OFFICE":
+        return False
+
+    return True
 
 
 def _route_allowed(
@@ -135,15 +153,17 @@ def _route_allowed(
     count: int,
     trusted_route_keys: set[str],
 ) -> bool:
+    # Privacy is evaluated before historical trust.
+    if not (
+        is_publishable_location(origin)
+        and is_publishable_location(destination)
+    ):
+        return False
+
     if key in trusted_route_keys:
         return True
-    # New routes are automatically published only after repetition and when
-    # both labels look clean. One-off journeys remain in the private master.
-    return (
-        count >= 2
-        and _looks_publishable_location(origin)
-        and _looks_publishable_location(destination)
-    )
+
+    return count >= 2
 
 
 def _build_route(rows: list[dict[str, Any]], origin: str, destination: str) -> dict[str, Any]:
