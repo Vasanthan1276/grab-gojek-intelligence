@@ -1,346 +1,664 @@
 {
-  "generated_on": "2026-08-10",
+  "generated_on": "2026-11-14",
+  "history_refreshed_at": "2026-11-14T01:52:19.515594+00:00",
   "privacy_note": "Aggregated data only; approved place aliases, no raw receipts, exact addresses or trip timelines. Small groups withheld.",
   "source_summary": {
     "Grab": {
-      "transactions": 170,
-      "period": "2026-01-20 to 2026-08-09"
+      "transactions": 237,
+      "period": "2026-01-20 to 2026-11-12"
     },
     "Gojek": {
-      "transactions": 173,
-      "period": "2025-07-30 to 2026-08-09"
+      "transactions": 209,
+      "period": "2025-07-30 to 2026-11-12"
     }
   },
   "summary": {
-    "total_transactions": 343,
-    "ride_transactions": 317,
-    "food_orders": 26,
-    "total_spend_sgd": 8579.44,
-    "ride_spend_sgd": 7795.94,
-    "food_spend_sgd": 783.5,
-    "grab_spend_sgd": 4402.14,
-    "gojek_spend_sgd": 4177.3,
-    "average_food_order": 30.13
+    "total_transactions": 446,
+    "ride_transactions": 403,
+    "food_orders": 43,
+    "total_spend_sgd": 11012.86,
+    "ride_spend_sgd": 9684.57,
+    "food_spend_sgd": 1328.29,
+    "grab_spend_sgd": 6107.36,
+    "gojek_spend_sgd": 4905.5,
+    "average_food_order": 30.89
   },
   "providers": {
     "Grab": {
-      "transactions": 169,
-      "spend_sgd": 4402.14,
-      "rides": 143,
-      "ride_spend_sgd": 3618.64,
-      "average_ride": 25.31
+      "transactions": 236,
+      "spend_sgd": 6107.36,
+      "rides": 193,
+      "ride_spend_sgd": 4779.07,
+      "average_ride": 24.76
     },
     "Gojek": {
-      "transactions": 173,
-      "spend_sgd": 4177.3,
-      "rides": 173,
-      "ride_spend_sgd": 4177.3,
-      "average_ride": 24.15
+      "transactions": 209,
+      "spend_sgd": 4905.5,
+      "rides": 209,
+      "ride_spend_sgd": 4905.5,
+      "average_ride": 23.47
     }
   },
-  "monthly": [],
+  "monthly": [
+    {
+      "month": "2025-08",
+      "count": 21,
+      "component_counts": {
+        "Grab rides": 0,
+        "Gojek rides": 21,
+        "GrabFood": 0
+      },
+      "Gojek rides": 447.8,
+      "total": 447.8
+    },
+    {
+      "month": "2025-09",
+      "count": 19,
+      "component_counts": {
+        "Grab rides": 0,
+        "Gojek rides": 19,
+        "GrabFood": 0
+      },
+      "Gojek rides": 439.9,
+      "total": 439.9
+    },
+    {
+      "month": "2025-10",
+      "count": 6,
+      "component_counts": {
+        "Grab rides": 0,
+        "Gojek rides": 6,
+        "GrabFood": 0
+      },
+      "Gojek rides": 162.3,
+      "total": 162.3
+    },
+    {
+      "month": "2025-11",
+      "count": 9,
+      "component_counts": {
+        "Grab rides": 0,
+        "Gojek rides": 9,
+        "GrabFood": 0
+      },
+      "Gojek rides": 195.5,
+      "total": 195.5
+    },
+    {
+      "month": "2025-12",
+      "count": 21,
+      "component_counts": {
+        "Grab rides": 0,
+        "Gojek rides": 21,
+        "GrabFood": 0
+      },
+      "Gojek rides": 533.5,
+      "total": 533.5
+    },
+    {
+      "month": "2026-01",
+      "count": 31,
+      "component_counts": {
+        "Grab rides": 14,
+        "Gojek rides": 16,
+        "GrabFood": 1
+      },
+      "Grab rides": 332.49,
+      "Gojek rides": 381.8,
+      "total": 760.19
+    },
+    {
+      "month": "2026-02",
+      "count": 43,
+      "component_counts": {
+        "Grab rides": 27,
+        "Gojek rides": 15,
+        "GrabFood": 1
+      },
+      "Grab rides": 750.77,
+      "Gojek rides": 468.3,
+      "total": 1256.57
+    },
+    {
+      "month": "2026-03",
+      "count": 37,
+      "component_counts": {
+        "Grab rides": 21,
+        "Gojek rides": 12,
+        "GrabFood": 4
+      },
+      "Grab rides": 516.0,
+      "Gojek rides": 320.3,
+      "total": 949.55
+    },
+    {
+      "month": "2026-05",
+      "count": 44,
+      "component_counts": {
+        "Grab rides": 20,
+        "Gojek rides": 15,
+        "GrabFood": 9
+      },
+      "Grab rides": 462.54,
+      "Gojek rides": 323.4,
+      "GrabFood": 263.25,
+      "total": 1049.19
+    },
+    {
+      "month": "2026-06",
+      "count": 47,
+      "component_counts": {
+        "Grab rides": 25,
+        "Gojek rides": 13,
+        "GrabFood": 9
+      },
+      "Grab rides": 564.4,
+      "Gojek rides": 325.2,
+      "GrabFood": 270.3,
+      "total": 1159.9
+    },
+    {
+      "month": "2026-07",
+      "count": 41,
+      "component_counts": {
+        "Grab rides": 25,
+        "Gojek rides": 13,
+        "GrabFood": 3
+      },
+      "Grab rides": 631.1,
+      "Gojek rides": 252.5,
+      "total": 978.7
+    },
+    {
+      "month": "2026-08",
+      "count": 44,
+      "component_counts": {
+        "Grab rides": 19,
+        "Gojek rides": 19,
+        "GrabFood": 6
+      },
+      "Grab rides": 466.89,
+      "Gojek rides": 465.7,
+      "GrabFood": 202.8,
+      "total": 1135.39
+    },
+    {
+      "month": "2026-09",
+      "count": 37,
+      "component_counts": {
+        "Grab rides": 20,
+        "Gojek rides": 15,
+        "GrabFood": 2
+      },
+      "Grab rides": 453.39,
+      "Gojek rides": 296.0,
+      "total": 802.19
+    },
+    {
+      "month": "2026-10",
+      "count": 29,
+      "component_counts": {
+        "Grab rides": 14,
+        "Gojek rides": 8,
+        "GrabFood": 7
+      },
+      "Grab rides": 348.19,
+      "Gojek rides": 144.7,
+      "GrabFood": 208.59,
+      "total": 701.48
+    },
+    {
+      "month": "2026-11",
+      "count": 9,
+      "component_counts": {
+        "Grab rides": 5,
+        "Gojek rides": 3,
+        "GrabFood": 1
+      },
+      "Grab rides": 128.6,
+      "total": 241.0
+    }
+  ],
   "core_routes": [
     {
+      "date_range": {
+        "start": "2025-07-30",
+        "end": "2026-11-12"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "HOME__OFFICE",
       "origin": "HOME",
       "destination": "OFFICE",
       "overall": {
-        "count": 89,
-        "average": 21.66,
-        "median": 21.9,
-        "p10": 16.88,
-        "p25": 18.2,
-        "p75": 24.74,
-        "p90": 26.12
+        "count": 116,
+        "average": 22.17,
+        "median": 22.75,
+        "p10": 17.1,
+        "p25": 18.68,
+        "p75": 25.05,
+        "p90": 26.39,
+        "date_range": {
+          "start": "2025-07-30",
+          "end": "2026-11-12"
+        }
       },
       "providers": {
         "Grab": {
-          "count": 40,
-          "average": 22.64,
-          "median": 23.66,
-          "p10": 17.56,
-          "p25": 19.55,
-          "p75": 25.05,
-          "p90": 26.13
+          "count": 59,
+          "average": 23.16,
+          "median": 23.85,
+          "p10": 18.2,
+          "p25": 20.45,
+          "p75": 25.27,
+          "p90": 26.47,
+          "date_range": {
+            "start": "2026-01-20",
+            "end": "2026-11-12"
+          }
         },
         "Gojek": {
-          "count": 49,
-          "average": 20.86,
-          "median": 20.7,
-          "p10": 16.78,
-          "p25": 17.4,
-          "p75": 24.0,
-          "p90": 26.12
+          "count": 57,
+          "average": 21.14,
+          "median": 21.0,
+          "p10": 16.8,
+          "p25": 17.8,
+          "p75": 24.5,
+          "p90": 26.14,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-22"
+          }
         }
       },
       "time_buckets": {
         "Early morning (05-07)": {
-          "count": 51,
-          "average": 21.67,
-          "median": 21.7,
-          "p10": 16.9,
-          "p25": 18.0,
-          "p75": 24.67,
-          "p90": 26.1
+          "count": 66,
+          "average": 22.08,
+          "median": 22.43,
+          "p10": 17.0,
+          "p25": 18.25,
+          "p75": 24.81,
+          "p90": 26.3,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         },
         "Morning peak (07-10)": {
-          "count": 34,
-          "average": 22.04,
-          "median": 23.0,
-          "p10": 17.32,
-          "p25": 18.88,
-          "p75": 25.01,
-          "p90": 26.31
+          "count": 45,
+          "average": 22.62,
+          "median": 23.6,
+          "p10": 17.72,
+          "p25": 19.6,
+          "p75": 25.2,
+          "p90": 26.4,
+          "date_range": {
+            "start": "2025-09-16",
+            "end": "2026-10-19"
+          }
         }
       },
       "weekdays": {
         "Monday": {
-          "count": 21,
-          "average": 22.5,
-          "median": 23.6,
-          "p10": 17.9,
-          "p25": 21.0,
-          "p75": 25.2,
-          "p90": 26.1
+          "count": 27,
+          "average": 23.23,
+          "median": 24.5,
+          "p10": 18.92,
+          "p25": 21.77,
+          "p75": 25.57,
+          "p90": 26.28,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-10-19"
+          }
         },
         "Thursday": {
-          "count": 22,
-          "average": 22.37,
-          "median": 22.23,
-          "p10": 17.13,
-          "p25": 18.55,
-          "p75": 24.88,
-          "p90": 26.37
+          "count": 27,
+          "average": 22.68,
+          "median": 22.25,
+          "p10": 17.28,
+          "p25": 20.3,
+          "p75": 25.21,
+          "p90": 27.62,
+          "date_range": {
+            "start": "2025-07-31",
+            "end": "2026-11-12"
+          }
         },
         "Tuesday": {
-          "count": 23,
-          "average": 20.9,
-          "median": 20.0,
+          "count": 30,
+          "average": 21.27,
+          "median": 21.2,
           "p10": 16.8,
-          "p25": 17.7,
-          "p75": 23.94,
-          "p90": 24.74
+          "p25": 18.25,
+          "p75": 24.04,
+          "p90": 24.75,
+          "date_range": {
+            "start": "2025-08-26",
+            "end": "2026-10-13"
+          }
         },
         "Wednesday": {
-          "count": 23,
-          "average": 20.97,
-          "median": 18.7,
-          "p10": 16.92,
-          "p25": 17.6,
-          "p75": 25.14,
-          "p90": 26.34
+          "count": 29,
+          "average": 21.38,
+          "median": 20.3,
+          "p10": 17.06,
+          "p25": 17.8,
+          "p75": 25.18,
+          "p90": 26.16,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-21"
+          }
         }
       },
       "best_time_bucket": "Early morning (05-07)",
       "hourly": {
         "05": {
-          "count": 17,
-          "average": 18.37,
-          "median": 17.4,
-          "p10": 16.32,
-          "p25": 16.8,
-          "p75": 18.2,
-          "p90": 21.78
+          "count": 19,
+          "average": 18.55,
+          "median": 17.8,
+          "p10": 16.36,
+          "p25": 16.95,
+          "p75": 19.5,
+          "p90": 21.74,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-22"
+          }
         },
         "06": {
-          "count": 34,
-          "average": 23.31,
-          "median": 23.94,
-          "p10": 18.32,
-          "p25": 21.0,
-          "p75": 25.05,
-          "p90": 26.33
+          "count": 47,
+          "average": 23.51,
+          "median": 24.05,
+          "p10": 18.52,
+          "p25": 21.05,
+          "p75": 25.39,
+          "p90": 26.85,
+          "date_range": {
+            "start": "2025-08-07",
+            "end": "2026-11-12"
+          }
         },
         "07": {
-          "count": 13,
-          "average": 23.63,
-          "median": 23.73,
-          "p10": 19.36,
-          "p25": 22.8,
-          "p75": 25.35,
-          "p90": 26.34
+          "count": 16,
+          "average": 23.84,
+          "median": 24.3,
+          "p10": 19.8,
+          "p25": 22.6,
+          "p75": 25.74,
+          "p90": 26.25,
+          "date_range": {
+            "start": "2025-11-24",
+            "end": "2026-10-13"
+          }
         },
         "08": {
-          "count": 15,
-          "average": 21.51,
-          "median": 20.0,
-          "p10": 17.08,
-          "p25": 17.9,
-          "p75": 25.14,
-          "p90": 25.92
+          "count": 17,
+          "average": 22.73,
+          "median": 24.5,
+          "p10": 17.4,
+          "p25": 19.4,
+          "p75": 25.2,
+          "p90": 27.59,
+          "date_range": {
+            "start": "2025-09-16",
+            "end": "2026-10-19"
+          }
         },
         "09": {
-          "count": 6,
-          "average": 19.92,
-          "median": 20.45,
-          "p10": 16.75,
-          "p25": 18.32,
-          "p75": 21.48,
-          "p90": 22.57
+          "count": 12,
+          "average": 20.85,
+          "median": 21.42,
+          "p10": 17.24,
+          "p25": 19.1,
+          "p75": 23.03,
+          "p90": 23.6,
+          "date_range": {
+            "start": "2025-12-16",
+            "end": "2026-10-14"
+          }
         }
       },
       "provider_hourly": {
         "Grab": {
           "06": {
-            "count": 15,
-            "average": 24.7,
-            "median": 24.5,
-            "p10": 22.04,
-            "p25": 23.7,
-            "p75": 25.05,
-            "p90": 26.27
+            "count": 24,
+            "average": 24.36,
+            "median": 24.61,
+            "p10": 20.5,
+            "p25": 23.27,
+            "p75": 25.47,
+            "p90": 26.64,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-11-12"
+            }
           },
           "07": {
-            "count": 9,
-            "average": 23.36,
-            "median": 23.85,
-            "p10": 18.6,
-            "p25": 23.2,
-            "p75": 25.35,
-            "p90": 26.16
+            "count": 12,
+            "average": 23.71,
+            "median": 24.9,
+            "p10": 18.92,
+            "p25": 23.02,
+            "p75": 25.74,
+            "p90": 26.07,
+            "date_range": {
+              "start": "2026-01-21",
+              "end": "2026-10-13"
+            }
           },
           "08": {
-            "count": 11,
-            "average": 20.24,
-            "median": 19.4,
-            "p10": 17.0,
-            "p25": 17.4,
-            "p75": 22.55,
-            "p90": 25.18
+            "count": 13,
+            "average": 22.04,
+            "median": 20.0,
+            "p10": 17.2,
+            "p25": 18.2,
+            "p75": 25.18,
+            "p90": 28.13,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-19"
+            }
+          },
+          "09": {
+            "count": 8,
+            "average": 20.77,
+            "median": 21.95,
+            "p10": 16.7,
+            "p25": 18.92,
+            "p75": 23.03,
+            "p90": 23.57,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-10-14"
+            }
           }
         },
         "Gojek": {
           "05": {
-            "count": 15,
-            "average": 18.05,
-            "median": 17.4,
-            "p10": 16.28,
-            "p25": 16.75,
-            "p75": 18.2,
-            "p90": 20.3
+            "count": 18,
+            "average": 18.37,
+            "median": 17.6,
+            "p10": 16.34,
+            "p25": 16.88,
+            "p75": 19.1,
+            "p90": 21.07,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-22"
+            }
           },
           "06": {
-            "count": 19,
-            "average": 22.22,
-            "median": 21.1,
-            "p10": 17.46,
-            "p25": 19.95,
-            "p75": 25.0,
-            "p90": 26.36
+            "count": 23,
+            "average": 22.61,
+            "median": 23.0,
+            "p10": 17.8,
+            "p25": 20.7,
+            "p75": 25.05,
+            "p90": 26.84,
+            "date_range": {
+              "start": "2025-08-07",
+              "end": "2026-10-16"
+            }
           }
         }
       },
       "provider_weekdays": {
         "Grab": {
           "Monday": {
-            "count": 8,
-            "average": 23.1,
-            "median": 23.66,
-            "p10": 19.55,
-            "p25": 22.79,
-            "p75": 25.54,
-            "p90": 26.19
+            "count": 12,
+            "average": 24.0,
+            "median": 25.18,
+            "p10": 21.67,
+            "p25": 23.41,
+            "p75": 25.84,
+            "p90": 26.36,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-10-19"
+            }
           },
           "Thursday": {
-            "count": 11,
-            "average": 24.8,
-            "median": 24.37,
-            "p10": 19.6,
-            "p25": 23.05,
-            "p75": 25.73,
-            "p90": 28.4
+            "count": 15,
+            "average": 24.81,
+            "median": 25.05,
+            "p10": 20.3,
+            "p25": 22.3,
+            "p75": 26.75,
+            "p90": 28.69,
+            "date_range": {
+              "start": "2026-01-29",
+              "end": "2026-11-12"
+            }
           },
           "Tuesday": {
-            "count": 11,
-            "average": 21.89,
-            "median": 23.55,
-            "p10": 18.2,
-            "p25": 19.55,
-            "p75": 24.62,
-            "p90": 24.74
+            "count": 16,
+            "average": 22.23,
+            "median": 23.71,
+            "p10": 18.3,
+            "p25": 19.62,
+            "p75": 24.56,
+            "p90": 24.79,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-10-13"
+            }
           },
           "Wednesday": {
-            "count": 10,
-            "average": 20.73,
-            "median": 20.3,
-            "p10": 16.86,
-            "p25": 17.75,
-            "p75": 24.3,
-            "p90": 25.27
+            "count": 14,
+            "average": 21.45,
+            "median": 21.9,
+            "p10": 17.25,
+            "p25": 18.32,
+            "p75": 25.0,
+            "p90": 25.57,
+            "date_range": {
+              "start": "2026-01-21",
+              "end": "2026-10-14"
+            }
           }
         },
         "Gojek": {
           "Monday": {
-            "count": 13,
-            "average": 22.12,
-            "median": 22.8,
-            "p10": 18.24,
-            "p25": 20.7,
-            "p75": 24.5,
-            "p90": 25.36
+            "count": 15,
+            "average": 22.62,
+            "median": 23.7,
+            "p10": 18.58,
+            "p25": 20.85,
+            "p75": 24.95,
+            "p90": 25.88,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-09-07"
+            }
           },
           "Thursday": {
-            "count": 11,
-            "average": 19.95,
-            "median": 20.7,
-            "p10": 16.9,
-            "p25": 17.25,
-            "p75": 21.95,
-            "p90": 22.6
+            "count": 12,
+            "average": 20.02,
+            "median": 20.75,
+            "p10": 16.92,
+            "p25": 17.32,
+            "p75": 21.82,
+            "p90": 22.56,
+            "date_range": {
+              "start": "2025-07-31",
+              "end": "2026-10-22"
+            }
           },
           "Tuesday": {
-            "count": 12,
-            "average": 19.99,
-            "median": 18.7,
-            "p10": 16.71,
-            "p25": 16.8,
-            "p75": 21.93,
-            "p90": 23.98
+            "count": 14,
+            "average": 20.18,
+            "median": 19.4,
+            "p10": 16.73,
+            "p25": 16.88,
+            "p75": 22.57,
+            "p90": 23.94,
+            "date_range": {
+              "start": "2025-08-26",
+              "end": "2026-09-22"
+            }
           },
           "Wednesday": {
-            "count": 13,
-            "average": 21.16,
-            "median": 18.6,
-            "p10": 17.0,
-            "p25": 17.6,
-            "p75": 25.5,
-            "p90": 26.88
+            "count": 15,
+            "average": 21.31,
+            "median": 19.4,
+            "p10": 17.1,
+            "p25": 17.7,
+            "p75": 25.35,
+            "p90": 26.76,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-21"
+            }
           }
         }
       },
       "provider_day_types": {
         "Grab": {
           "Weekday": {
-            "count": 40,
-            "average": 22.64,
-            "median": 23.66,
-            "p10": 17.56,
-            "p25": 19.55,
-            "p75": 25.05,
-            "p90": 26.13
+            "count": 59,
+            "average": 23.16,
+            "median": 23.85,
+            "p10": 18.2,
+            "p25": 20.45,
+            "p75": 25.27,
+            "p90": 26.47,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-11-12"
+            }
           }
         },
         "Gojek": {
           "Weekday": {
-            "count": 49,
-            "average": 20.86,
-            "median": 20.7,
-            "p10": 16.78,
-            "p25": 17.4,
-            "p75": 24.0,
-            "p90": 26.12
+            "count": 57,
+            "average": 21.14,
+            "median": 21.0,
+            "p10": 16.8,
+            "p25": 17.8,
+            "p75": 24.5,
+            "p90": 26.14,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-22"
+            }
           }
         }
       },
       "day_types": {
         "Weekday": {
-          "count": 89,
-          "average": 21.66,
-          "median": 21.9,
-          "p10": 16.88,
-          "p25": 18.2,
-          "p75": 24.74,
-          "p90": 26.12
+          "count": 116,
+          "average": 22.17,
+          "median": 22.75,
+          "p10": 17.1,
+          "p25": 18.68,
+          "p75": 25.05,
+          "p90": 26.39,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         }
       },
       "timing_insights": {
@@ -349,80 +667,104 @@
           "key": "05",
           "label": "05:00\u201305:59",
           "stats": {
-            "count": 17,
-            "average": 18.37,
-            "median": 17.4,
-            "p10": 16.32,
-            "p25": 16.8,
-            "p75": 18.2,
-            "p90": 21.78
+            "count": 19,
+            "average": 18.55,
+            "median": 17.8,
+            "p10": 16.36,
+            "p25": 16.95,
+            "p75": 19.5,
+            "p90": 21.74,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-22"
+            }
           }
         },
         "worst_hour": {
           "key": "07",
           "label": "07:00\u201307:59",
           "stats": {
-            "count": 13,
-            "average": 23.63,
-            "median": 23.73,
-            "p10": 19.36,
-            "p25": 22.8,
-            "p75": 25.35,
-            "p90": 26.34
+            "count": 16,
+            "average": 23.84,
+            "median": 24.3,
+            "p10": 19.8,
+            "p25": 22.6,
+            "p75": 25.74,
+            "p90": 26.25,
+            "date_range": {
+              "start": "2025-11-24",
+              "end": "2026-10-13"
+            }
           }
         },
         "best_weekday": {
           "key": "Tuesday",
           "label": "Tuesday",
           "stats": {
-            "count": 23,
-            "average": 20.9,
-            "median": 20.0,
+            "count": 30,
+            "average": 21.27,
+            "median": 21.2,
             "p10": 16.8,
-            "p25": 17.7,
-            "p75": 23.94,
-            "p90": 24.74
+            "p25": 18.25,
+            "p75": 24.04,
+            "p90": 24.75,
+            "date_range": {
+              "start": "2025-08-26",
+              "end": "2026-10-13"
+            }
           }
         },
         "worst_weekday": {
           "key": "Monday",
           "label": "Monday",
           "stats": {
-            "count": 21,
-            "average": 22.5,
-            "median": 23.6,
-            "p10": 17.9,
-            "p25": 21.0,
-            "p75": 25.2,
-            "p90": 26.1
+            "count": 27,
+            "average": 23.23,
+            "median": 24.5,
+            "p10": 18.92,
+            "p25": 21.77,
+            "p75": 25.57,
+            "p90": 26.28,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-10-19"
+            }
           }
         },
         "by_provider": {
           "Grab": {
             "best_hour": {
-              "key": "08",
-              "label": "08:00\u201308:59",
+              "key": "09",
+              "label": "09:00\u201309:59",
               "stats": {
-                "count": 11,
-                "average": 20.24,
-                "median": 19.4,
-                "p10": 17.0,
-                "p25": 17.4,
-                "p75": 22.55,
-                "p90": 25.18
+                "count": 8,
+                "average": 20.77,
+                "median": 21.95,
+                "p10": 16.7,
+                "p25": 18.92,
+                "p75": 23.03,
+                "p90": 23.57,
+                "date_range": {
+                  "start": "2026-02-09",
+                  "end": "2026-10-14"
+                }
               }
             },
             "worst_hour": {
               "key": "06",
               "label": "06:00\u201306:59",
               "stats": {
-                "count": 15,
-                "average": 24.7,
-                "median": 24.5,
-                "p10": 22.04,
-                "p25": 23.7,
-                "p75": 25.05,
-                "p90": 26.27
+                "count": 24,
+                "average": 24.36,
+                "median": 24.61,
+                "p10": 20.5,
+                "p25": 23.27,
+                "p75": 25.47,
+                "p90": 26.64,
+                "date_range": {
+                  "start": "2026-01-20",
+                  "end": "2026-11-12"
+                }
               }
             }
           },
@@ -431,26 +773,34 @@
               "key": "05",
               "label": "05:00\u201305:59",
               "stats": {
-                "count": 15,
-                "average": 18.05,
-                "median": 17.4,
-                "p10": 16.28,
-                "p25": 16.75,
-                "p75": 18.2,
-                "p90": 20.3
+                "count": 18,
+                "average": 18.37,
+                "median": 17.6,
+                "p10": 16.34,
+                "p25": 16.88,
+                "p75": 19.1,
+                "p90": 21.07,
+                "date_range": {
+                  "start": "2025-07-30",
+                  "end": "2026-10-22"
+                }
               }
             },
             "worst_hour": {
               "key": "06",
               "label": "06:00\u201306:59",
               "stats": {
-                "count": 19,
-                "average": 22.22,
-                "median": 21.1,
-                "p10": 17.46,
-                "p25": 19.95,
-                "p75": 25.0,
-                "p90": 26.36
+                "count": 23,
+                "average": 22.61,
+                "median": 23.0,
+                "p10": 17.8,
+                "p25": 20.7,
+                "p75": 25.05,
+                "p90": 26.84,
+                "date_range": {
+                  "start": "2025-08-07",
+                  "end": "2026-10-16"
+                }
               }
             }
           }
@@ -464,132 +814,255 @@
           "p10": 17.16,
           "p25": 18.2,
           "p75": 20.8,
-          "p90": 27.46
+          "p90": 27.46,
+          "date_range": {
+            "start": "2026-01-21",
+            "end": "2026-03-18"
+          }
         },
         "Metered Taxi": {
-          "count": 20,
-          "average": 24.39,
-          "median": 24.74,
-          "p10": 22.18,
-          "p25": 23.85,
-          "p75": 25.22,
-          "p90": 26.39
+          "count": 35,
+          "average": 24.52,
+          "median": 24.84,
+          "p10": 22.29,
+          "p25": 23.64,
+          "p75": 25.74,
+          "p90": 26.93,
+          "date_range": {
+            "start": "2026-01-20",
+            "end": "2026-10-23"
+          }
         },
-        "Standard": {
-          "count": 13,
-          "average": 20.75,
-          "median": 20.0,
-          "p10": 17.04,
-          "p25": 18.2,
-          "p75": 23.55,
-          "p90": 24.8
+        "Standard Car or Taxi": {
+          "count": 16,
+          "average": 21.05,
+          "median": 20.45,
+          "p10": 17.65,
+          "p25": 19.15,
+          "p75": 23.73,
+          "p90": 25.05,
+          "date_range": {
+            "start": "2026-05-25",
+            "end": "2026-11-12"
+          }
         }
       },
       "grab_pricing_types": {
         "Fixed": {
-          "count": 20,
-          "average": 20.89,
-          "median": 19.65,
-          "p10": 16.86,
-          "p25": 18.2,
-          "p75": 23.29,
-          "p90": 25.2
+          "count": 24,
+          "average": 21.19,
+          "median": 19.95,
+          "p10": 17.43,
+          "p25": 18.35,
+          "p75": 23.56,
+          "p90": 25.07,
+          "date_range": {
+            "start": "2026-01-21",
+            "end": "2026-11-12"
+          }
         },
         "Metered": {
-          "count": 20,
-          "average": 24.39,
-          "median": 24.74,
-          "p10": 22.18,
-          "p25": 23.85,
-          "p75": 25.22,
-          "p90": 26.39
+          "count": 35,
+          "average": 24.52,
+          "median": 24.84,
+          "p10": 22.29,
+          "p25": 23.64,
+          "p75": 25.74,
+          "p90": 26.93,
+          "date_range": {
+            "start": "2026-01-20",
+            "end": "2026-10-23"
+          }
         }
       },
       "grab_pricing_hourly": {
         "Fixed": {
           "06": {
-            "count": 5,
-            "average": 25.11,
-            "median": 23.55,
-            "p10": 19.68,
-            "p25": 21.9,
-            "p75": 26.1,
-            "p90": 31.92
+            "count": 8,
+            "average": 23.49,
+            "median": 22.73,
+            "p10": 18.34,
+            "p25": 19.52,
+            "p75": 24.6,
+            "p90": 29.01,
+            "date_range": {
+              "start": "2026-02-03",
+              "end": "2026-11-12"
+            }
           },
           "08": {
             "count": 8,
-            "average": 18.94,
-            "median": 18.8,
-            "p10": 16.37,
-            "p25": 17.15,
-            "p75": 19.77,
-            "p90": 21.53
+            "average": 19.92,
+            "median": 19.55,
+            "p10": 16.44,
+            "p25": 17.93,
+            "p75": 21.25,
+            "p90": 25.03,
+            "date_range": {
+              "start": "2026-02-19",
+              "end": "2026-09-02"
+            }
           }
         },
         "Metered": {
           "06": {
-            "count": 10,
-            "average": 24.49,
-            "median": 24.62,
-            "p10": 23.69,
-            "p25": 24.0,
-            "p75": 25.0,
-            "p90": 25.18
+            "count": 16,
+            "average": 24.8,
+            "median": 24.79,
+            "p10": 23.18,
+            "p25": 24.01,
+            "p75": 25.47,
+            "p90": 26.57,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-10-23"
+            }
           },
           "07": {
-            "count": 6,
-            "average": 25.03,
-            "median": 25.05,
-            "p10": 23.79,
-            "p25": 24.07,
-            "p75": 25.91,
-            "p90": 26.25
+            "count": 9,
+            "average": 25.19,
+            "median": 25.35,
+            "p10": 23.83,
+            "p25": 24.74,
+            "p75": 25.75,
+            "p90": 26.16,
+            "date_range": {
+              "start": "2026-01-28",
+              "end": "2026-10-13"
+            }
+          },
+          "08": {
+            "count": 5,
+            "average": 25.42,
+            "median": 27.05,
+            "p10": 20.63,
+            "p25": 25.18,
+            "p75": 28.4,
+            "p90": 28.69,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-19"
+            }
+          },
+          "09": {
+            "count": 5,
+            "average": 21.49,
+            "median": 22.35,
+            "p10": 18.92,
+            "p25": 21.54,
+            "p75": 22.85,
+            "p90": 23.28,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-09-18"
+            }
           }
         }
       },
       "grab_pricing_weekdays": {
         "Fixed": {
+          "Thursday": {
+            "count": 5,
+            "average": 23.5,
+            "median": 20.9,
+            "p10": 18.88,
+            "p25": 19.9,
+            "p75": 22.7,
+            "p90": 30.56,
+            "date_range": {
+              "start": "2026-02-19",
+              "end": "2026-11-12"
+            }
+          },
           "Tuesday": {
-            "count": 6,
-            "average": 19.68,
-            "median": 19.55,
-            "p10": 17.7,
-            "p25": 18.5,
-            "p75": 19.93,
-            "p90": 21.77
+            "count": 7,
+            "average": 20.48,
+            "median": 19.7,
+            "p10": 18.32,
+            "p25": 18.9,
+            "p75": 21.77,
+            "p90": 23.77,
+            "date_range": {
+              "start": "2026-02-03",
+              "end": "2026-08-25"
+            }
           },
           "Wednesday": {
-            "count": 7,
-            "average": 19.77,
-            "median": 18.7,
-            "p10": 16.44,
-            "p25": 17.6,
+            "count": 8,
+            "average": 19.75,
+            "median": 19.1,
+            "p10": 16.65,
+            "p25": 17.93,
             "p75": 21.9,
-            "p90": 23.18
+            "p90": 22.86,
+            "date_range": {
+              "start": "2026-01-21",
+              "end": "2026-10-14"
+            }
           }
         },
         "Metered": {
-          "Thursday": {
+          "Monday": {
             "count": 8,
-            "average": 24.9,
-            "median": 24.71,
-            "p10": 23.37,
-            "p25": 23.85,
-            "p75": 25.39,
-            "p90": 27.0
+            "average": 24.8,
+            "median": 25.55,
+            "p10": 22.46,
+            "p25": 23.51,
+            "p75": 25.91,
+            "p90": 26.59,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-10-19"
+            }
+          },
+          "Thursday": {
+            "count": 10,
+            "average": 25.47,
+            "median": 25.21,
+            "p10": 22.34,
+            "p25": 24.15,
+            "p75": 26.93,
+            "p90": 28.45,
+            "date_range": {
+              "start": "2026-01-29",
+              "end": "2026-09-10"
+            }
           },
           "Tuesday": {
-            "count": 5,
-            "average": 24.54,
-            "median": 24.74,
-            "p10": 24.13,
-            "p25": 24.5,
+            "count": 9,
+            "average": 23.59,
+            "median": 24.5,
+            "p10": 22.12,
+            "p25": 23.88,
             "p75": 24.74,
-            "p90": 24.8
+            "p90": 24.88,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-10-13"
+            }
+          },
+          "Wednesday": {
+            "count": 6,
+            "average": 23.72,
+            "median": 24.95,
+            "p10": 20.3,
+            "p25": 23.43,
+            "p75": 25.6,
+            "p90": 25.92,
+            "date_range": {
+              "start": "2026-01-28",
+              "end": "2026-09-16"
+            }
           }
         }
       },
+      "stops": [
+        "HOME",
+        "OFFICE"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 11.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -597,332 +1070,469 @@
       },
       "cost_per_km": {
         "overall": {
-          "count": 89,
-          "average": 1.88,
-          "median": 1.9,
-          "p10": 1.47,
-          "p25": 1.58,
-          "p75": 2.15,
-          "p90": 2.27
+          "count": 116,
+          "average": 1.93,
+          "median": 1.98,
+          "p10": 1.49,
+          "p25": 1.62,
+          "p75": 2.18,
+          "p90": 2.29
         },
         "providers": {
           "Grab": {
-            "count": 40,
-            "average": 1.97,
-            "median": 2.06,
-            "p10": 1.53,
-            "p25": 1.7,
-            "p75": 2.18,
-            "p90": 2.27
+            "count": 59,
+            "average": 2.01,
+            "median": 2.07,
+            "p10": 1.58,
+            "p25": 1.78,
+            "p75": 2.2,
+            "p90": 2.3
           },
           "Gojek": {
-            "count": 49,
-            "average": 1.81,
-            "median": 1.8,
+            "count": 57,
+            "average": 1.84,
+            "median": 1.83,
             "p10": 1.46,
-            "p25": 1.51,
-            "p75": 2.09,
+            "p25": 1.55,
+            "p75": 2.13,
             "p90": 2.27
           }
         },
         "grab_pricing_types": {
           "Fixed": {
-            "count": 20,
-            "average": 1.82,
-            "median": 1.71,
-            "p10": 1.47,
-            "p25": 1.58,
-            "p75": 2.03,
-            "p90": 2.19
+            "count": 24,
+            "average": 1.84,
+            "median": 1.73,
+            "p10": 1.52,
+            "p25": 1.6,
+            "p75": 2.05,
+            "p90": 2.18
           },
           "Metered": {
-            "count": 20,
-            "average": 2.12,
-            "median": 2.15,
-            "p10": 1.93,
-            "p25": 2.07,
-            "p75": 2.19,
-            "p90": 2.29
+            "count": 35,
+            "average": 2.13,
+            "median": 2.16,
+            "p10": 1.94,
+            "p25": 2.06,
+            "p75": 2.24,
+            "p90": 2.34
           }
         }
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
+      "date_range": {
+        "start": "2025-07-30",
+        "end": "2026-11-12"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "OFFICE__HOME",
       "origin": "OFFICE",
       "destination": "HOME",
       "overall": {
-        "count": 59,
-        "average": 17.21,
-        "median": 16.7,
+        "count": 81,
+        "average": 17.54,
+        "median": 17.0,
         "p10": 14.3,
-        "p25": 15.6,
-        "p75": 18.35,
-        "p90": 19.82
+        "p25": 16.0,
+        "p75": 18.6,
+        "p90": 20.4,
+        "date_range": {
+          "start": "2025-07-30",
+          "end": "2026-11-12"
+        }
       },
       "providers": {
         "Grab": {
-          "count": 22,
-          "average": 17.26,
-          "median": 16.7,
-          "p10": 12.63,
-          "p25": 15.9,
-          "p75": 17.58,
-          "p90": 22.2
+          "count": 29,
+          "average": 18.37,
+          "median": 17.2,
+          "p10": 12.84,
+          "p25": 16.3,
+          "p75": 20.4,
+          "p90": 25.37,
+          "date_range": {
+            "start": "2026-01-26",
+            "end": "2026-10-23"
+          }
         },
         "Gojek": {
-          "count": 37,
-          "average": 17.18,
-          "median": 16.9,
-          "p10": 14.8,
+          "count": 52,
+          "average": 17.07,
+          "median": 16.95,
+          "p10": 14.54,
           "p25": 15.6,
-          "p75": 18.6,
-          "p90": 19.54
+          "p75": 18.25,
+          "p90": 19.49,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         }
       },
       "time_buckets": {
         "Afternoon (14-17)": {
-          "count": 44,
-          "average": 16.08,
-          "median": 16.1,
-          "p10": 14.09,
-          "p25": 15.38,
-          "p75": 17.32,
-          "p90": 18.05
+          "count": 60,
+          "average": 16.48,
+          "median": 16.65,
+          "p10": 13.96,
+          "p25": 15.57,
+          "p75": 17.4,
+          "p90": 18.31,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-21"
+          }
         },
         "Evening (17-21)": {
-          "count": 13,
-          "average": 21.02,
-          "median": 19.6,
-          "p10": 18.86,
-          "p25": 19.3,
-          "p75": 22.4,
-          "p90": 25.16
+          "count": 17,
+          "average": 21.4,
+          "median": 20.3,
+          "p10": 18.98,
+          "p25": 19.4,
+          "p75": 23.2,
+          "p90": 25.54,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-11-12"
+          }
         }
       },
       "weekdays": {
         "Monday": {
-          "count": 14,
-          "average": 17.63,
-          "median": 16.0,
-          "p10": 15.33,
-          "p25": 15.68,
-          "p75": 19.12,
-          "p90": 20.09
+          "count": 18,
+          "average": 17.68,
+          "median": 16.95,
+          "p10": 15.54,
+          "p25": 16.0,
+          "p75": 18.12,
+          "p90": 19.81,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-10-19"
+          }
         },
         "Thursday": {
-          "count": 15,
-          "average": 18.65,
-          "median": 17.6,
-          "p10": 15.8,
-          "p25": 16.5,
-          "p75": 19.85,
-          "p90": 23.96
+          "count": 21,
+          "average": 19.45,
+          "median": 18.2,
+          "p10": 15.9,
+          "p25": 16.7,
+          "p75": 20.9,
+          "p90": 25.2,
+          "date_range": {
+            "start": "2025-09-04",
+            "end": "2026-11-12"
+          }
         },
         "Tuesday": {
-          "count": 13,
-          "average": 16.82,
+          "count": 19,
+          "average": 16.68,
           "median": 16.9,
-          "p10": 15.02,
-          "p25": 16.3,
-          "p75": 17.4,
-          "p90": 18.54
+          "p10": 14.86,
+          "p25": 16.35,
+          "p75": 17.3,
+          "p90": 18.16,
+          "date_range": {
+            "start": "2025-09-09",
+            "end": "2026-10-13"
+          }
         },
         "Wednesday": {
-          "count": 17,
-          "average": 15.89,
+          "count": 21,
+          "average": 16.29,
           "median": 16.1,
-          "p10": 12.36,
+          "p10": 12.6,
           "p25": 14.3,
-          "p75": 17.4,
-          "p90": 18.48
+          "p75": 17.7,
+          "p90": 19.5,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-21"
+          }
         }
       },
       "best_time_bucket": "Afternoon (14-17)",
       "hourly": {
         "14": {
-          "count": 6,
-          "average": 15.6,
-          "median": 15.7,
-          "p10": 12.75,
-          "p25": 13.18,
-          "p75": 18.07,
-          "p90": 18.35
+          "count": 7,
+          "average": 15.83,
+          "median": 17.2,
+          "p10": 12.78,
+          "p25": 13.45,
+          "p75": 17.85,
+          "p90": 18.34,
+          "date_range": {
+            "start": "2025-11-26",
+            "end": "2026-08-31"
+          }
         },
         "15": {
-          "count": 15,
-          "average": 15.73,
-          "median": 16.0,
-          "p10": 12.92,
-          "p25": 14.65,
-          "p75": 16.8,
-          "p90": 17.36
+          "count": 18,
+          "average": 15.96,
+          "median": 16.3,
+          "p10": 12.91,
+          "p25": 14.48,
+          "p75": 17.08,
+          "p90": 18.18,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-16"
+          }
         },
         "16": {
-          "count": 23,
-          "average": 16.44,
-          "median": 16.1,
-          "p10": 15.42,
-          "p25": 15.6,
-          "p75": 17.15,
-          "p90": 17.68
+          "count": 35,
+          "average": 16.88,
+          "median": 16.7,
+          "p10": 15.22,
+          "p25": 15.75,
+          "p75": 17.45,
+          "p90": 18.04,
+          "date_range": {
+            "start": "2025-08-25",
+            "end": "2026-10-21"
+          }
         },
         "17": {
-          "count": 13,
-          "average": 21.02,
-          "median": 19.6,
-          "p10": 18.86,
-          "p25": 19.3,
-          "p75": 22.4,
-          "p90": 25.16
+          "count": 15,
+          "average": 21.16,
+          "median": 19.7,
+          "p10": 18.92,
+          "p25": 19.35,
+          "p75": 22.8,
+          "p90": 25.12,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-11-12"
+          }
         }
       },
       "provider_hourly": {
         "Grab": {
           "15": {
-            "count": 8,
-            "average": 15.69,
-            "median": 16.1,
-            "p10": 11.97,
-            "p25": 14.48,
-            "p75": 16.57,
-            "p90": 18.3
+            "count": 7,
+            "average": 15.83,
+            "median": 16.3,
+            "p10": 11.96,
+            "p25": 13.95,
+            "p75": 17.15,
+            "p90": 18.96,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-09-03"
+            }
           },
           "16": {
-            "count": 6,
-            "average": 16.72,
+            "count": 8,
+            "average": 18.46,
             "median": 16.7,
-            "p10": 16.3,
-            "p25": 16.7,
-            "p75": 16.7,
-            "p90": 17.15
+            "p10": 16.25,
+            "p25": 16.62,
+            "p75": 17.6,
+            "p90": 22.69,
+            "date_range": {
+              "start": "2026-06-02",
+              "end": "2026-10-19"
+            }
+          },
+          "17": {
+            "count": 5,
+            "average": 23.16,
+            "median": 23.2,
+            "p10": 19.28,
+            "p25": 22.4,
+            "p75": 25.2,
+            "p90": 26.75,
+            "date_range": {
+              "start": "2026-01-26",
+              "end": "2026-09-16"
+            }
           }
         },
         "Gojek": {
           "15": {
-            "count": 7,
-            "average": 15.79,
-            "median": 16.0,
+            "count": 11,
+            "average": 16.04,
+            "median": 16.6,
             "p10": 14.3,
             "p25": 14.65,
-            "p75": 16.8,
-            "p90": 17.12
+            "p75": 17.05,
+            "p90": 17.3,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-16"
+            }
           },
           "16": {
-            "count": 17,
-            "average": 16.34,
-            "median": 16.0,
-            "p10": 15.28,
+            "count": 27,
+            "average": 16.42,
+            "median": 16.4,
+            "p10": 15.02,
             "p25": 15.6,
-            "p75": 17.4,
-            "p90": 17.9
+            "p75": 17.45,
+            "p90": 17.74,
+            "date_range": {
+              "start": "2025-08-25",
+              "end": "2026-10-21"
+            }
           },
           "17": {
-            "count": 9,
-            "average": 20.08,
-            "median": 19.5,
-            "p10": 19.04,
-            "p25": 19.3,
-            "p75": 19.7,
-            "p90": 21.24
+            "count": 10,
+            "average": 20.16,
+            "median": 19.55,
+            "p10": 19.07,
+            "p25": 19.32,
+            "p75": 20.15,
+            "p90": 21.31,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-11-12"
+            }
           }
         }
       },
       "provider_weekdays": {
         "Grab": {
           "Thursday": {
-            "count": 8,
-            "average": 18.62,
-            "median": 17.55,
-            "p10": 15.28,
-            "p25": 16.6,
-            "p75": 20.9,
-            "p90": 23.24
+            "count": 11,
+            "average": 20.18,
+            "median": 20.4,
+            "p10": 15.9,
+            "p25": 16.5,
+            "p75": 23.8,
+            "p90": 26.05,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-22"
+            }
+          },
+          "Tuesday": {
+            "count": 5,
+            "average": 16.98,
+            "median": 16.7,
+            "p10": 16.46,
+            "p25": 16.7,
+            "p75": 17.2,
+            "p90": 17.68,
+            "date_range": {
+              "start": "2026-02-10",
+              "end": "2026-09-29"
+            }
           },
           "Wednesday": {
-            "count": 6,
-            "average": 14.42,
-            "median": 14.25,
-            "p10": 11.95,
-            "p25": 12.15,
-            "p75": 16.5,
-            "p90": 17.05
+            "count": 8,
+            "average": 16.24,
+            "median": 16.3,
+            "p10": 11.97,
+            "p25": 12.45,
+            "p75": 18.05,
+            "p90": 21.17,
+            "date_range": {
+              "start": "2026-03-18",
+              "end": "2026-09-16"
+            }
           }
         },
         "Gojek": {
           "Monday": {
-            "count": 10,
-            "average": 16.95,
-            "median": 16.0,
-            "p10": 15.31,
-            "p25": 15.7,
-            "p75": 18.72,
-            "p90": 19.67
+            "count": 14,
+            "average": 17.04,
+            "median": 16.75,
+            "p10": 15.46,
+            "p25": 16.0,
+            "p75": 17.6,
+            "p90": 19.54,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-10-12"
+            }
           },
           "Thursday": {
-            "count": 7,
-            "average": 18.67,
-            "median": 18.2,
-            "p10": 15.9,
-            "p25": 16.75,
-            "p75": 19.2,
-            "p90": 21.58
+            "count": 10,
+            "average": 18.64,
+            "median": 18.0,
+            "p10": 16.05,
+            "p25": 17.1,
+            "p75": 19.25,
+            "p90": 21.31,
+            "date_range": {
+              "start": "2025-09-04",
+              "end": "2026-11-12"
+            }
           },
           "Tuesday": {
-            "count": 9,
-            "average": 16.86,
-            "median": 17.0,
-            "p10": 14.86,
-            "p25": 15.1,
-            "p75": 17.5,
-            "p90": 18.98
+            "count": 14,
+            "average": 16.58,
+            "median": 16.9,
+            "p10": 14.51,
+            "p25": 15.42,
+            "p75": 17.32,
+            "p90": 18.41,
+            "date_range": {
+              "start": "2025-09-09",
+              "end": "2026-10-13"
+            }
           },
           "Wednesday": {
-            "count": 11,
-            "average": 16.69,
-            "median": 16.6,
-            "p10": 14.3,
-            "p25": 15.55,
-            "p75": 18.05,
-            "p90": 18.6
+            "count": 13,
+            "average": 16.32,
+            "median": 16.1,
+            "p10": 14.06,
+            "p25": 14.9,
+            "p75": 17.7,
+            "p90": 18.56,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-21"
+            }
           }
         }
       },
       "provider_day_types": {
         "Grab": {
           "Weekday": {
-            "count": 22,
-            "average": 17.26,
-            "median": 16.7,
-            "p10": 12.63,
-            "p25": 15.9,
-            "p75": 17.58,
-            "p90": 22.2
+            "count": 29,
+            "average": 18.37,
+            "median": 17.2,
+            "p10": 12.84,
+            "p25": 16.3,
+            "p75": 20.4,
+            "p90": 25.37,
+            "date_range": {
+              "start": "2026-01-26",
+              "end": "2026-10-23"
+            }
           }
         },
         "Gojek": {
           "Weekday": {
-            "count": 37,
-            "average": 17.18,
-            "median": 16.9,
-            "p10": 14.8,
+            "count": 52,
+            "average": 17.07,
+            "median": 16.95,
+            "p10": 14.54,
             "p25": 15.6,
-            "p75": 18.6,
-            "p90": 19.54
+            "p75": 18.25,
+            "p90": 19.49,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-11-12"
+            }
           }
         }
       },
       "day_types": {
         "Weekday": {
-          "count": 59,
-          "average": 17.21,
-          "median": 16.7,
+          "count": 81,
+          "average": 17.54,
+          "median": 17.0,
           "p10": 14.3,
-          "p25": 15.6,
-          "p75": 18.35,
-          "p90": 19.82
+          "p25": 16.0,
+          "p75": 18.6,
+          "p90": 20.4,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         }
       },
       "timing_insights": {
@@ -931,52 +1541,68 @@
           "key": "14",
           "label": "14:00\u201314:59",
           "stats": {
-            "count": 6,
-            "average": 15.6,
-            "median": 15.7,
-            "p10": 12.75,
-            "p25": 13.18,
-            "p75": 18.07,
-            "p90": 18.35
+            "count": 7,
+            "average": 15.83,
+            "median": 17.2,
+            "p10": 12.78,
+            "p25": 13.45,
+            "p75": 17.85,
+            "p90": 18.34,
+            "date_range": {
+              "start": "2025-11-26",
+              "end": "2026-08-31"
+            }
           }
         },
         "worst_hour": {
           "key": "17",
           "label": "17:00\u201317:59",
           "stats": {
-            "count": 13,
-            "average": 21.02,
-            "median": 19.6,
-            "p10": 18.86,
-            "p25": 19.3,
-            "p75": 22.4,
-            "p90": 25.16
+            "count": 15,
+            "average": 21.16,
+            "median": 19.7,
+            "p10": 18.92,
+            "p25": 19.35,
+            "p75": 22.8,
+            "p90": 25.12,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-11-12"
+            }
           }
         },
         "best_weekday": {
           "key": "Wednesday",
           "label": "Wednesday",
           "stats": {
-            "count": 17,
-            "average": 15.89,
+            "count": 21,
+            "average": 16.29,
             "median": 16.1,
-            "p10": 12.36,
+            "p10": 12.6,
             "p25": 14.3,
-            "p75": 17.4,
-            "p90": 18.48
+            "p75": 17.7,
+            "p90": 19.5,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-21"
+            }
           }
         },
         "worst_weekday": {
           "key": "Thursday",
           "label": "Thursday",
           "stats": {
-            "count": 15,
-            "average": 18.65,
-            "median": 17.6,
-            "p10": 15.8,
-            "p25": 16.5,
-            "p75": 19.85,
-            "p90": 23.96
+            "count": 21,
+            "average": 19.45,
+            "median": 18.2,
+            "p10": 15.9,
+            "p25": 16.7,
+            "p75": 20.9,
+            "p90": 25.2,
+            "date_range": {
+              "start": "2025-09-04",
+              "end": "2026-11-12"
+            }
           }
         },
         "by_provider": {
@@ -985,26 +1611,34 @@
               "key": "15",
               "label": "15:00\u201315:59",
               "stats": {
-                "count": 8,
-                "average": 15.69,
-                "median": 16.1,
-                "p10": 11.97,
-                "p25": 14.48,
-                "p75": 16.57,
-                "p90": 18.3
+                "count": 7,
+                "average": 15.83,
+                "median": 16.3,
+                "p10": 11.96,
+                "p25": 13.95,
+                "p75": 17.15,
+                "p90": 18.96,
+                "date_range": {
+                  "start": "2026-02-05",
+                  "end": "2026-09-03"
+                }
               }
             },
             "worst_hour": {
-              "key": "16",
-              "label": "16:00\u201316:59",
+              "key": "17",
+              "label": "17:00\u201317:59",
               "stats": {
-                "count": 6,
-                "average": 16.72,
-                "median": 16.7,
-                "p10": 16.3,
-                "p25": 16.7,
-                "p75": 16.7,
-                "p90": 17.15
+                "count": 5,
+                "average": 23.16,
+                "median": 23.2,
+                "p10": 19.28,
+                "p25": 22.4,
+                "p75": 25.2,
+                "p90": 26.75,
+                "date_range": {
+                  "start": "2026-01-26",
+                  "end": "2026-09-16"
+                }
               }
             }
           },
@@ -1013,26 +1647,34 @@
               "key": "15",
               "label": "15:00\u201315:59",
               "stats": {
-                "count": 7,
-                "average": 15.79,
-                "median": 16.0,
+                "count": 11,
+                "average": 16.04,
+                "median": 16.6,
                 "p10": 14.3,
                 "p25": 14.65,
-                "p75": 16.8,
-                "p90": 17.12
+                "p75": 17.05,
+                "p90": 17.3,
+                "date_range": {
+                  "start": "2025-07-30",
+                  "end": "2026-10-16"
+                }
               }
             },
             "worst_hour": {
               "key": "17",
               "label": "17:00\u201317:59",
               "stats": {
-                "count": 9,
-                "average": 20.08,
-                "median": 19.5,
-                "p10": 19.04,
-                "p25": 19.3,
-                "p75": 19.7,
-                "p90": 21.24
+                "count": 10,
+                "average": 20.16,
+                "median": 19.55,
+                "p10": 19.07,
+                "p25": 19.32,
+                "p75": 20.15,
+                "p90": 21.31,
+                "date_range": {
+                  "start": "2025-08-04",
+                  "end": "2026-11-12"
+                }
               }
             }
           }
@@ -1040,80 +1682,142 @@
       },
       "grab_services": {
         "JustGrab": {
-          "count": 7,
-          "average": 16.66,
+          "count": 6,
+          "average": 16.53,
           "median": 16.3,
-          "p10": 11.96,
-          "p25": 14.15,
-          "p75": 17.45,
-          "p90": 20.58
+          "p10": 11.95,
+          "p25": 13.07,
+          "p75": 17.2,
+          "p90": 21.35,
+          "date_range": {
+            "start": "2026-02-05",
+            "end": "2026-03-25"
+          }
         },
-        "Standard": {
-          "count": 15,
-          "average": 17.54,
-          "median": 16.7,
-          "p10": 13.86,
-          "p25": 15.9,
-          "p75": 17.95,
-          "p90": 21.6
+        "Standard Car or Taxi": {
+          "count": 18,
+          "average": 17.81,
+          "median": 16.95,
+          "p10": 15.9,
+          "p25": 16.47,
+          "p75": 19.73,
+          "p90": 21.0,
+          "date_range": {
+            "start": "2026-05-19",
+            "end": "2026-10-23"
+          }
         }
       },
       "grab_pricing_types": {
         "Fixed": {
-          "count": 22,
-          "average": 17.26,
+          "count": 27,
+          "average": 17.72,
           "median": 16.7,
-          "p10": 12.63,
-          "p25": 15.9,
-          "p75": 17.58,
-          "p90": 22.2
+          "p10": 12.78,
+          "p25": 16.3,
+          "p75": 19.3,
+          "p90": 22.72,
+          "date_range": {
+            "start": "2026-01-26",
+            "end": "2026-10-23"
+          }
         }
       },
       "grab_pricing_hourly": {
         "Fixed": {
           "15": {
-            "count": 8,
-            "average": 15.69,
-            "median": 16.1,
-            "p10": 11.97,
-            "p25": 14.48,
-            "p75": 16.57,
-            "p90": 18.3
+            "count": 7,
+            "average": 15.83,
+            "median": 16.3,
+            "p10": 11.96,
+            "p25": 13.95,
+            "p75": 17.15,
+            "p90": 18.96,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-09-03"
+            }
           },
           "16": {
-            "count": 6,
-            "average": 16.72,
+            "count": 7,
+            "average": 17.06,
             "median": 16.7,
-            "p10": 16.3,
-            "p25": 16.7,
+            "p10": 16.2,
+            "p25": 16.55,
             "p75": 16.7,
-            "p90": 17.15
+            "p90": 18.14,
+            "date_range": {
+              "start": "2026-06-02",
+              "end": "2026-10-19"
+            }
+          },
+          "17": {
+            "count": 5,
+            "average": 23.16,
+            "median": 23.2,
+            "p10": 19.28,
+            "p25": 22.4,
+            "p75": 25.2,
+            "p90": 26.75,
+            "date_range": {
+              "start": "2026-01-26",
+              "end": "2026-09-16"
+            }
           }
-        }
+        },
+        "Metered": {}
       },
       "grab_pricing_weekdays": {
         "Fixed": {
           "Thursday": {
-            "count": 8,
-            "average": 18.62,
-            "median": 17.55,
-            "p10": 15.28,
-            "p25": 16.6,
-            "p75": 20.9,
-            "p90": 23.24
+            "count": 9,
+            "average": 18.63,
+            "median": 17.5,
+            "p10": 15.3,
+            "p25": 16.3,
+            "p75": 20.4,
+            "p90": 22.96,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-22"
+            }
+          },
+          "Tuesday": {
+            "count": 5,
+            "average": 16.98,
+            "median": 16.7,
+            "p10": 16.46,
+            "p25": 16.7,
+            "p75": 17.2,
+            "p90": 17.68,
+            "date_range": {
+              "start": "2026-02-10",
+              "end": "2026-09-29"
+            }
           },
           "Wednesday": {
-            "count": 6,
-            "average": 14.42,
-            "median": 14.25,
-            "p10": 11.95,
-            "p25": 12.15,
-            "p75": 16.5,
-            "p90": 17.05
+            "count": 8,
+            "average": 16.24,
+            "median": 16.3,
+            "p10": 11.97,
+            "p25": 12.45,
+            "p75": 18.05,
+            "p90": 21.17,
+            "date_range": {
+              "start": "2026-03-18",
+              "end": "2026-09-16"
+            }
           }
-        }
+        },
+        "Metered": {}
       },
+      "stops": [
+        "OFFICE",
+        "HOME"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 14.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -1121,61 +1825,68 @@
       },
       "cost_per_km": {
         "overall": {
-          "count": 59,
-          "average": 1.19,
-          "median": 1.15,
+          "count": 81,
+          "average": 1.21,
+          "median": 1.17,
           "p10": 0.99,
-          "p25": 1.08,
-          "p75": 1.27,
-          "p90": 1.37
+          "p25": 1.1,
+          "p75": 1.28,
+          "p90": 1.41
         },
         "providers": {
           "Grab": {
-            "count": 22,
-            "average": 1.19,
-            "median": 1.15,
-            "p10": 0.87,
-            "p25": 1.1,
-            "p75": 1.21,
-            "p90": 1.53
+            "count": 29,
+            "average": 1.27,
+            "median": 1.19,
+            "p10": 0.89,
+            "p25": 1.12,
+            "p75": 1.41,
+            "p90": 1.75
           },
           "Gojek": {
-            "count": 37,
+            "count": 52,
             "average": 1.18,
             "median": 1.17,
-            "p10": 1.02,
+            "p10": 1.0,
             "p25": 1.08,
-            "p75": 1.28,
-            "p90": 1.35
+            "p75": 1.26,
+            "p90": 1.34
           }
         },
         "grab_pricing_types": {
           "Fixed": {
-            "count": 22,
-            "average": 1.19,
+            "count": 27,
+            "average": 1.22,
             "median": 1.15,
-            "p10": 0.87,
-            "p25": 1.1,
-            "p75": 1.21,
-            "p90": 1.53
+            "p10": 0.88,
+            "p25": 1.12,
+            "p75": 1.33,
+            "p90": 1.57
           }
         }
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
+      "date_range": {
+        "start": "2025-08-05",
+        "end": "2026-07-07"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "OFFICE__V_PLACE",
       "origin": "OFFICE",
       "destination": "V_PLACE",
       "overall": {
-        "count": 6,
-        "average": 21.67,
-        "median": 21.25,
-        "p10": 19.95,
-        "p25": 20.73,
-        "p75": 21.85,
-        "p90": 23.8
+        "count": 5,
+        "average": 21.88,
+        "median": 21.4,
+        "p10": 20.02,
+        "p25": 21.1,
+        "p75": 22.0,
+        "p90": 24.16,
+        "date_range": {
+          "start": "2025-08-05",
+          "end": "2026-07-07"
+        }
       },
       "providers": {
         "Gojek": {
@@ -1185,33 +1896,23 @@
           "p10": 20.02,
           "p25": 21.1,
           "p75": 22.0,
-          "p90": 24.16
+          "p90": 24.16,
+          "date_range": {
+            "start": "2025-08-05",
+            "end": "2026-07-07"
+          }
         }
       },
-      "time_buckets": {
-        "Afternoon (14-17)": {
-          "count": 5,
-          "average": 20.88,
-          "median": 21.1,
-          "p10": 19.82,
-          "p25": 20.6,
-          "p75": 21.4,
-          "p90": 21.76
-        }
-      },
+      "time_buckets": {},
       "weekdays": {},
-      "best_time_bucket": "Afternoon (14-17)",
       "hourly": {},
       "provider_hourly": {
-        "Grab": {},
         "Gojek": {}
       },
       "provider_weekdays": {
-        "Grab": {},
         "Gojek": {}
       },
       "provider_day_types": {
-        "Grab": {},
         "Gojek": {
           "Weekday": {
             "count": 5,
@@ -1220,37 +1921,46 @@
             "p10": 20.02,
             "p25": 21.1,
             "p75": 22.0,
-            "p90": 24.16
+            "p90": 24.16,
+            "date_range": {
+              "start": "2025-08-05",
+              "end": "2026-07-07"
+            }
           }
         }
       },
       "day_types": {
         "Weekday": {
-          "count": 6,
-          "average": 21.67,
-          "median": 21.25,
-          "p10": 19.95,
-          "p25": 20.73,
-          "p75": 21.85,
-          "p90": 23.8
+          "count": 5,
+          "average": 21.88,
+          "median": 21.4,
+          "p10": 20.02,
+          "p25": 21.1,
+          "p75": 22.0,
+          "p90": 24.16,
+          "date_range": {
+            "start": "2025-08-05",
+            "end": "2026-07-07"
+          }
         }
       },
       "timing_insights": {
         "minimum_reliable_sample": 5,
         "by_provider": {
-          "Grab": {},
           "Gojek": {}
         }
       },
       "grab_services": {},
       "grab_pricing_types": {},
-      "grab_pricing_hourly": {
-        "Fixed": {}
-      },
-      "grab_pricing_weekdays": {
-        "Fixed": {}
-      },
+      "grab_pricing_hourly": {},
+      "grab_pricing_weekdays": {},
+      "stops": [
+        "OFFICE",
+        "V_PLACE"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 22.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -1258,13 +1968,13 @@
       },
       "cost_per_km": {
         "overall": {
-          "count": 6,
-          "average": 0.96,
-          "median": 0.94,
+          "count": 5,
+          "average": 0.97,
+          "median": 0.95,
           "p10": 0.89,
-          "p25": 0.92,
-          "p75": 0.97,
-          "p90": 1.06
+          "p25": 0.94,
+          "p75": 0.98,
+          "p90": 1.07
         },
         "providers": {
           "Gojek": {
@@ -1278,313 +1988,449 @@
           }
         },
         "grab_pricing_types": {}
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     }
   ],
   "routes": [
     {
+      "date_range": {
+        "start": "2025-07-30",
+        "end": "2026-11-12"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "HOME__OFFICE",
       "origin": "HOME",
       "destination": "OFFICE",
       "overall": {
-        "count": 89,
-        "average": 21.66,
-        "median": 21.9,
-        "p10": 16.88,
-        "p25": 18.2,
-        "p75": 24.74,
-        "p90": 26.12
+        "count": 116,
+        "average": 22.17,
+        "median": 22.75,
+        "p10": 17.1,
+        "p25": 18.68,
+        "p75": 25.05,
+        "p90": 26.39,
+        "date_range": {
+          "start": "2025-07-30",
+          "end": "2026-11-12"
+        }
       },
       "providers": {
         "Grab": {
-          "count": 40,
-          "average": 22.64,
-          "median": 23.66,
-          "p10": 17.56,
-          "p25": 19.55,
-          "p75": 25.05,
-          "p90": 26.13
+          "count": 59,
+          "average": 23.16,
+          "median": 23.85,
+          "p10": 18.2,
+          "p25": 20.45,
+          "p75": 25.27,
+          "p90": 26.47,
+          "date_range": {
+            "start": "2026-01-20",
+            "end": "2026-11-12"
+          }
         },
         "Gojek": {
-          "count": 49,
-          "average": 20.86,
-          "median": 20.7,
-          "p10": 16.78,
-          "p25": 17.4,
-          "p75": 24.0,
-          "p90": 26.12
+          "count": 57,
+          "average": 21.14,
+          "median": 21.0,
+          "p10": 16.8,
+          "p25": 17.8,
+          "p75": 24.5,
+          "p90": 26.14,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-22"
+          }
         }
       },
       "time_buckets": {
         "Early morning (05-07)": {
-          "count": 51,
-          "average": 21.67,
-          "median": 21.7,
-          "p10": 16.9,
-          "p25": 18.0,
-          "p75": 24.67,
-          "p90": 26.1
+          "count": 66,
+          "average": 22.08,
+          "median": 22.43,
+          "p10": 17.0,
+          "p25": 18.25,
+          "p75": 24.81,
+          "p90": 26.3,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         },
         "Morning peak (07-10)": {
-          "count": 34,
-          "average": 22.04,
-          "median": 23.0,
-          "p10": 17.32,
-          "p25": 18.88,
-          "p75": 25.01,
-          "p90": 26.31
+          "count": 45,
+          "average": 22.62,
+          "median": 23.6,
+          "p10": 17.72,
+          "p25": 19.6,
+          "p75": 25.2,
+          "p90": 26.4,
+          "date_range": {
+            "start": "2025-09-16",
+            "end": "2026-10-19"
+          }
         }
       },
       "weekdays": {
         "Monday": {
-          "count": 21,
-          "average": 22.5,
-          "median": 23.6,
-          "p10": 17.9,
-          "p25": 21.0,
-          "p75": 25.2,
-          "p90": 26.1
+          "count": 27,
+          "average": 23.23,
+          "median": 24.5,
+          "p10": 18.92,
+          "p25": 21.77,
+          "p75": 25.57,
+          "p90": 26.28,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-10-19"
+          }
         },
         "Thursday": {
-          "count": 22,
-          "average": 22.37,
-          "median": 22.23,
-          "p10": 17.13,
-          "p25": 18.55,
-          "p75": 24.88,
-          "p90": 26.37
+          "count": 27,
+          "average": 22.68,
+          "median": 22.25,
+          "p10": 17.28,
+          "p25": 20.3,
+          "p75": 25.21,
+          "p90": 27.62,
+          "date_range": {
+            "start": "2025-07-31",
+            "end": "2026-11-12"
+          }
         },
         "Tuesday": {
-          "count": 23,
-          "average": 20.9,
-          "median": 20.0,
+          "count": 30,
+          "average": 21.27,
+          "median": 21.2,
           "p10": 16.8,
-          "p25": 17.7,
-          "p75": 23.94,
-          "p90": 24.74
+          "p25": 18.25,
+          "p75": 24.04,
+          "p90": 24.75,
+          "date_range": {
+            "start": "2025-08-26",
+            "end": "2026-10-13"
+          }
         },
         "Wednesday": {
-          "count": 23,
-          "average": 20.97,
-          "median": 18.7,
-          "p10": 16.92,
-          "p25": 17.6,
-          "p75": 25.14,
-          "p90": 26.34
+          "count": 29,
+          "average": 21.38,
+          "median": 20.3,
+          "p10": 17.06,
+          "p25": 17.8,
+          "p75": 25.18,
+          "p90": 26.16,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-21"
+          }
         }
       },
       "best_time_bucket": "Early morning (05-07)",
       "hourly": {
         "05": {
-          "count": 17,
-          "average": 18.37,
-          "median": 17.4,
-          "p10": 16.32,
-          "p25": 16.8,
-          "p75": 18.2,
-          "p90": 21.78
+          "count": 19,
+          "average": 18.55,
+          "median": 17.8,
+          "p10": 16.36,
+          "p25": 16.95,
+          "p75": 19.5,
+          "p90": 21.74,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-22"
+          }
         },
         "06": {
-          "count": 34,
-          "average": 23.31,
-          "median": 23.94,
-          "p10": 18.32,
-          "p25": 21.0,
-          "p75": 25.05,
-          "p90": 26.33
+          "count": 47,
+          "average": 23.51,
+          "median": 24.05,
+          "p10": 18.52,
+          "p25": 21.05,
+          "p75": 25.39,
+          "p90": 26.85,
+          "date_range": {
+            "start": "2025-08-07",
+            "end": "2026-11-12"
+          }
         },
         "07": {
-          "count": 13,
-          "average": 23.63,
-          "median": 23.73,
-          "p10": 19.36,
-          "p25": 22.8,
-          "p75": 25.35,
-          "p90": 26.34
+          "count": 16,
+          "average": 23.84,
+          "median": 24.3,
+          "p10": 19.8,
+          "p25": 22.6,
+          "p75": 25.74,
+          "p90": 26.25,
+          "date_range": {
+            "start": "2025-11-24",
+            "end": "2026-10-13"
+          }
         },
         "08": {
-          "count": 15,
-          "average": 21.51,
-          "median": 20.0,
-          "p10": 17.08,
-          "p25": 17.9,
-          "p75": 25.14,
-          "p90": 25.92
+          "count": 17,
+          "average": 22.73,
+          "median": 24.5,
+          "p10": 17.4,
+          "p25": 19.4,
+          "p75": 25.2,
+          "p90": 27.59,
+          "date_range": {
+            "start": "2025-09-16",
+            "end": "2026-10-19"
+          }
         },
         "09": {
-          "count": 6,
-          "average": 19.92,
-          "median": 20.45,
-          "p10": 16.75,
-          "p25": 18.32,
-          "p75": 21.48,
-          "p90": 22.57
+          "count": 12,
+          "average": 20.85,
+          "median": 21.42,
+          "p10": 17.24,
+          "p25": 19.1,
+          "p75": 23.03,
+          "p90": 23.6,
+          "date_range": {
+            "start": "2025-12-16",
+            "end": "2026-10-14"
+          }
         }
       },
       "provider_hourly": {
         "Grab": {
           "06": {
-            "count": 15,
-            "average": 24.7,
-            "median": 24.5,
-            "p10": 22.04,
-            "p25": 23.7,
-            "p75": 25.05,
-            "p90": 26.27
+            "count": 24,
+            "average": 24.36,
+            "median": 24.61,
+            "p10": 20.5,
+            "p25": 23.27,
+            "p75": 25.47,
+            "p90": 26.64,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-11-12"
+            }
           },
           "07": {
-            "count": 9,
-            "average": 23.36,
-            "median": 23.85,
-            "p10": 18.6,
-            "p25": 23.2,
-            "p75": 25.35,
-            "p90": 26.16
+            "count": 12,
+            "average": 23.71,
+            "median": 24.9,
+            "p10": 18.92,
+            "p25": 23.02,
+            "p75": 25.74,
+            "p90": 26.07,
+            "date_range": {
+              "start": "2026-01-21",
+              "end": "2026-10-13"
+            }
           },
           "08": {
-            "count": 11,
-            "average": 20.24,
-            "median": 19.4,
-            "p10": 17.0,
-            "p25": 17.4,
-            "p75": 22.55,
-            "p90": 25.18
+            "count": 13,
+            "average": 22.04,
+            "median": 20.0,
+            "p10": 17.2,
+            "p25": 18.2,
+            "p75": 25.18,
+            "p90": 28.13,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-19"
+            }
+          },
+          "09": {
+            "count": 8,
+            "average": 20.77,
+            "median": 21.95,
+            "p10": 16.7,
+            "p25": 18.92,
+            "p75": 23.03,
+            "p90": 23.57,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-10-14"
+            }
           }
         },
         "Gojek": {
           "05": {
-            "count": 15,
-            "average": 18.05,
-            "median": 17.4,
-            "p10": 16.28,
-            "p25": 16.75,
-            "p75": 18.2,
-            "p90": 20.3
+            "count": 18,
+            "average": 18.37,
+            "median": 17.6,
+            "p10": 16.34,
+            "p25": 16.88,
+            "p75": 19.1,
+            "p90": 21.07,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-22"
+            }
           },
           "06": {
-            "count": 19,
-            "average": 22.22,
-            "median": 21.1,
-            "p10": 17.46,
-            "p25": 19.95,
-            "p75": 25.0,
-            "p90": 26.36
+            "count": 23,
+            "average": 22.61,
+            "median": 23.0,
+            "p10": 17.8,
+            "p25": 20.7,
+            "p75": 25.05,
+            "p90": 26.84,
+            "date_range": {
+              "start": "2025-08-07",
+              "end": "2026-10-16"
+            }
           }
         }
       },
       "provider_weekdays": {
         "Grab": {
           "Monday": {
-            "count": 8,
-            "average": 23.1,
-            "median": 23.66,
-            "p10": 19.55,
-            "p25": 22.79,
-            "p75": 25.54,
-            "p90": 26.19
+            "count": 12,
+            "average": 24.0,
+            "median": 25.18,
+            "p10": 21.67,
+            "p25": 23.41,
+            "p75": 25.84,
+            "p90": 26.36,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-10-19"
+            }
           },
           "Thursday": {
-            "count": 11,
-            "average": 24.8,
-            "median": 24.37,
-            "p10": 19.6,
-            "p25": 23.05,
-            "p75": 25.73,
-            "p90": 28.4
+            "count": 15,
+            "average": 24.81,
+            "median": 25.05,
+            "p10": 20.3,
+            "p25": 22.3,
+            "p75": 26.75,
+            "p90": 28.69,
+            "date_range": {
+              "start": "2026-01-29",
+              "end": "2026-11-12"
+            }
           },
           "Tuesday": {
-            "count": 11,
-            "average": 21.89,
-            "median": 23.55,
-            "p10": 18.2,
-            "p25": 19.55,
-            "p75": 24.62,
-            "p90": 24.74
+            "count": 16,
+            "average": 22.23,
+            "median": 23.71,
+            "p10": 18.3,
+            "p25": 19.62,
+            "p75": 24.56,
+            "p90": 24.79,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-10-13"
+            }
           },
           "Wednesday": {
-            "count": 10,
-            "average": 20.73,
-            "median": 20.3,
-            "p10": 16.86,
-            "p25": 17.75,
-            "p75": 24.3,
-            "p90": 25.27
+            "count": 14,
+            "average": 21.45,
+            "median": 21.9,
+            "p10": 17.25,
+            "p25": 18.32,
+            "p75": 25.0,
+            "p90": 25.57,
+            "date_range": {
+              "start": "2026-01-21",
+              "end": "2026-10-14"
+            }
           }
         },
         "Gojek": {
           "Monday": {
-            "count": 13,
-            "average": 22.12,
-            "median": 22.8,
-            "p10": 18.24,
-            "p25": 20.7,
-            "p75": 24.5,
-            "p90": 25.36
+            "count": 15,
+            "average": 22.62,
+            "median": 23.7,
+            "p10": 18.58,
+            "p25": 20.85,
+            "p75": 24.95,
+            "p90": 25.88,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-09-07"
+            }
           },
           "Thursday": {
-            "count": 11,
-            "average": 19.95,
-            "median": 20.7,
-            "p10": 16.9,
-            "p25": 17.25,
-            "p75": 21.95,
-            "p90": 22.6
+            "count": 12,
+            "average": 20.02,
+            "median": 20.75,
+            "p10": 16.92,
+            "p25": 17.32,
+            "p75": 21.82,
+            "p90": 22.56,
+            "date_range": {
+              "start": "2025-07-31",
+              "end": "2026-10-22"
+            }
           },
           "Tuesday": {
-            "count": 12,
-            "average": 19.99,
-            "median": 18.7,
-            "p10": 16.71,
-            "p25": 16.8,
-            "p75": 21.93,
-            "p90": 23.98
+            "count": 14,
+            "average": 20.18,
+            "median": 19.4,
+            "p10": 16.73,
+            "p25": 16.88,
+            "p75": 22.57,
+            "p90": 23.94,
+            "date_range": {
+              "start": "2025-08-26",
+              "end": "2026-09-22"
+            }
           },
           "Wednesday": {
-            "count": 13,
-            "average": 21.16,
-            "median": 18.6,
-            "p10": 17.0,
-            "p25": 17.6,
-            "p75": 25.5,
-            "p90": 26.88
+            "count": 15,
+            "average": 21.31,
+            "median": 19.4,
+            "p10": 17.1,
+            "p25": 17.7,
+            "p75": 25.35,
+            "p90": 26.76,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-21"
+            }
           }
         }
       },
       "provider_day_types": {
         "Grab": {
           "Weekday": {
-            "count": 40,
-            "average": 22.64,
-            "median": 23.66,
-            "p10": 17.56,
-            "p25": 19.55,
-            "p75": 25.05,
-            "p90": 26.13
+            "count": 59,
+            "average": 23.16,
+            "median": 23.85,
+            "p10": 18.2,
+            "p25": 20.45,
+            "p75": 25.27,
+            "p90": 26.47,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-11-12"
+            }
           }
         },
         "Gojek": {
           "Weekday": {
-            "count": 49,
-            "average": 20.86,
-            "median": 20.7,
-            "p10": 16.78,
-            "p25": 17.4,
-            "p75": 24.0,
-            "p90": 26.12
+            "count": 57,
+            "average": 21.14,
+            "median": 21.0,
+            "p10": 16.8,
+            "p25": 17.8,
+            "p75": 24.5,
+            "p90": 26.14,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-22"
+            }
           }
         }
       },
       "day_types": {
         "Weekday": {
-          "count": 89,
-          "average": 21.66,
-          "median": 21.9,
-          "p10": 16.88,
-          "p25": 18.2,
-          "p75": 24.74,
-          "p90": 26.12
+          "count": 116,
+          "average": 22.17,
+          "median": 22.75,
+          "p10": 17.1,
+          "p25": 18.68,
+          "p75": 25.05,
+          "p90": 26.39,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         }
       },
       "timing_insights": {
@@ -1593,80 +2439,104 @@
           "key": "05",
           "label": "05:00\u201305:59",
           "stats": {
-            "count": 17,
-            "average": 18.37,
-            "median": 17.4,
-            "p10": 16.32,
-            "p25": 16.8,
-            "p75": 18.2,
-            "p90": 21.78
+            "count": 19,
+            "average": 18.55,
+            "median": 17.8,
+            "p10": 16.36,
+            "p25": 16.95,
+            "p75": 19.5,
+            "p90": 21.74,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-22"
+            }
           }
         },
         "worst_hour": {
           "key": "07",
           "label": "07:00\u201307:59",
           "stats": {
-            "count": 13,
-            "average": 23.63,
-            "median": 23.73,
-            "p10": 19.36,
-            "p25": 22.8,
-            "p75": 25.35,
-            "p90": 26.34
+            "count": 16,
+            "average": 23.84,
+            "median": 24.3,
+            "p10": 19.8,
+            "p25": 22.6,
+            "p75": 25.74,
+            "p90": 26.25,
+            "date_range": {
+              "start": "2025-11-24",
+              "end": "2026-10-13"
+            }
           }
         },
         "best_weekday": {
           "key": "Tuesday",
           "label": "Tuesday",
           "stats": {
-            "count": 23,
-            "average": 20.9,
-            "median": 20.0,
+            "count": 30,
+            "average": 21.27,
+            "median": 21.2,
             "p10": 16.8,
-            "p25": 17.7,
-            "p75": 23.94,
-            "p90": 24.74
+            "p25": 18.25,
+            "p75": 24.04,
+            "p90": 24.75,
+            "date_range": {
+              "start": "2025-08-26",
+              "end": "2026-10-13"
+            }
           }
         },
         "worst_weekday": {
           "key": "Monday",
           "label": "Monday",
           "stats": {
-            "count": 21,
-            "average": 22.5,
-            "median": 23.6,
-            "p10": 17.9,
-            "p25": 21.0,
-            "p75": 25.2,
-            "p90": 26.1
+            "count": 27,
+            "average": 23.23,
+            "median": 24.5,
+            "p10": 18.92,
+            "p25": 21.77,
+            "p75": 25.57,
+            "p90": 26.28,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-10-19"
+            }
           }
         },
         "by_provider": {
           "Grab": {
             "best_hour": {
-              "key": "08",
-              "label": "08:00\u201308:59",
+              "key": "09",
+              "label": "09:00\u201309:59",
               "stats": {
-                "count": 11,
-                "average": 20.24,
-                "median": 19.4,
-                "p10": 17.0,
-                "p25": 17.4,
-                "p75": 22.55,
-                "p90": 25.18
+                "count": 8,
+                "average": 20.77,
+                "median": 21.95,
+                "p10": 16.7,
+                "p25": 18.92,
+                "p75": 23.03,
+                "p90": 23.57,
+                "date_range": {
+                  "start": "2026-02-09",
+                  "end": "2026-10-14"
+                }
               }
             },
             "worst_hour": {
               "key": "06",
               "label": "06:00\u201306:59",
               "stats": {
-                "count": 15,
-                "average": 24.7,
-                "median": 24.5,
-                "p10": 22.04,
-                "p25": 23.7,
-                "p75": 25.05,
-                "p90": 26.27
+                "count": 24,
+                "average": 24.36,
+                "median": 24.61,
+                "p10": 20.5,
+                "p25": 23.27,
+                "p75": 25.47,
+                "p90": 26.64,
+                "date_range": {
+                  "start": "2026-01-20",
+                  "end": "2026-11-12"
+                }
               }
             }
           },
@@ -1675,26 +2545,34 @@
               "key": "05",
               "label": "05:00\u201305:59",
               "stats": {
-                "count": 15,
-                "average": 18.05,
-                "median": 17.4,
-                "p10": 16.28,
-                "p25": 16.75,
-                "p75": 18.2,
-                "p90": 20.3
+                "count": 18,
+                "average": 18.37,
+                "median": 17.6,
+                "p10": 16.34,
+                "p25": 16.88,
+                "p75": 19.1,
+                "p90": 21.07,
+                "date_range": {
+                  "start": "2025-07-30",
+                  "end": "2026-10-22"
+                }
               }
             },
             "worst_hour": {
               "key": "06",
               "label": "06:00\u201306:59",
               "stats": {
-                "count": 19,
-                "average": 22.22,
-                "median": 21.1,
-                "p10": 17.46,
-                "p25": 19.95,
-                "p75": 25.0,
-                "p90": 26.36
+                "count": 23,
+                "average": 22.61,
+                "median": 23.0,
+                "p10": 17.8,
+                "p25": 20.7,
+                "p75": 25.05,
+                "p90": 26.84,
+                "date_range": {
+                  "start": "2025-08-07",
+                  "end": "2026-10-16"
+                }
               }
             }
           }
@@ -1708,132 +2586,255 @@
           "p10": 17.16,
           "p25": 18.2,
           "p75": 20.8,
-          "p90": 27.46
+          "p90": 27.46,
+          "date_range": {
+            "start": "2026-01-21",
+            "end": "2026-03-18"
+          }
         },
         "Metered Taxi": {
-          "count": 20,
-          "average": 24.39,
-          "median": 24.74,
-          "p10": 22.18,
-          "p25": 23.85,
-          "p75": 25.22,
-          "p90": 26.39
+          "count": 35,
+          "average": 24.52,
+          "median": 24.84,
+          "p10": 22.29,
+          "p25": 23.64,
+          "p75": 25.74,
+          "p90": 26.93,
+          "date_range": {
+            "start": "2026-01-20",
+            "end": "2026-10-23"
+          }
         },
-        "Standard": {
-          "count": 13,
-          "average": 20.75,
-          "median": 20.0,
-          "p10": 17.04,
-          "p25": 18.2,
-          "p75": 23.55,
-          "p90": 24.8
+        "Standard Car or Taxi": {
+          "count": 16,
+          "average": 21.05,
+          "median": 20.45,
+          "p10": 17.65,
+          "p25": 19.15,
+          "p75": 23.73,
+          "p90": 25.05,
+          "date_range": {
+            "start": "2026-05-25",
+            "end": "2026-11-12"
+          }
         }
       },
       "grab_pricing_types": {
         "Fixed": {
-          "count": 20,
-          "average": 20.89,
-          "median": 19.65,
-          "p10": 16.86,
-          "p25": 18.2,
-          "p75": 23.29,
-          "p90": 25.2
+          "count": 24,
+          "average": 21.19,
+          "median": 19.95,
+          "p10": 17.43,
+          "p25": 18.35,
+          "p75": 23.56,
+          "p90": 25.07,
+          "date_range": {
+            "start": "2026-01-21",
+            "end": "2026-11-12"
+          }
         },
         "Metered": {
-          "count": 20,
-          "average": 24.39,
-          "median": 24.74,
-          "p10": 22.18,
-          "p25": 23.85,
-          "p75": 25.22,
-          "p90": 26.39
+          "count": 35,
+          "average": 24.52,
+          "median": 24.84,
+          "p10": 22.29,
+          "p25": 23.64,
+          "p75": 25.74,
+          "p90": 26.93,
+          "date_range": {
+            "start": "2026-01-20",
+            "end": "2026-10-23"
+          }
         }
       },
       "grab_pricing_hourly": {
         "Fixed": {
           "06": {
-            "count": 5,
-            "average": 25.11,
-            "median": 23.55,
-            "p10": 19.68,
-            "p25": 21.9,
-            "p75": 26.1,
-            "p90": 31.92
+            "count": 8,
+            "average": 23.49,
+            "median": 22.73,
+            "p10": 18.34,
+            "p25": 19.52,
+            "p75": 24.6,
+            "p90": 29.01,
+            "date_range": {
+              "start": "2026-02-03",
+              "end": "2026-11-12"
+            }
           },
           "08": {
             "count": 8,
-            "average": 18.94,
-            "median": 18.8,
-            "p10": 16.37,
-            "p25": 17.15,
-            "p75": 19.77,
-            "p90": 21.53
+            "average": 19.92,
+            "median": 19.55,
+            "p10": 16.44,
+            "p25": 17.93,
+            "p75": 21.25,
+            "p90": 25.03,
+            "date_range": {
+              "start": "2026-02-19",
+              "end": "2026-09-02"
+            }
           }
         },
         "Metered": {
           "06": {
-            "count": 10,
-            "average": 24.49,
-            "median": 24.62,
-            "p10": 23.69,
-            "p25": 24.0,
-            "p75": 25.0,
-            "p90": 25.18
+            "count": 16,
+            "average": 24.8,
+            "median": 24.79,
+            "p10": 23.18,
+            "p25": 24.01,
+            "p75": 25.47,
+            "p90": 26.57,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-10-23"
+            }
           },
           "07": {
-            "count": 6,
-            "average": 25.03,
-            "median": 25.05,
-            "p10": 23.79,
-            "p25": 24.07,
-            "p75": 25.91,
-            "p90": 26.25
+            "count": 9,
+            "average": 25.19,
+            "median": 25.35,
+            "p10": 23.83,
+            "p25": 24.74,
+            "p75": 25.75,
+            "p90": 26.16,
+            "date_range": {
+              "start": "2026-01-28",
+              "end": "2026-10-13"
+            }
+          },
+          "08": {
+            "count": 5,
+            "average": 25.42,
+            "median": 27.05,
+            "p10": 20.63,
+            "p25": 25.18,
+            "p75": 28.4,
+            "p90": 28.69,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-19"
+            }
+          },
+          "09": {
+            "count": 5,
+            "average": 21.49,
+            "median": 22.35,
+            "p10": 18.92,
+            "p25": 21.54,
+            "p75": 22.85,
+            "p90": 23.28,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-09-18"
+            }
           }
         }
       },
       "grab_pricing_weekdays": {
         "Fixed": {
+          "Thursday": {
+            "count": 5,
+            "average": 23.5,
+            "median": 20.9,
+            "p10": 18.88,
+            "p25": 19.9,
+            "p75": 22.7,
+            "p90": 30.56,
+            "date_range": {
+              "start": "2026-02-19",
+              "end": "2026-11-12"
+            }
+          },
           "Tuesday": {
-            "count": 6,
-            "average": 19.68,
-            "median": 19.55,
-            "p10": 17.7,
-            "p25": 18.5,
-            "p75": 19.93,
-            "p90": 21.77
+            "count": 7,
+            "average": 20.48,
+            "median": 19.7,
+            "p10": 18.32,
+            "p25": 18.9,
+            "p75": 21.77,
+            "p90": 23.77,
+            "date_range": {
+              "start": "2026-02-03",
+              "end": "2026-08-25"
+            }
           },
           "Wednesday": {
-            "count": 7,
-            "average": 19.77,
-            "median": 18.7,
-            "p10": 16.44,
-            "p25": 17.6,
+            "count": 8,
+            "average": 19.75,
+            "median": 19.1,
+            "p10": 16.65,
+            "p25": 17.93,
             "p75": 21.9,
-            "p90": 23.18
+            "p90": 22.86,
+            "date_range": {
+              "start": "2026-01-21",
+              "end": "2026-10-14"
+            }
           }
         },
         "Metered": {
-          "Thursday": {
+          "Monday": {
             "count": 8,
-            "average": 24.9,
-            "median": 24.71,
-            "p10": 23.37,
-            "p25": 23.85,
-            "p75": 25.39,
-            "p90": 27.0
+            "average": 24.8,
+            "median": 25.55,
+            "p10": 22.46,
+            "p25": 23.51,
+            "p75": 25.91,
+            "p90": 26.59,
+            "date_range": {
+              "start": "2026-02-09",
+              "end": "2026-10-19"
+            }
+          },
+          "Thursday": {
+            "count": 10,
+            "average": 25.47,
+            "median": 25.21,
+            "p10": 22.34,
+            "p25": 24.15,
+            "p75": 26.93,
+            "p90": 28.45,
+            "date_range": {
+              "start": "2026-01-29",
+              "end": "2026-09-10"
+            }
           },
           "Tuesday": {
-            "count": 5,
-            "average": 24.54,
-            "median": 24.74,
-            "p10": 24.13,
-            "p25": 24.5,
+            "count": 9,
+            "average": 23.59,
+            "median": 24.5,
+            "p10": 22.12,
+            "p25": 23.88,
             "p75": 24.74,
-            "p90": 24.8
+            "p90": 24.88,
+            "date_range": {
+              "start": "2026-01-20",
+              "end": "2026-10-13"
+            }
+          },
+          "Wednesday": {
+            "count": 6,
+            "average": 23.72,
+            "median": 24.95,
+            "p10": 20.3,
+            "p25": 23.43,
+            "p75": 25.6,
+            "p90": 25.92,
+            "date_range": {
+              "start": "2026-01-28",
+              "end": "2026-09-16"
+            }
           }
         }
       },
+      "stops": [
+        "HOME",
+        "OFFICE"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 11.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -1841,332 +2842,469 @@
       },
       "cost_per_km": {
         "overall": {
-          "count": 89,
-          "average": 1.88,
-          "median": 1.9,
-          "p10": 1.47,
-          "p25": 1.58,
-          "p75": 2.15,
-          "p90": 2.27
+          "count": 116,
+          "average": 1.93,
+          "median": 1.98,
+          "p10": 1.49,
+          "p25": 1.62,
+          "p75": 2.18,
+          "p90": 2.29
         },
         "providers": {
           "Grab": {
-            "count": 40,
-            "average": 1.97,
-            "median": 2.06,
-            "p10": 1.53,
-            "p25": 1.7,
-            "p75": 2.18,
-            "p90": 2.27
+            "count": 59,
+            "average": 2.01,
+            "median": 2.07,
+            "p10": 1.58,
+            "p25": 1.78,
+            "p75": 2.2,
+            "p90": 2.3
           },
           "Gojek": {
-            "count": 49,
-            "average": 1.81,
-            "median": 1.8,
+            "count": 57,
+            "average": 1.84,
+            "median": 1.83,
             "p10": 1.46,
-            "p25": 1.51,
-            "p75": 2.09,
+            "p25": 1.55,
+            "p75": 2.13,
             "p90": 2.27
           }
         },
         "grab_pricing_types": {
           "Fixed": {
-            "count": 20,
-            "average": 1.82,
-            "median": 1.71,
-            "p10": 1.47,
-            "p25": 1.58,
-            "p75": 2.03,
-            "p90": 2.19
+            "count": 24,
+            "average": 1.84,
+            "median": 1.73,
+            "p10": 1.52,
+            "p25": 1.6,
+            "p75": 2.05,
+            "p90": 2.18
           },
           "Metered": {
-            "count": 20,
-            "average": 2.12,
-            "median": 2.15,
-            "p10": 1.93,
-            "p25": 2.07,
-            "p75": 2.19,
-            "p90": 2.29
+            "count": 35,
+            "average": 2.13,
+            "median": 2.16,
+            "p10": 1.94,
+            "p25": 2.06,
+            "p75": 2.24,
+            "p90": 2.34
           }
         }
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
+      "date_range": {
+        "start": "2025-07-30",
+        "end": "2026-11-12"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "OFFICE__HOME",
       "origin": "OFFICE",
       "destination": "HOME",
       "overall": {
-        "count": 59,
-        "average": 17.21,
-        "median": 16.7,
+        "count": 81,
+        "average": 17.54,
+        "median": 17.0,
         "p10": 14.3,
-        "p25": 15.6,
-        "p75": 18.35,
-        "p90": 19.82
+        "p25": 16.0,
+        "p75": 18.6,
+        "p90": 20.4,
+        "date_range": {
+          "start": "2025-07-30",
+          "end": "2026-11-12"
+        }
       },
       "providers": {
         "Grab": {
-          "count": 22,
-          "average": 17.26,
-          "median": 16.7,
-          "p10": 12.63,
-          "p25": 15.9,
-          "p75": 17.58,
-          "p90": 22.2
+          "count": 29,
+          "average": 18.37,
+          "median": 17.2,
+          "p10": 12.84,
+          "p25": 16.3,
+          "p75": 20.4,
+          "p90": 25.37,
+          "date_range": {
+            "start": "2026-01-26",
+            "end": "2026-10-23"
+          }
         },
         "Gojek": {
-          "count": 37,
-          "average": 17.18,
-          "median": 16.9,
-          "p10": 14.8,
+          "count": 52,
+          "average": 17.07,
+          "median": 16.95,
+          "p10": 14.54,
           "p25": 15.6,
-          "p75": 18.6,
-          "p90": 19.54
+          "p75": 18.25,
+          "p90": 19.49,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         }
       },
       "time_buckets": {
         "Afternoon (14-17)": {
-          "count": 44,
-          "average": 16.08,
-          "median": 16.1,
-          "p10": 14.09,
-          "p25": 15.38,
-          "p75": 17.32,
-          "p90": 18.05
+          "count": 60,
+          "average": 16.48,
+          "median": 16.65,
+          "p10": 13.96,
+          "p25": 15.57,
+          "p75": 17.4,
+          "p90": 18.31,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-21"
+          }
         },
         "Evening (17-21)": {
-          "count": 13,
-          "average": 21.02,
-          "median": 19.6,
-          "p10": 18.86,
-          "p25": 19.3,
-          "p75": 22.4,
-          "p90": 25.16
+          "count": 17,
+          "average": 21.4,
+          "median": 20.3,
+          "p10": 18.98,
+          "p25": 19.4,
+          "p75": 23.2,
+          "p90": 25.54,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-11-12"
+          }
         }
       },
       "weekdays": {
         "Monday": {
-          "count": 14,
-          "average": 17.63,
-          "median": 16.0,
-          "p10": 15.33,
-          "p25": 15.68,
-          "p75": 19.12,
-          "p90": 20.09
+          "count": 18,
+          "average": 17.68,
+          "median": 16.95,
+          "p10": 15.54,
+          "p25": 16.0,
+          "p75": 18.12,
+          "p90": 19.81,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-10-19"
+          }
         },
         "Thursday": {
-          "count": 15,
-          "average": 18.65,
-          "median": 17.6,
-          "p10": 15.8,
-          "p25": 16.5,
-          "p75": 19.85,
-          "p90": 23.96
+          "count": 21,
+          "average": 19.45,
+          "median": 18.2,
+          "p10": 15.9,
+          "p25": 16.7,
+          "p75": 20.9,
+          "p90": 25.2,
+          "date_range": {
+            "start": "2025-09-04",
+            "end": "2026-11-12"
+          }
         },
         "Tuesday": {
-          "count": 13,
-          "average": 16.82,
+          "count": 19,
+          "average": 16.68,
           "median": 16.9,
-          "p10": 15.02,
-          "p25": 16.3,
-          "p75": 17.4,
-          "p90": 18.54
+          "p10": 14.86,
+          "p25": 16.35,
+          "p75": 17.3,
+          "p90": 18.16,
+          "date_range": {
+            "start": "2025-09-09",
+            "end": "2026-10-13"
+          }
         },
         "Wednesday": {
-          "count": 17,
-          "average": 15.89,
+          "count": 21,
+          "average": 16.29,
           "median": 16.1,
-          "p10": 12.36,
+          "p10": 12.6,
           "p25": 14.3,
-          "p75": 17.4,
-          "p90": 18.48
+          "p75": 17.7,
+          "p90": 19.5,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-21"
+          }
         }
       },
       "best_time_bucket": "Afternoon (14-17)",
       "hourly": {
         "14": {
-          "count": 6,
-          "average": 15.6,
-          "median": 15.7,
-          "p10": 12.75,
-          "p25": 13.18,
-          "p75": 18.07,
-          "p90": 18.35
+          "count": 7,
+          "average": 15.83,
+          "median": 17.2,
+          "p10": 12.78,
+          "p25": 13.45,
+          "p75": 17.85,
+          "p90": 18.34,
+          "date_range": {
+            "start": "2025-11-26",
+            "end": "2026-08-31"
+          }
         },
         "15": {
-          "count": 15,
-          "average": 15.73,
-          "median": 16.0,
-          "p10": 12.92,
-          "p25": 14.65,
-          "p75": 16.8,
-          "p90": 17.36
+          "count": 18,
+          "average": 15.96,
+          "median": 16.3,
+          "p10": 12.91,
+          "p25": 14.48,
+          "p75": 17.08,
+          "p90": 18.18,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-10-16"
+          }
         },
         "16": {
-          "count": 23,
-          "average": 16.44,
-          "median": 16.1,
-          "p10": 15.42,
-          "p25": 15.6,
-          "p75": 17.15,
-          "p90": 17.68
+          "count": 35,
+          "average": 16.88,
+          "median": 16.7,
+          "p10": 15.22,
+          "p25": 15.75,
+          "p75": 17.45,
+          "p90": 18.04,
+          "date_range": {
+            "start": "2025-08-25",
+            "end": "2026-10-21"
+          }
         },
         "17": {
-          "count": 13,
-          "average": 21.02,
-          "median": 19.6,
-          "p10": 18.86,
-          "p25": 19.3,
-          "p75": 22.4,
-          "p90": 25.16
+          "count": 15,
+          "average": 21.16,
+          "median": 19.7,
+          "p10": 18.92,
+          "p25": 19.35,
+          "p75": 22.8,
+          "p90": 25.12,
+          "date_range": {
+            "start": "2025-08-04",
+            "end": "2026-11-12"
+          }
         }
       },
       "provider_hourly": {
         "Grab": {
           "15": {
-            "count": 8,
-            "average": 15.69,
-            "median": 16.1,
-            "p10": 11.97,
-            "p25": 14.48,
-            "p75": 16.57,
-            "p90": 18.3
+            "count": 7,
+            "average": 15.83,
+            "median": 16.3,
+            "p10": 11.96,
+            "p25": 13.95,
+            "p75": 17.15,
+            "p90": 18.96,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-09-03"
+            }
           },
           "16": {
-            "count": 6,
-            "average": 16.72,
+            "count": 8,
+            "average": 18.46,
             "median": 16.7,
-            "p10": 16.3,
-            "p25": 16.7,
-            "p75": 16.7,
-            "p90": 17.15
+            "p10": 16.25,
+            "p25": 16.62,
+            "p75": 17.6,
+            "p90": 22.69,
+            "date_range": {
+              "start": "2026-06-02",
+              "end": "2026-10-19"
+            }
+          },
+          "17": {
+            "count": 5,
+            "average": 23.16,
+            "median": 23.2,
+            "p10": 19.28,
+            "p25": 22.4,
+            "p75": 25.2,
+            "p90": 26.75,
+            "date_range": {
+              "start": "2026-01-26",
+              "end": "2026-09-16"
+            }
           }
         },
         "Gojek": {
           "15": {
-            "count": 7,
-            "average": 15.79,
-            "median": 16.0,
+            "count": 11,
+            "average": 16.04,
+            "median": 16.6,
             "p10": 14.3,
             "p25": 14.65,
-            "p75": 16.8,
-            "p90": 17.12
+            "p75": 17.05,
+            "p90": 17.3,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-16"
+            }
           },
           "16": {
-            "count": 17,
-            "average": 16.34,
-            "median": 16.0,
-            "p10": 15.28,
+            "count": 27,
+            "average": 16.42,
+            "median": 16.4,
+            "p10": 15.02,
             "p25": 15.6,
-            "p75": 17.4,
-            "p90": 17.9
+            "p75": 17.45,
+            "p90": 17.74,
+            "date_range": {
+              "start": "2025-08-25",
+              "end": "2026-10-21"
+            }
           },
           "17": {
-            "count": 9,
-            "average": 20.08,
-            "median": 19.5,
-            "p10": 19.04,
-            "p25": 19.3,
-            "p75": 19.7,
-            "p90": 21.24
+            "count": 10,
+            "average": 20.16,
+            "median": 19.55,
+            "p10": 19.07,
+            "p25": 19.32,
+            "p75": 20.15,
+            "p90": 21.31,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-11-12"
+            }
           }
         }
       },
       "provider_weekdays": {
         "Grab": {
           "Thursday": {
-            "count": 8,
-            "average": 18.62,
-            "median": 17.55,
-            "p10": 15.28,
-            "p25": 16.6,
-            "p75": 20.9,
-            "p90": 23.24
+            "count": 11,
+            "average": 20.18,
+            "median": 20.4,
+            "p10": 15.9,
+            "p25": 16.5,
+            "p75": 23.8,
+            "p90": 26.05,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-22"
+            }
+          },
+          "Tuesday": {
+            "count": 5,
+            "average": 16.98,
+            "median": 16.7,
+            "p10": 16.46,
+            "p25": 16.7,
+            "p75": 17.2,
+            "p90": 17.68,
+            "date_range": {
+              "start": "2026-02-10",
+              "end": "2026-09-29"
+            }
           },
           "Wednesday": {
-            "count": 6,
-            "average": 14.42,
-            "median": 14.25,
-            "p10": 11.95,
-            "p25": 12.15,
-            "p75": 16.5,
-            "p90": 17.05
+            "count": 8,
+            "average": 16.24,
+            "median": 16.3,
+            "p10": 11.97,
+            "p25": 12.45,
+            "p75": 18.05,
+            "p90": 21.17,
+            "date_range": {
+              "start": "2026-03-18",
+              "end": "2026-09-16"
+            }
           }
         },
         "Gojek": {
           "Monday": {
-            "count": 10,
-            "average": 16.95,
-            "median": 16.0,
-            "p10": 15.31,
-            "p25": 15.7,
-            "p75": 18.72,
-            "p90": 19.67
+            "count": 14,
+            "average": 17.04,
+            "median": 16.75,
+            "p10": 15.46,
+            "p25": 16.0,
+            "p75": 17.6,
+            "p90": 19.54,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-10-12"
+            }
           },
           "Thursday": {
-            "count": 7,
-            "average": 18.67,
-            "median": 18.2,
-            "p10": 15.9,
-            "p25": 16.75,
-            "p75": 19.2,
-            "p90": 21.58
+            "count": 10,
+            "average": 18.64,
+            "median": 18.0,
+            "p10": 16.05,
+            "p25": 17.1,
+            "p75": 19.25,
+            "p90": 21.31,
+            "date_range": {
+              "start": "2025-09-04",
+              "end": "2026-11-12"
+            }
           },
           "Tuesday": {
-            "count": 9,
-            "average": 16.86,
-            "median": 17.0,
-            "p10": 14.86,
-            "p25": 15.1,
-            "p75": 17.5,
-            "p90": 18.98
+            "count": 14,
+            "average": 16.58,
+            "median": 16.9,
+            "p10": 14.51,
+            "p25": 15.42,
+            "p75": 17.32,
+            "p90": 18.41,
+            "date_range": {
+              "start": "2025-09-09",
+              "end": "2026-10-13"
+            }
           },
           "Wednesday": {
-            "count": 11,
-            "average": 16.69,
-            "median": 16.6,
-            "p10": 14.3,
-            "p25": 15.55,
-            "p75": 18.05,
-            "p90": 18.6
+            "count": 13,
+            "average": 16.32,
+            "median": 16.1,
+            "p10": 14.06,
+            "p25": 14.9,
+            "p75": 17.7,
+            "p90": 18.56,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-21"
+            }
           }
         }
       },
       "provider_day_types": {
         "Grab": {
           "Weekday": {
-            "count": 22,
-            "average": 17.26,
-            "median": 16.7,
-            "p10": 12.63,
-            "p25": 15.9,
-            "p75": 17.58,
-            "p90": 22.2
+            "count": 29,
+            "average": 18.37,
+            "median": 17.2,
+            "p10": 12.84,
+            "p25": 16.3,
+            "p75": 20.4,
+            "p90": 25.37,
+            "date_range": {
+              "start": "2026-01-26",
+              "end": "2026-10-23"
+            }
           }
         },
         "Gojek": {
           "Weekday": {
-            "count": 37,
-            "average": 17.18,
-            "median": 16.9,
-            "p10": 14.8,
+            "count": 52,
+            "average": 17.07,
+            "median": 16.95,
+            "p10": 14.54,
             "p25": 15.6,
-            "p75": 18.6,
-            "p90": 19.54
+            "p75": 18.25,
+            "p90": 19.49,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-11-12"
+            }
           }
         }
       },
       "day_types": {
         "Weekday": {
-          "count": 59,
-          "average": 17.21,
-          "median": 16.7,
+          "count": 81,
+          "average": 17.54,
+          "median": 17.0,
           "p10": 14.3,
-          "p25": 15.6,
-          "p75": 18.35,
-          "p90": 19.82
+          "p25": 16.0,
+          "p75": 18.6,
+          "p90": 20.4,
+          "date_range": {
+            "start": "2025-07-30",
+            "end": "2026-11-12"
+          }
         }
       },
       "timing_insights": {
@@ -2175,52 +3313,68 @@
           "key": "14",
           "label": "14:00\u201314:59",
           "stats": {
-            "count": 6,
-            "average": 15.6,
-            "median": 15.7,
-            "p10": 12.75,
-            "p25": 13.18,
-            "p75": 18.07,
-            "p90": 18.35
+            "count": 7,
+            "average": 15.83,
+            "median": 17.2,
+            "p10": 12.78,
+            "p25": 13.45,
+            "p75": 17.85,
+            "p90": 18.34,
+            "date_range": {
+              "start": "2025-11-26",
+              "end": "2026-08-31"
+            }
           }
         },
         "worst_hour": {
           "key": "17",
           "label": "17:00\u201317:59",
           "stats": {
-            "count": 13,
-            "average": 21.02,
-            "median": 19.6,
-            "p10": 18.86,
-            "p25": 19.3,
-            "p75": 22.4,
-            "p90": 25.16
+            "count": 15,
+            "average": 21.16,
+            "median": 19.7,
+            "p10": 18.92,
+            "p25": 19.35,
+            "p75": 22.8,
+            "p90": 25.12,
+            "date_range": {
+              "start": "2025-08-04",
+              "end": "2026-11-12"
+            }
           }
         },
         "best_weekday": {
           "key": "Wednesday",
           "label": "Wednesday",
           "stats": {
-            "count": 17,
-            "average": 15.89,
+            "count": 21,
+            "average": 16.29,
             "median": 16.1,
-            "p10": 12.36,
+            "p10": 12.6,
             "p25": 14.3,
-            "p75": 17.4,
-            "p90": 18.48
+            "p75": 17.7,
+            "p90": 19.5,
+            "date_range": {
+              "start": "2025-07-30",
+              "end": "2026-10-21"
+            }
           }
         },
         "worst_weekday": {
           "key": "Thursday",
           "label": "Thursday",
           "stats": {
-            "count": 15,
-            "average": 18.65,
-            "median": 17.6,
-            "p10": 15.8,
-            "p25": 16.5,
-            "p75": 19.85,
-            "p90": 23.96
+            "count": 21,
+            "average": 19.45,
+            "median": 18.2,
+            "p10": 15.9,
+            "p25": 16.7,
+            "p75": 20.9,
+            "p90": 25.2,
+            "date_range": {
+              "start": "2025-09-04",
+              "end": "2026-11-12"
+            }
           }
         },
         "by_provider": {
@@ -2229,26 +3383,34 @@
               "key": "15",
               "label": "15:00\u201315:59",
               "stats": {
-                "count": 8,
-                "average": 15.69,
-                "median": 16.1,
-                "p10": 11.97,
-                "p25": 14.48,
-                "p75": 16.57,
-                "p90": 18.3
+                "count": 7,
+                "average": 15.83,
+                "median": 16.3,
+                "p10": 11.96,
+                "p25": 13.95,
+                "p75": 17.15,
+                "p90": 18.96,
+                "date_range": {
+                  "start": "2026-02-05",
+                  "end": "2026-09-03"
+                }
               }
             },
             "worst_hour": {
-              "key": "16",
-              "label": "16:00\u201316:59",
+              "key": "17",
+              "label": "17:00\u201317:59",
               "stats": {
-                "count": 6,
-                "average": 16.72,
-                "median": 16.7,
-                "p10": 16.3,
-                "p25": 16.7,
-                "p75": 16.7,
-                "p90": 17.15
+                "count": 5,
+                "average": 23.16,
+                "median": 23.2,
+                "p10": 19.28,
+                "p25": 22.4,
+                "p75": 25.2,
+                "p90": 26.75,
+                "date_range": {
+                  "start": "2026-01-26",
+                  "end": "2026-09-16"
+                }
               }
             }
           },
@@ -2257,26 +3419,34 @@
               "key": "15",
               "label": "15:00\u201315:59",
               "stats": {
-                "count": 7,
-                "average": 15.79,
-                "median": 16.0,
+                "count": 11,
+                "average": 16.04,
+                "median": 16.6,
                 "p10": 14.3,
                 "p25": 14.65,
-                "p75": 16.8,
-                "p90": 17.12
+                "p75": 17.05,
+                "p90": 17.3,
+                "date_range": {
+                  "start": "2025-07-30",
+                  "end": "2026-10-16"
+                }
               }
             },
             "worst_hour": {
               "key": "17",
               "label": "17:00\u201317:59",
               "stats": {
-                "count": 9,
-                "average": 20.08,
-                "median": 19.5,
-                "p10": 19.04,
-                "p25": 19.3,
-                "p75": 19.7,
-                "p90": 21.24
+                "count": 10,
+                "average": 20.16,
+                "median": 19.55,
+                "p10": 19.07,
+                "p25": 19.32,
+                "p75": 20.15,
+                "p90": 21.31,
+                "date_range": {
+                  "start": "2025-08-04",
+                  "end": "2026-11-12"
+                }
               }
             }
           }
@@ -2284,80 +3454,142 @@
       },
       "grab_services": {
         "JustGrab": {
-          "count": 7,
-          "average": 16.66,
+          "count": 6,
+          "average": 16.53,
           "median": 16.3,
-          "p10": 11.96,
-          "p25": 14.15,
-          "p75": 17.45,
-          "p90": 20.58
+          "p10": 11.95,
+          "p25": 13.07,
+          "p75": 17.2,
+          "p90": 21.35,
+          "date_range": {
+            "start": "2026-02-05",
+            "end": "2026-03-25"
+          }
         },
-        "Standard": {
-          "count": 15,
-          "average": 17.54,
-          "median": 16.7,
-          "p10": 13.86,
-          "p25": 15.9,
-          "p75": 17.95,
-          "p90": 21.6
+        "Standard Car or Taxi": {
+          "count": 18,
+          "average": 17.81,
+          "median": 16.95,
+          "p10": 15.9,
+          "p25": 16.47,
+          "p75": 19.73,
+          "p90": 21.0,
+          "date_range": {
+            "start": "2026-05-19",
+            "end": "2026-10-23"
+          }
         }
       },
       "grab_pricing_types": {
         "Fixed": {
-          "count": 22,
-          "average": 17.26,
+          "count": 27,
+          "average": 17.72,
           "median": 16.7,
-          "p10": 12.63,
-          "p25": 15.9,
-          "p75": 17.58,
-          "p90": 22.2
+          "p10": 12.78,
+          "p25": 16.3,
+          "p75": 19.3,
+          "p90": 22.72,
+          "date_range": {
+            "start": "2026-01-26",
+            "end": "2026-10-23"
+          }
         }
       },
       "grab_pricing_hourly": {
         "Fixed": {
           "15": {
-            "count": 8,
-            "average": 15.69,
-            "median": 16.1,
-            "p10": 11.97,
-            "p25": 14.48,
-            "p75": 16.57,
-            "p90": 18.3
+            "count": 7,
+            "average": 15.83,
+            "median": 16.3,
+            "p10": 11.96,
+            "p25": 13.95,
+            "p75": 17.15,
+            "p90": 18.96,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-09-03"
+            }
           },
           "16": {
-            "count": 6,
-            "average": 16.72,
+            "count": 7,
+            "average": 17.06,
             "median": 16.7,
-            "p10": 16.3,
-            "p25": 16.7,
+            "p10": 16.2,
+            "p25": 16.55,
             "p75": 16.7,
-            "p90": 17.15
+            "p90": 18.14,
+            "date_range": {
+              "start": "2026-06-02",
+              "end": "2026-10-19"
+            }
+          },
+          "17": {
+            "count": 5,
+            "average": 23.16,
+            "median": 23.2,
+            "p10": 19.28,
+            "p25": 22.4,
+            "p75": 25.2,
+            "p90": 26.75,
+            "date_range": {
+              "start": "2026-01-26",
+              "end": "2026-09-16"
+            }
           }
-        }
+        },
+        "Metered": {}
       },
       "grab_pricing_weekdays": {
         "Fixed": {
           "Thursday": {
-            "count": 8,
-            "average": 18.62,
-            "median": 17.55,
-            "p10": 15.28,
-            "p25": 16.6,
-            "p75": 20.9,
-            "p90": 23.24
+            "count": 9,
+            "average": 18.63,
+            "median": 17.5,
+            "p10": 15.3,
+            "p25": 16.3,
+            "p75": 20.4,
+            "p90": 22.96,
+            "date_range": {
+              "start": "2026-02-05",
+              "end": "2026-10-22"
+            }
+          },
+          "Tuesday": {
+            "count": 5,
+            "average": 16.98,
+            "median": 16.7,
+            "p10": 16.46,
+            "p25": 16.7,
+            "p75": 17.2,
+            "p90": 17.68,
+            "date_range": {
+              "start": "2026-02-10",
+              "end": "2026-09-29"
+            }
           },
           "Wednesday": {
-            "count": 6,
-            "average": 14.42,
-            "median": 14.25,
-            "p10": 11.95,
-            "p25": 12.15,
-            "p75": 16.5,
-            "p90": 17.05
+            "count": 8,
+            "average": 16.24,
+            "median": 16.3,
+            "p10": 11.97,
+            "p25": 12.45,
+            "p75": 18.05,
+            "p90": 21.17,
+            "date_range": {
+              "start": "2026-03-18",
+              "end": "2026-09-16"
+            }
           }
-        }
+        },
+        "Metered": {}
       },
+      "stops": [
+        "OFFICE",
+        "HOME"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 14.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -2365,50 +3597,53 @@
       },
       "cost_per_km": {
         "overall": {
-          "count": 59,
-          "average": 1.19,
-          "median": 1.15,
+          "count": 81,
+          "average": 1.21,
+          "median": 1.17,
           "p10": 0.99,
-          "p25": 1.08,
-          "p75": 1.27,
-          "p90": 1.37
+          "p25": 1.1,
+          "p75": 1.28,
+          "p90": 1.41
         },
         "providers": {
           "Grab": {
-            "count": 22,
-            "average": 1.19,
-            "median": 1.15,
-            "p10": 0.87,
-            "p25": 1.1,
-            "p75": 1.21,
-            "p90": 1.53
+            "count": 29,
+            "average": 1.27,
+            "median": 1.19,
+            "p10": 0.89,
+            "p25": 1.12,
+            "p75": 1.41,
+            "p90": 1.75
           },
           "Gojek": {
-            "count": 37,
+            "count": 52,
             "average": 1.18,
             "median": 1.17,
-            "p10": 1.02,
+            "p10": 1.0,
             "p25": 1.08,
-            "p75": 1.28,
-            "p90": 1.35
+            "p75": 1.26,
+            "p90": 1.34
           }
         },
         "grab_pricing_types": {
           "Fixed": {
-            "count": 22,
-            "average": 1.19,
+            "count": 27,
+            "average": 1.22,
             "median": 1.15,
-            "p10": 0.87,
-            "p25": 1.1,
-            "p75": 1.21,
-            "p90": 1.53
+            "p10": 0.88,
+            "p25": 1.12,
+            "p75": 1.33,
+            "p90": 1.57
           }
         }
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
+      "date_range": {
+        "start": "2025-08-31",
+        "end": "2026-08-09"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "WEST COAST PLAZA__HOME",
       "origin": "WEST COAST PLAZA",
       "destination": "HOME",
@@ -2419,7 +3654,11 @@
         "p10": 17.03,
         "p25": 18.78,
         "p75": 22.78,
-        "p90": 27.03
+        "p90": 27.03,
+        "date_range": {
+          "start": "2025-08-31",
+          "end": "2026-08-09"
+        }
       },
       "providers": {
         "Grab": {
@@ -2429,7 +3668,11 @@
           "p10": 16.26,
           "p25": 19.5,
           "p75": 19.5,
-          "p90": 24.18
+          "p90": 24.18,
+          "date_range": {
+            "start": "2026-01-22",
+            "end": "2026-07-10"
+          }
         },
         "Gojek": {
           "count": 9,
@@ -2438,7 +3681,11 @@
           "p10": 17.58,
           "p25": 18.6,
           "p75": 23.1,
-          "p90": 26.64
+          "p90": 26.64,
+          "date_range": {
+            "start": "2025-08-31",
+            "end": "2026-08-09"
+          }
         }
       },
       "time_buckets": {
@@ -2449,7 +3696,11 @@
           "p10": 16.44,
           "p25": 18.78,
           "p75": 21.23,
-          "p90": 27.33
+          "p90": 27.33,
+          "date_range": {
+            "start": "2025-11-25",
+            "end": "2026-08-04"
+          }
         }
       },
       "weekdays": {},
@@ -2472,7 +3723,11 @@
             "p10": 16.26,
             "p25": 19.5,
             "p75": 19.5,
-            "p90": 24.18
+            "p90": 24.18,
+            "date_range": {
+              "start": "2026-01-22",
+              "end": "2026-07-10"
+            }
           }
         },
         "Gojek": {
@@ -2483,7 +3738,11 @@
             "p10": 17.46,
             "p25": 18.6,
             "p75": 21.8,
-            "p90": 25.28
+            "p90": 25.28,
+            "date_range": {
+              "start": "2025-11-25",
+              "end": "2026-08-04"
+            }
           }
         }
       },
@@ -2495,7 +3754,11 @@
           "p10": 16.44,
           "p25": 18.78,
           "p75": 21.23,
-          "p90": 27.33
+          "p90": 27.33,
+          "date_range": {
+            "start": "2025-11-25",
+            "end": "2026-08-04"
+          }
         }
       },
       "timing_insights": {
@@ -2514,7 +3777,11 @@
           "p10": 16.26,
           "p25": 19.5,
           "p75": 19.5,
-          "p90": 24.18
+          "p90": 24.18,
+          "date_range": {
+            "start": "2026-01-22",
+            "end": "2026-07-10"
+          }
         }
       },
       "grab_pricing_hourly": {
@@ -2523,7 +3790,13 @@
       "grab_pricing_weekdays": {
         "Fixed": {}
       },
+      "stops": [
+        "WEST COAST PLAZA",
+        "HOME"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 14.0,
         "route_type": "drive",
         "source": "OneMap",
@@ -2570,11 +3843,211 @@
             "p90": 1.73
           }
         }
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
+      "date_range": {
+        "start": "2026-02-14",
+        "end": "2026-08-29"
+      },
+      "fare_basis": "statement_total_components_unavailable",
+      "key": "HOME__MADRAS NEW WOODLANDS",
+      "origin": "HOME",
+      "destination": "MADRAS NEW WOODLANDS",
+      "overall": {
+        "count": 8,
+        "average": 39.27,
+        "median": 39.25,
+        "p10": 35.65,
+        "p25": 36.7,
+        "p75": 40.83,
+        "p90": 44.34,
+        "date_range": {
+          "start": "2026-02-14",
+          "end": "2026-08-29"
+        }
+      },
+      "providers": {
+        "Grab": {
+          "count": 6,
+          "average": 39.61,
+          "median": 39.25,
+          "p10": 35.15,
+          "p25": 37.0,
+          "p75": 43.08,
+          "p90": 44.43,
+          "date_range": {
+            "start": "2026-02-14",
+            "end": "2026-08-29"
+          }
+        }
+      },
+      "time_buckets": {
+        "Morning peak (07-10)": {
+          "count": 7,
+          "average": 38.5,
+          "median": 38.8,
+          "p10": 35.4,
+          "p25": 36.6,
+          "p75": 39.7,
+          "p90": 41.5,
+          "date_range": {
+            "start": "2026-02-15",
+            "end": "2026-08-29"
+          }
+        }
+      },
+      "weekdays": {
+        "Saturday": {
+          "count": 5,
+          "average": 41.41,
+          "median": 39.7,
+          "p10": 39.16,
+          "p25": 39.7,
+          "p75": 44.21,
+          "p90": 44.47,
+          "date_range": {
+            "start": "2026-02-14",
+            "end": "2026-08-29"
+          }
+        }
+      },
+      "best_time_bucket": "Morning peak (07-10)",
+      "hourly": {},
+      "provider_hourly": {
+        "Grab": {},
+        "Gojek": {}
+      },
+      "provider_weekdays": {
+        "Grab": {},
+        "Gojek": {}
+      },
+      "provider_day_types": {
+        "Grab": {
+          "Weekend": {
+            "count": 5,
+            "average": 40.75,
+            "median": 39.7,
+            "p10": 37.36,
+            "p25": 38.8,
+            "p75": 44.21,
+            "p90": 44.47,
+            "date_range": {
+              "start": "2026-02-14",
+              "end": "2026-08-29"
+            }
+          }
+        },
+        "Gojek": {}
+      },
+      "day_types": {
+        "Weekend": {
+          "count": 6,
+          "average": 40.58,
+          "median": 39.7,
+          "p10": 37.6,
+          "p25": 39.02,
+          "p75": 43.08,
+          "p90": 44.43,
+          "date_range": {
+            "start": "2026-02-14",
+            "end": "2026-08-29"
+          }
+        }
+      },
+      "timing_insights": {
+        "minimum_reliable_sample": 5,
+        "best_weekday": {
+          "key": "Saturday",
+          "label": "Saturday",
+          "stats": {
+            "count": 5,
+            "average": 41.41,
+            "median": 39.7,
+            "p10": 39.16,
+            "p25": 39.7,
+            "p75": 44.21,
+            "p90": 44.47,
+            "date_range": {
+              "start": "2026-02-14",
+              "end": "2026-08-29"
+            }
+          }
+        },
+        "worst_weekday": {
+          "key": "Saturday",
+          "label": "Saturday",
+          "stats": {
+            "count": 5,
+            "average": 41.41,
+            "median": 39.7,
+            "p10": 39.16,
+            "p25": 39.7,
+            "p75": 44.21,
+            "p90": 44.47,
+            "date_range": {
+              "start": "2026-02-14",
+              "end": "2026-08-29"
+            }
+          }
+        },
+        "by_provider": {
+          "Grab": {},
+          "Gojek": {}
+        }
+      },
+      "grab_services": {},
+      "grab_pricing_types": {},
+      "grab_pricing_hourly": {
+        "Fixed": {},
+        "Metered": {}
+      },
+      "grab_pricing_weekdays": {
+        "Fixed": {},
+        "Metered": {}
+      },
+      "stops": [
+        "HOME",
+        "MADRAS NEW WOODLANDS"
+      ],
+      "journey_type": "stop_coverage_unknown",
+      "distance": {
+        "status": "legacy_calculation_date_unknown",
+        "distance_km": 20.5,
+        "route_type": "drive",
+        "source": "OneMap",
+        "distance_precision_km": 0.5
+      },
+      "cost_per_km": {
+        "overall": {
+          "count": 8,
+          "average": 1.92,
+          "median": 1.91,
+          "p10": 1.74,
+          "p25": 1.79,
+          "p75": 1.99,
+          "p90": 2.16
+        },
+        "providers": {
+          "Grab": {
+            "count": 6,
+            "average": 1.93,
+            "median": 1.91,
+            "p10": 1.71,
+            "p25": 1.8,
+            "p75": 2.1,
+            "p90": 2.17
+          }
+        },
+        "grab_pricing_types": {}
+      }
+    },
+    {
+      "date_range": {
+        "start": "2025-09-13",
+        "end": "2026-08-07"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "HOME__VIVOCITY",
       "origin": "HOME",
       "destination": "VIVOCITY",
@@ -2585,7 +4058,11 @@
         "p10": 29.08,
         "p25": 30.62,
         "p75": 37.0,
-        "p90": 39.97
+        "p90": 39.97,
+        "date_range": {
+          "start": "2025-09-13",
+          "end": "2026-08-07"
+        }
       },
       "providers": {
         "Gojek": {
@@ -2595,7 +4072,11 @@
           "p10": 29.55,
           "p25": 31.35,
           "p75": 38.28,
-          "p90": 40.15
+          "p90": 40.15,
+          "date_range": {
+            "start": "2025-09-13",
+            "end": "2026-08-07"
+          }
         }
       },
       "time_buckets": {},
@@ -2607,7 +4088,11 @@
           "p10": 30.1,
           "p25": 31.0,
           "p75": 39.7,
-          "p90": 40.24
+          "p90": 40.24,
+          "date_range": {
+            "start": "2026-02-06",
+            "end": "2026-08-07"
+          }
         }
       },
       "hourly": {},
@@ -2631,7 +4116,11 @@
           "p10": 28.8,
           "p25": 29.88,
           "p75": 38.8,
-          "p90": 40.15
+          "p90": 40.15,
+          "date_range": {
+            "start": "2026-02-06",
+            "end": "2026-08-07"
+          }
         }
       },
       "timing_insights": {
@@ -2646,7 +4135,11 @@
             "p10": 30.1,
             "p25": 31.0,
             "p75": 39.7,
-            "p90": 40.24
+            "p90": 40.24,
+            "date_range": {
+              "start": "2026-02-06",
+              "end": "2026-08-07"
+            }
           }
         },
         "worst_weekday": {
@@ -2659,7 +4152,11 @@
             "p10": 30.1,
             "p25": 31.0,
             "p75": 39.7,
-            "p90": 40.24
+            "p90": 40.24,
+            "date_range": {
+              "start": "2026-02-06",
+              "end": "2026-08-07"
+            }
           }
         },
         "by_provider": {
@@ -2677,7 +4174,13 @@
         "Fixed": {},
         "Metered": {}
       },
+      "stops": [
+        "HOME",
+        "VIVOCITY"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 23.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -2705,11 +4208,14 @@
           }
         },
         "grab_pricing_types": {}
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
+      "date_range": {
+        "start": "2025-12-19",
+        "end": "2026-08-07"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "VIVOCITY__HOME",
       "origin": "VIVOCITY",
       "destination": "HOME",
@@ -2720,7 +4226,11 @@
         "p10": 29.34,
         "p25": 31.27,
         "p75": 43.4,
-        "p90": 47.39
+        "p90": 47.39,
+        "date_range": {
+          "start": "2025-12-19",
+          "end": "2026-08-07"
+        }
       },
       "providers": {
         "Gojek": {
@@ -2730,7 +4240,11 @@
           "p10": 32.46,
           "p25": 33.3,
           "p75": 46.4,
-          "p90": 48.38
+          "p90": 48.38,
+          "date_range": {
+            "start": "2025-12-19",
+            "end": "2026-08-07"
+          }
         }
       },
       "time_buckets": {
@@ -2741,7 +4255,11 @@
           "p10": 30.65,
           "p25": 32.25,
           "p75": 44.73,
-          "p90": 48.05
+          "p90": 48.05,
+          "date_range": {
+            "start": "2025-12-19",
+            "end": "2026-08-07"
+          }
         }
       },
       "weekdays": {},
@@ -2767,7 +4285,11 @@
           "p10": 29.32,
           "p25": 30.65,
           "p75": 44.4,
-          "p90": 47.72
+          "p90": 47.72,
+          "date_range": {
+            "start": "2025-12-19",
+            "end": "2026-08-07"
+          }
         }
       },
       "timing_insights": {
@@ -2785,7 +4307,13 @@
       "grab_pricing_weekdays": {
         "Fixed": {}
       },
+      "stops": [
+        "VIVOCITY",
+        "HOME"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 23.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -2813,47 +4341,33 @@
           }
         },
         "grab_pricing_types": {}
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
-      "key": "HOME__MADRAS NEW WOODLANDS",
-      "origin": "HOME",
-      "destination": "MADRAS NEW WOODLANDS",
+      "date_range": {
+        "start": "2026-02-08",
+        "end": "2026-08-24"
+      },
+      "fare_basis": "statement_total_components_unavailable",
+      "key": "JEM__HOME",
+      "origin": "JEM",
+      "destination": "HOME",
       "overall": {
-        "count": 7,
-        "average": 39.34,
-        "median": 39.7,
-        "p10": 35.4,
-        "p25": 36.6,
-        "p75": 41.95,
-        "p90": 44.39
-      },
-      "providers": {
-        "Grab": {
-          "count": 5,
-          "average": 39.77,
-          "median": 39.7,
-          "p10": 34.9,
-          "p25": 36.4,
-          "p75": 44.21,
-          "p90": 44.47
+        "count": 5,
+        "average": 21.66,
+        "median": 23.5,
+        "p10": 16.98,
+        "p25": 18.9,
+        "p75": 24.5,
+        "p90": 25.22,
+        "date_range": {
+          "start": "2026-02-08",
+          "end": "2026-08-24"
         }
       },
-      "time_buckets": {
-        "Morning peak (07-10)": {
-          "count": 6,
-          "average": 38.45,
-          "median": 38.25,
-          "p10": 35.15,
-          "p25": 36.5,
-          "p75": 39.7,
-          "p90": 41.95
-        }
-      },
+      "providers": {},
+      "time_buckets": {},
       "weekdays": {},
-      "best_time_bucket": "Morning peak (07-10)",
       "hourly": {},
       "provider_hourly": {
         "Grab": {},
@@ -2867,17 +4381,7 @@
         "Grab": {},
         "Gojek": {}
       },
-      "day_types": {
-        "Weekend": {
-          "count": 5,
-          "average": 40.93,
-          "median": 39.7,
-          "p10": 37.72,
-          "p25": 39.7,
-          "p75": 44.21,
-          "p90": 44.47
-        }
-      },
+      "day_types": {},
       "timing_insights": {
         "minimum_reliable_sample": 5,
         "by_provider": {
@@ -2888,57 +4392,38 @@
       "grab_services": {},
       "grab_pricing_types": {},
       "grab_pricing_hourly": {
-        "Fixed": {},
-        "Metered": {}
+        "Fixed": {}
       },
       "grab_pricing_weekdays": {
-        "Fixed": {},
-        "Metered": {}
+        "Fixed": {}
       },
-      "distance": {
-        "distance_km": 20.5,
-        "route_type": "drive",
-        "source": "OneMap",
-        "distance_precision_km": 0.5
-      },
-      "cost_per_km": {
-        "overall": {
-          "count": 7,
-          "average": 1.92,
-          "median": 1.94,
-          "p10": 1.73,
-          "p25": 1.79,
-          "p75": 2.05,
-          "p90": 2.17
-        },
-        "providers": {
-          "Grab": {
-            "count": 5,
-            "average": 1.94,
-            "median": 1.94,
-            "p10": 1.7,
-            "p25": 1.78,
-            "p75": 2.16,
-            "p90": 2.17
-          }
-        },
-        "grab_pricing_types": {}
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      "stops": [
+        "JEM",
+        "HOME"
+      ],
+      "journey_type": "stop_coverage_unknown"
     },
     {
+      "date_range": {
+        "start": "2025-08-05",
+        "end": "2026-07-07"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "OFFICE__V_PLACE",
       "origin": "OFFICE",
       "destination": "V_PLACE",
       "overall": {
-        "count": 6,
-        "average": 21.67,
-        "median": 21.25,
-        "p10": 19.95,
-        "p25": 20.73,
-        "p75": 21.85,
-        "p90": 23.8
+        "count": 5,
+        "average": 21.88,
+        "median": 21.4,
+        "p10": 20.02,
+        "p25": 21.1,
+        "p75": 22.0,
+        "p90": 24.16,
+        "date_range": {
+          "start": "2025-08-05",
+          "end": "2026-07-07"
+        }
       },
       "providers": {
         "Gojek": {
@@ -2948,33 +4433,23 @@
           "p10": 20.02,
           "p25": 21.1,
           "p75": 22.0,
-          "p90": 24.16
+          "p90": 24.16,
+          "date_range": {
+            "start": "2025-08-05",
+            "end": "2026-07-07"
+          }
         }
       },
-      "time_buckets": {
-        "Afternoon (14-17)": {
-          "count": 5,
-          "average": 20.88,
-          "median": 21.1,
-          "p10": 19.82,
-          "p25": 20.6,
-          "p75": 21.4,
-          "p90": 21.76
-        }
-      },
+      "time_buckets": {},
       "weekdays": {},
-      "best_time_bucket": "Afternoon (14-17)",
       "hourly": {},
       "provider_hourly": {
-        "Grab": {},
         "Gojek": {}
       },
       "provider_weekdays": {
-        "Grab": {},
         "Gojek": {}
       },
       "provider_day_types": {
-        "Grab": {},
         "Gojek": {
           "Weekday": {
             "count": 5,
@@ -2983,37 +4458,46 @@
             "p10": 20.02,
             "p25": 21.1,
             "p75": 22.0,
-            "p90": 24.16
+            "p90": 24.16,
+            "date_range": {
+              "start": "2025-08-05",
+              "end": "2026-07-07"
+            }
           }
         }
       },
       "day_types": {
         "Weekday": {
-          "count": 6,
-          "average": 21.67,
-          "median": 21.25,
-          "p10": 19.95,
-          "p25": 20.73,
-          "p75": 21.85,
-          "p90": 23.8
+          "count": 5,
+          "average": 21.88,
+          "median": 21.4,
+          "p10": 20.02,
+          "p25": 21.1,
+          "p75": 22.0,
+          "p90": 24.16,
+          "date_range": {
+            "start": "2025-08-05",
+            "end": "2026-07-07"
+          }
         }
       },
       "timing_insights": {
         "minimum_reliable_sample": 5,
         "by_provider": {
-          "Grab": {},
           "Gojek": {}
         }
       },
       "grab_services": {},
       "grab_pricing_types": {},
-      "grab_pricing_hourly": {
-        "Fixed": {}
-      },
-      "grab_pricing_weekdays": {
-        "Fixed": {}
-      },
+      "grab_pricing_hourly": {},
+      "grab_pricing_weekdays": {},
+      "stops": [
+        "OFFICE",
+        "V_PLACE"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 22.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -3021,13 +4505,13 @@
       },
       "cost_per_km": {
         "overall": {
-          "count": 6,
-          "average": 0.96,
-          "median": 0.94,
+          "count": 5,
+          "average": 0.97,
+          "median": 0.95,
           "p10": 0.89,
-          "p25": 0.92,
-          "p75": 0.97,
-          "p90": 1.06
+          "p25": 0.94,
+          "p75": 0.98,
+          "p90": 1.07
         },
         "providers": {
           "Gojek": {
@@ -3041,11 +4525,14 @@
           }
         },
         "grab_pricing_types": {}
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     },
     {
+      "date_range": {
+        "start": "2025-09-17",
+        "end": "2026-05-20"
+      },
+      "fare_basis": "statement_total_components_unavailable",
       "key": "OFFICE__WEST COAST PLAZA",
       "origin": "OFFICE",
       "destination": "WEST COAST PLAZA",
@@ -3056,7 +4543,11 @@
         "p10": 20.82,
         "p25": 22.2,
         "p75": 26.8,
-        "p90": 27.4
+        "p90": 27.4,
+        "date_range": {
+          "start": "2025-09-17",
+          "end": "2026-05-20"
+        }
       },
       "providers": {},
       "time_buckets": {},
@@ -3082,7 +4573,11 @@
           "p10": 20.82,
           "p25": 22.2,
           "p75": 26.8,
-          "p90": 27.4
+          "p90": 27.4,
+          "date_range": {
+            "start": "2025-09-17",
+            "end": "2026-05-20"
+          }
         }
       },
       "timing_insights": {
@@ -3100,7 +4595,13 @@
       "grab_pricing_weekdays": {
         "Fixed": {}
       },
+      "stops": [
+        "OFFICE",
+        "WEST COAST PLAZA"
+      ],
+      "journey_type": "stop_coverage_unknown",
       "distance": {
+        "status": "legacy_calculation_date_unknown",
         "distance_km": 22.5,
         "route_type": "drive",
         "source": "OneMap",
@@ -3118,15 +4619,20 @@
         },
         "providers": {},
         "grab_pricing_types": {}
-      },
-      "journey_type": "stop_coverage_unknown",
-      "fare_basis": "statement_total_components_unavailable"
+      }
     }
   ],
   "food": {
-    "top_restaurants": [],
-    "order_count": 26,
-    "total_spend_sgd": 783.5
+    "top_restaurants": [
+      {
+        "restaurant": "YEW TEE POINT",
+        "count": 6,
+        "total_spend": 146.15,
+        "average_order": 24.36
+      }
+    ],
+    "order_count": 43,
+    "total_spend_sgd": 1328.29
   },
   "analysis_config": {
     "timing_minimum_reliable_sample": 5,
@@ -3166,57 +4672,71 @@
       "p90": 35.56
     },
     "Metered Taxi": {
-      "count": 36,
-      "average": 28.06,
-      "median": 25.05,
-      "p10": 21.0,
-      "p25": 23.82,
-      "p75": 29.01,
-      "p90": 40.47
+      "count": 60,
+      "average": 27.11,
+      "median": 25.12,
+      "p10": 20.96,
+      "p25": 23.54,
+      "p75": 28.3,
+      "p90": 37.88
     },
     "Standard": {
-      "count": 73,
-      "average": 24.36,
-      "median": 23.2,
-      "p10": 15.38,
-      "p25": 17.6,
-      "p75": 28.4,
-      "p90": 35.94
+      "count": 14,
+      "average": 28.13,
+      "median": 25.34,
+      "p10": 17.39,
+      "p25": 23.27,
+      "p75": 31.07,
+      "p90": 44.9
+    },
+    "Standard Car or Taxi": {
+      "count": 82,
+      "average": 22.19,
+      "median": 20.3,
+      "p10": 15.34,
+      "p25": 16.8,
+      "p75": 24.98,
+      "p90": 31.22
     }
   },
   "grab_pricing_summary": {
     "Fixed": {
-      "count": 107,
-      "average": 24.38,
-      "median": 22.6,
-      "p10": 15.26,
-      "p25": 17.55,
-      "p75": 28.8,
-      "p90": 36.22
+      "count": 133,
+      "average": 23.7,
+      "median": 21.9,
+      "p10": 15.36,
+      "p25": 17.2,
+      "p75": 28.0,
+      "p90": 36.34
     },
     "Metered": {
-      "count": 36,
-      "average": 28.06,
-      "median": 25.05,
-      "p10": 21.0,
-      "p25": 23.82,
-      "p75": 29.01,
-      "p90": 40.47
+      "count": 60,
+      "average": 27.11,
+      "median": 25.12,
+      "p10": 20.96,
+      "p25": 23.54,
+      "p75": 28.3,
+      "p90": 37.88
     }
   },
   "distance_analysis": {
     "generated_on": "2026-08-10",
     "routes_with_distance": 8,
+    "routes_without_distance": 1,
     "distance_source": "OneMap",
     "distance_precision_km": 0.5,
     "cost_per_km_enabled": true,
     "note": "Fare divided by a rounded modelled driving distance, not measured trip distance or a fare prediction.",
-    "routes_without_distance": 0
+    "fare_metrics_rebuilt_on": "2026-11-14"
   },
+  "monthly_note": "Monthly detail is withheld unless source sample counts meet the public threshold; missing components are not zero.",
   "privacy_policy": {
     "minimum_group_size": 5,
     "note": "Small groups and fare extremes are withheld. Aggregates still describe personal habits; this is not guaranteed anonymity."
   },
-  "review_note": "Display and privacy review only; no new receipts imported. Legacy stop coverage, per-group dates and fare components unavailable.",
-  "monthly_note": "Monthly detail is withheld unless source sample counts meet the public threshold; missing components are not zero."
+  "history_basis": "private_source_records",
+  "history_reconciliation": {
+    "status": "reviewed_legacy_difference",
+    "reviewed_on": "2026-11-14"
+  }
 }
