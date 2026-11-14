@@ -464,6 +464,7 @@ def build(
             pricing_groups[pricing].append(float(row["amount"]))
 
     analytics = {
+        "history_basis": "private_source_records",
         "generated_on": date.today().isoformat(),
         "history_refreshed_at": datetime.now(timezone.utc).isoformat(),
         "privacy_note": (
