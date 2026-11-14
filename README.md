@@ -13,13 +13,15 @@ Eight routes meet the new minimum group size. Small route/provider/service/time 
 ## Receipt processing
 
 1. Keep PDFs under ignored `local_data/grab/` and `local_data/gojek/`. Configure ignored `config/private_aliases.json` with `setup_private_aliases.bat`.
-2. Grab statements are rasterised and parsed with local Tesseract OCR. Row-count mismatches stop the import. Gojek tables are read with pdfplumber; malformed rows stop the import rather than silently dropping transactions.
+2. Text-based Grab statements are read directly with PyMuPDF, including wrapped booking references. Their date window, transaction count and currency total must reconcile exactly. Image-only Grab statements use local Tesseract OCR; row-count mismatches stop the import. Gojek tables are read with pdfplumber; malformed rows stop the import rather than silently dropping transactions.
 3. Normalise approved private aliases (`HOME`, `OFFICE`, `V_PLACE`, `COMPASSVALE`). Unknown location text remains private. Unknown currency or service is not guessed.
-4. Merge with `local_private/transactions.json`. Exact overlapping records are skipped. Conflicting values at the same provider/category/timestamp stop for private reconciliation. The legacy minute timestamp identity can still collide; conflicts must be resolved against source receipts.
+4. Merge with `local_private/transactions.json`. Exact overlapping records retain their additional source references without double counting. Conflicting values or distinct booking references at the same provider/category/timestamp stop for private reconciliation. The legacy minute timestamp identity can still collide; conflicts must be resolved against source receipts. Each provider's old date-window count and SGD total must reconcile with the existing dashboard before replacement; adding newer rides cannot hide missing older history.
 5. Build directional route and provider/service/hour/weekday distributions, then enforce public-label and minimum-sample rules. SGD analytics exclude unknown and non-SGD currencies. Statement totals are not decomposed into invented fees or discounts.
 6. Apply matching rounded route distances, validate public output and back up the existing master and analytics locally before replacement. All validation precedes writes. Multiple output-file replacements are sequential, not one database transaction.
 
 Run `refresh_history.bat`, or `python scripts/refresh_history.py`. The old `process_reports.py` entry point delegates to the same validated pipeline. OCR still needs a local Tesseract installation. Review the private report and public diff before committing. Do not publish private backups, receipt filenames, raw text or coordinates.
+
+Recovered private alias rules may use `equals` for exact, case-insensitive cleaned-text matches. This avoids a recovered place name unintentionally matching a longer unrelated address. Keep any source archive, row-level database and private reconciliation report outside the public repository. Retain original PDFs, source hashes and the earlier master when updating history.
 
 ## Routes and multi-stop journeys
 
