@@ -1,0 +1,176 @@
+{
+  "generated_on": "2026-08-10",
+  "routes": [
+    {
+      "key": "HOME__OFFICE",
+      "origin": "HOME",
+      "destination": "OFFICE",
+      "journey_type": "stop_coverage_unknown",
+      "overall": {
+        "count": 30,
+        "average": 25,
+        "median": 25,
+        "p25": 22,
+        "p75": 28,
+        "date_range": {
+          "start": "2026-01-01",
+          "end": "2026-07-31"
+        }
+      },
+      "providers": {
+        "Grab": {
+          "count": 20,
+          "average": 25,
+          "median": 25,
+          "p25": 22,
+          "p75": 28,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        },
+        "Gojek": {
+          "count": 10,
+          "average": 27,
+          "median": 27,
+          "p25": 24,
+          "p75": 30,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        }
+      },
+      "grab_pricing_types": {
+        "Fixed": {
+          "count": 12,
+          "average": 23,
+          "median": 23,
+          "p25": 20,
+          "p75": 26,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        },
+        "Metered": {
+          "count": 8,
+          "average": 29,
+          "median": 29,
+          "p25": 26,
+          "p75": 32,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        }
+      },
+      "distance": {
+        "distance_km": 15,
+        "source": "Synthetic fixture",
+        "distance_precision_km": 0.5
+      },
+      "grab_pricing_hourly": {},
+      "provider_hourly": {}
+    }
+  ],
+  "core_routes": [
+    {
+      "key": "HOME__OFFICE",
+      "origin": "HOME",
+      "destination": "OFFICE",
+      "journey_type": "stop_coverage_unknown",
+      "overall": {
+        "count": 30,
+        "average": 25,
+        "median": 25,
+        "p25": 22,
+        "p75": 28,
+        "date_range": {
+          "start": "2026-01-01",
+          "end": "2026-07-31"
+        }
+      },
+      "providers": {
+        "Grab": {
+          "count": 20,
+          "average": 25,
+          "median": 25,
+          "p25": 22,
+          "p75": 28,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        },
+        "Gojek": {
+          "count": 10,
+          "average": 27,
+          "median": 27,
+          "p25": 24,
+          "p75": 30,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        }
+      },
+      "grab_pricing_types": {
+        "Fixed": {
+          "count": 12,
+          "average": 23,
+          "median": 23,
+          "p25": 20,
+          "p75": 26,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        },
+        "Metered": {
+          "count": 8,
+          "average": 29,
+          "median": 29,
+          "p25": 26,
+          "p75": 32,
+          "date_range": {
+            "start": "2026-01-01",
+            "end": "2026-07-31"
+          }
+        }
+      },
+      "distance": {
+        "distance_km": 15,
+        "source": "Synthetic fixture",
+        "distance_precision_km": 0.5
+      },
+      "grab_pricing_hourly": {},
+      "provider_hourly": {}
+    }
+  ],
+  "summary": {
+    "ride_spend_sgd": 750,
+    "ride_transactions": 30,
+    "food_orders": 0,
+    "food_spend_sgd": 0
+  },
+  "source_summary": {
+    "Grab": {
+      "transactions": 20,
+      "period": "Illustrative records only"
+    },
+    "Gojek": {
+      "transactions": 10,
+      "period": "Illustrative records only"
+    }
+  },
+  "monthly": [],
+  "food": {
+    "order_count": 0,
+    "total_spend_sgd": 0,
+    "top_restaurants": []
+  },
+  "distance_analysis": {
+    "generated_on": "2026-08-10"
+  }
+}
