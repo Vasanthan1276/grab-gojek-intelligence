@@ -11,6 +11,7 @@ from PIL import Image
 from pytesseract import Output
 
 from normalization import normalize_location
+from journey import pricing_type as classify_pricing, possible_multistop
 
 
 BASE_W = 1870
@@ -359,7 +360,7 @@ def _amounts(
     ):
 
         match = re.search(
-            r"\d+(?:\.\d+)?",
+            r"(?<![\d.,])[-+]?\d+(?:,\d{3})*(?:\.\d{1,2})?(?![\d.,])",
             text
         )
 
@@ -367,7 +368,7 @@ def _amounts(
 
             values.append(
                 float(
-                    match.group()
+                    match.group().replace(",", "")
                 )
             )
 
@@ -533,11 +534,9 @@ def _service(
     # GENERIC STANDARD
     # --------------------------------------------------------
 
-    return (
-        "Standard",
-        "ride",
-        "Fixed"
-    )
+    kind = classify_pricing(cleaned)
+    return ("Standard" if kind == "Fixed" else "Unknown", "ride", kind)
+
 
 
 # ============================================================
@@ -870,7 +869,7 @@ def import_grab_pdf(
 
                 else
 
-                "SGD"
+                ("SGD" if "SGD" in parsed["currency"].upper() else "UNKNOWN")
 
             )
 
@@ -955,6 +954,9 @@ def import_grab_pdf(
                     "category":
                         category,
 
+                    "route_status": "needs_review" if possible_multistop(parsed["pickup"], parsed["dropoff"]) else "stop_coverage_unknown",
+                    "fare_components": None,
+                    "fare_basis": "statement_total",
                     "raw_service":
                         raw_service,
 
