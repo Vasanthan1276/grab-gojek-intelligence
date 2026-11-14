@@ -568,6 +568,11 @@ def import_grab_pdf(
             Metered
     """
 
+    from import_grab_statement import import_grab_statement
+    native = import_grab_statement(pdf_path, aliases)
+    if native is not None:
+        return native
+
     records = []
 
     images = _render(
