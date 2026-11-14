@@ -18,6 +18,32 @@ def fixture():
 
 
 class StatementTests(unittest.TestCase):
+    def test_category_change_cannot_duplicate_the_same_payment(self):
+        old = parse_statement(fixture())[:1]
+        new = copy.deepcopy(old)
+        new[0]['category'] = 'food'
+        for with_reference in (True, False):
+            if not with_reference:
+                old[0].pop('booking_code'); new[0].pop('booking_code')
+            with self.assertRaises(ValueError): merge_records(old, new)
+
+    def test_same_minute_distinct_booking_can_be_food_and_ride(self):
+        old = parse_statement(fixture())[:1]
+        new = copy.deepcopy(old)
+        new[0].update(category='food', booking_code='A-FICTIONAL-FOOD')
+        self.assertEqual(len(merge_records(old, new)[0]), 2)
+
+    def test_booking_reference_cannot_reappear_with_changed_timestamp(self):
+        old = parse_statement(fixture())[:1]
+        new = copy.deepcopy(old)
+        new[0]['datetime'] = '2026-08-02T09:16'
+        with self.assertRaises(ValueError): merge_records(old, new)
+
+    def test_native_food_does_not_enter_ride_categories(self):
+        pages = fixture(); pages[0]['tables'][0][1][4] = 'GrabFood'
+        row = parse_statement(pages)[0]
+        self.assertEqual((row['category'], row['pricing_type']), ('food', 'Food'))
+
     def test_more_new_rows_cannot_hide_missing_older_history(self):
         rows = parse_statement(fixture())
         old = {'source_summary': {'Grab': {'period': '2026-08-01 to 2026-08-31', 'transactions': 2}},
