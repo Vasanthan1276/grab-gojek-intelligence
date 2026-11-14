@@ -393,12 +393,28 @@ def merge_records(existing, imported):
     """Reject ambiguous timestamp collisions instead of guessing corrected fares/stops."""
     merged = {}
     identities = {}
+    booking_keys = {}
+    category_keys = {}
     duplicates = 0
     added = 0
     for is_new, rows in ((False, existing), (True, imported)):
         for row in rows:
             identity = tuple(row.get(k) for k in ("provider", "datetime", "category"))
             key = stable_key(row)
+            code = row.get("booking_code")
+            if code:
+                booking = (row.get("provider"), code)
+                if booking in booking_keys and booking_keys[booking] != key:
+                    raise ValueError("A booking reference has conflicting transaction fields; review the private sources.")
+                booking_keys[booking] = key
+            # An OCR category change must not make the same payment look new.
+            payment = (row.get("provider"), row.get("datetime"),
+                       f"{float(row['amount']):.2f}", row.get("currency"))
+            for prior in category_keys.get(payment, []):
+                distinct_bookings = code and prior.get("booking_code") and code != prior["booking_code"]
+                if prior.get("category") != row.get("category") and not distinct_bookings:
+                    raise ValueError("Possible duplicate across ride and food categories; reconcile the private sources.")
+            category_keys.setdefault(payment, []).append(row)
             if identity in identities:
                 old = merged[identities[identity]]
                 differs = key != identities[identity] or any(old.get(k) != row.get(k)
@@ -616,6 +632,9 @@ def main() -> None:
         trusted_route_keys=trusted_route_keys,
         distance_data=distance_data,
     )
+    # A later refresh must not erase a documented limitation of the older history.
+    if current_analytics.get("history_reconciliation"):
+        new_analytics["history_reconciliation"] = deepcopy(current_analytics["history_reconciliation"])
 
     validate_public_analytics(
         new_analytics,
