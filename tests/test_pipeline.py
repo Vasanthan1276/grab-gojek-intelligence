@@ -126,7 +126,7 @@ class PipelineTests(unittest.TestCase):
             pdf.pages[1].extract_table.return_value=[['malformed']]
             with self.assertRaisesRegex(ValueError,'page 2, row 1'):import_gojek_pdf('fictional.pdf')
     def test_grab_row_alignment_stops_on_mismatch(self):
-        with patch('import_grab_pdf._render',return_value=[Mock()]),patch('import_grab_pdf._date_rows',return_value=[('date',10)]),patch('import_grab_pdf._amounts',return_value=[]):
+        with patch('import_grab_statement.import_grab_statement',return_value=None),patch('import_grab_pdf._render',return_value=[Mock()]),patch('import_grab_pdf._date_rows',return_value=[('date',10)]),patch('import_grab_pdf._amounts',return_value=[]):
             with self.assertRaisesRegex(RuntimeError,'OCR row mismatch'):import_grab_pdf('fixture.pdf')
     def test_no_network_error_body_leaks(self):
         response=Mock(ok=False,status_code=403,text='SECRET LOCATION AND TOKEN')
