@@ -2,10 +2,13 @@ from __future__ import annotations
 
 from collections import Counter, defaultdict
 from copy import deepcopy
-from datetime import date
+from datetime import date, datetime, timezone
 from typing import Any, Iterable
 
 import numpy as np
+from normalization import SAFE_LOCATIONS
+from journey import journey, pricing_type, valid_amount
+from publication import public_analytics
 
 TIMING_MINIMUM_RELIABLE_SAMPLE = 5
 CORE_ROUTE_KEYS = [
@@ -32,6 +35,15 @@ def _stats(values: Iterable[float]) -> dict[str, Any] | None:
         "p75": round(float(np.percentile(vals, 75)), 2),
         "p90": round(float(np.percentile(vals, 90)), 2),
     }
+
+
+def _row_stats(rows):
+    rows = list(rows)
+    result = _stats(row["amount"] for row in rows)
+    if result:
+        dates = sorted(str(row["date"]) for row in rows if row.get("date"))
+        result["date_range"] = {"start": dates[0], "end": dates[-1]} if dates else None
+    return result
 
 
 def _time_bucket(hour: int) -> str:
@@ -62,12 +74,7 @@ def _pricing_type(row: dict[str, Any]) -> str | None:
     if row.get("provider") != "Grab" or row.get("category") != "ride":
         return None
 
-    service = str(row.get("service") or row.get("raw_service") or "").upper()
-    if "METERED" in service:
-        return "Metered"
-    if "PLUS" in service or "PREMIUM" in service:
-        return "Premium"
-    return "Fixed"
+    return pricing_type(row.get("raw_service") or row.get("service"))
 
 
 def _hour_key(row: dict[str, Any]) -> str:
@@ -75,13 +82,13 @@ def _hour_key(row: dict[str, Any]) -> str:
 
 
 def _group_stats(rows: list[dict[str, Any]], key_fn) -> dict[str, dict[str, Any]]:
-    groups: dict[str, list[float]] = defaultdict(list)
+    groups: dict[str, list[dict]] = defaultdict(list)
     for row in rows:
         key = key_fn(row)
         if key is None or key == "":
             continue
-        groups[str(key)].append(float(row["amount"]))
-    return {key: _stats(vals) for key, vals in sorted(groups.items()) if vals}
+        groups[str(key)].append(row)
+    return {key: _row_stats(vals) for key, vals in sorted(groups.items()) if vals}
 
 
 def _timing_choice(grouped: dict[str, dict[str, Any]], label_fn) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
@@ -112,38 +119,7 @@ def is_publishable_location(value: str) -> bool:
 
     Historical trust never bypasses this privacy check.
     """
-    text = str(value or "").strip().upper()
-
-    if not text or text == "UNKNOWN":
-        return False
-
-    if len(text) > 80:
-        return False
-
-    if text.startswith("PRIVATE_"):
-        return False
-
-    suspicious = [
-        "SEMICONDUCTOR ,",
-        "SEMICONDUCTOR .",
-        "ADMIN IN BUILDING",
-        "ADMIN ON BUILDING",
-        "DINA MK",
-        "GREMIEWEES",
-        "IE APE",
-        "INA MI",
-        "INA.",
-        "BUILDING,",
-        "((WORK",
-    ]
-
-    if any(token in text for token in suspicious):
-        return False
-
-    if "OFFICE" in text and text != "OFFICE":
-        return False
-
-    return True
+    return str(value or "").strip() in SAFE_LOCATIONS
 
 
 def _route_allowed(
@@ -160,19 +136,16 @@ def _route_allowed(
     ):
         return False
 
-    if key in trusted_route_keys:
-        return True
-
-    return count >= 2
+    return count >= 5
 
 
 def _build_route(rows: list[dict[str, Any]], origin: str, destination: str) -> dict[str, Any]:
-    overall = _stats(row["amount"] for row in rows)
+    overall = _row_stats(rows)
     providers: dict[str, Any] = {}
     for provider in ("Grab", "Gojek"):
         provider_rows = [row for row in rows if row["provider"] == provider]
         if provider_rows:
-            providers[provider] = _stats(row["amount"] for row in provider_rows)
+            providers[provider] = _row_stats(provider_rows)
 
     time_buckets = _group_stats(rows, lambda row: _time_bucket(int(row["hour"])))
     weekdays = _group_stats(rows, lambda row: row["weekday"])
@@ -228,7 +201,7 @@ def _build_route(rows: list[dict[str, Any]], origin: str, destination: str) -> d
             pricing_rows[pricing].append(row)
 
     grab_pricing_types = {
-        pricing: _stats(row["amount"] for row in pricing_group)
+        pricing: _row_stats(pricing_group)
         for pricing, pricing_group in sorted(pricing_rows.items())
     }
     grab_pricing_hourly = {
@@ -240,7 +213,10 @@ def _build_route(rows: list[dict[str, Any]], origin: str, destination: str) -> d
         for pricing, pricing_group in sorted(pricing_rows.items())
     }
 
+    dates = sorted(str(row["date"]) for row in rows if row.get("date"))
     return {
+        "date_range": {"start": dates[0], "end": dates[-1]} if dates else None,
+        "fare_basis": "statement_total_components_unavailable",
         "key": f"{origin}__{destination}",
         "origin": origin,
         "destination": destination,
@@ -281,19 +257,28 @@ def _cost_per_km_stats(stats: dict[str, Any] | None, distance_km: float) -> dict
 
 
 def apply_distance_metrics(analytics: dict[str, Any], distance_data: dict[str, Any] | None) -> int:
-    if not distance_data:
-        return 0
+    distance_data = distance_data or {}
     distance_routes = distance_data.get("routes", {}) or {}
     enriched = 0
     for route in analytics.get("routes", []):
+        route.pop("distance", None)
+        route.pop("cost_per_km", None)
         record = distance_routes.get(route["key"])
         if not record:
             continue
-        distance_km = float(record.get("distance_km") or 0)
-        if distance_km <= 0:
+        if route.get("journey_type") == "multi_stop" and record.get("stops") != route.get("stops"):
+            continue
+        try:
+            distance_km = float(record.get("distance_km") or 0)
+        except (TypeError, ValueError):
+            continue
+        if not np.isfinite(distance_km) or distance_km <= 0:
             continue
 
         route["distance"] = {
+            "calculated_on": record.get("calculated_on"),
+            "last_attempt_on": record.get("last_attempt_on"),
+            "status": record.get("status", "legacy_calculation_date_unknown"),
             "distance_km": distance_km,
             "route_type": record.get("route_type", "drive"),
             "source": record.get("source", "OneMap"),
@@ -323,6 +308,7 @@ def apply_distance_metrics(analytics: dict[str, Any], distance_data: dict[str, A
     analytics["distance_analysis"] = {
         "generated_on": date.today().isoformat(),
         "routes_with_distance": enriched,
+        "routes_without_distance": len(analytics.get("routes", [])) - enriched,
         "distance_source": "OneMap",
         "distance_precision_km": distance_data.get("distance_rounding_km", 0.5),
         "cost_per_km_enabled": enriched > 0,
@@ -340,6 +326,8 @@ def build(
     distance_data: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     trusted_route_keys = set(trusted_route_keys or set())
+    if any(not valid_amount(row.get("amount")) for row in transactions):
+        raise ValueError("Invalid or missing transaction amount; review locally before rebuilding.")
     sgd = [row for row in transactions if row.get("currency") == "SGD"]
     rides = [row for row in sgd if row.get("category") == "ride"]
     all_rides = [row for row in transactions if row.get("category") == "ride"]
@@ -418,23 +406,36 @@ def build(
         )
         monthly.append({
             "month": month,
+            "count": sum(str(row["date"]).startswith(month) for row in sgd),
+            "component_counts": {
+                label: sum(str(row["date"]).startswith(month) and row.get("provider") == provider
+                           and row.get("category") == category for row in sgd)
+                for label, provider, category in [("Grab rides", "Grab", "ride"),
+                    ("Gojek rides", "Gojek", "ride"), ("GrabFood", "Grab", "food")]
+            },
             "Grab rides": round(grab_rides, 2),
             "Gojek rides": round(gojek_rides, 2),
             "GrabFood": round(grabfood, 2),
             "total": round(grab_rides + gojek_rides + grabfood, 2),
         })
 
-    route_groups: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    route_groups = defaultdict(list)
     for row in rides:
-        origin = str(row.get("origin") or "UNKNOWN").strip()
-        destination = str(row.get("destination") or "UNKNOWN").strip()
-        route_groups[(origin, destination)].append(row)
+        identity = journey(row)
+        if identity is not None:
+            route_groups[identity].append(row)
 
     routes = []
-    for (origin, destination), rows in route_groups.items():
-        key = f"{origin}__{destination}"
-        if _route_allowed(key, origin, destination, len(rows), trusted_route_keys):
-            routes.append(_build_route(rows, origin, destination))
+    for (stops, kind), rows in route_groups.items():
+        origin, destination = stops[0], stops[-1]
+        base_key = "__".join(stops)
+        # Unknown legacy stop coverage must not be mixed with confirmed direct trips.
+        key = base_key + ("__DIRECT" if kind == "direct" else "")
+        if all(is_publishable_location(stop) for stop in stops) and _route_allowed(
+                key, origin, destination, len(rows), trusted_route_keys):
+            route = _build_route(rows, origin, destination)
+            route.update(key=key, stops=list(stops), journey_type=kind)
+            routes.append(route)
     routes.sort(key=lambda route: (-int(route["overall"]["count"]), route["key"]))
 
     routes_by_key = {route["key"]: route for route in routes}
@@ -464,6 +465,7 @@ def build(
 
     analytics = {
         "generated_on": date.today().isoformat(),
+        "history_refreshed_at": datetime.now(timezone.utc).isoformat(),
         "privacy_note": (
             "Only aggregated analytics are published. Raw reports, exact addresses, phone numbers, "
             "email addresses, booking codes and transaction-level timelines are not included in the website."
@@ -512,7 +514,7 @@ def build(
     }
 
     apply_distance_metrics(analytics, distance_data)
-    return analytics
+    return public_analytics(analytics)
 
 
 def find_unpublished_route_candidates(

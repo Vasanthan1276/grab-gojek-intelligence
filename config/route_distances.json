@@ -2,514 +2,88 @@
   "generated_on": "2026-08-10",
   "privacy_note": "Exact private addresses and coordinates are not stored. Published driving distances are rounded.",
   "distance_rounding_km": 0.5,
-  "route_count": 56,
-  "newly_calculated_count": 56,
-  "carried_forward_count": 0,
+  "route_count": 8,
   "routes_without_distance": 0,
   "routes": {
     "HOME__OFFICE": {
       "origin": "HOME",
       "destination": "OFFICE",
-      "historical_trips": 89,
       "distance_km": 11.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     },
     "OFFICE__HOME": {
       "origin": "OFFICE",
       "destination": "HOME",
-      "historical_trips": 59,
       "distance_km": 14.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     },
     "WEST COAST PLAZA__HOME": {
       "origin": "WEST COAST PLAZA",
       "destination": "HOME",
-      "historical_trips": 14,
       "distance_km": 14.0,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     },
     "HOME__VIVOCITY": {
       "origin": "HOME",
       "destination": "VIVOCITY",
-      "historical_trips": 8,
       "distance_km": 23.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     },
     "VIVOCITY__HOME": {
       "origin": "VIVOCITY",
       "destination": "HOME",
-      "historical_trips": 8,
       "distance_km": 23.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     },
     "HOME__MADRAS NEW WOODLANDS": {
       "origin": "HOME",
       "destination": "MADRAS NEW WOODLANDS",
-      "historical_trips": 7,
       "distance_km": 20.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     },
     "OFFICE__V_PLACE": {
       "origin": "OFFICE",
       "destination": "V_PLACE",
-      "historical_trips": 6,
       "distance_km": 22.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     },
     "OFFICE__WEST COAST PLAZA": {
       "origin": "OFFICE",
       "destination": "WEST COAST PLAZA",
-      "historical_trips": 5,
       "distance_km": 22.5,
       "distance_precision_km": 0.5,
       "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__RENDEZVOUS RESTAURANT": {
-      "origin": "HOME",
-      "destination": "RENDEZVOUS RESTAURANT",
-      "historical_trips": 4,
-      "distance_km": 22.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "JEM__HOME": {
-      "origin": "JEM",
-      "destination": "HOME",
-      "historical_trips": 4,
-      "distance_km": 10.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "CAUSEWAY POINT__HOME": {
-      "origin": "CAUSEWAY POINT",
-      "destination": "HOME",
-      "historical_trips": 3,
-      "distance_km": 12.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "CLEMENTI MALL__HOME": {
-      "origin": "CLEMENTI MALL",
-      "destination": "HOME",
-      "historical_trips": 3,
-      "distance_km": 16.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__GAYATHRI LITTLE INDIA": {
-      "origin": "HOME",
-      "destination": "GAYATHRI LITTLE INDIA",
-      "historical_trips": 3,
-      "distance_km": 20.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__JEM": {
-      "origin": "HOME",
-      "destination": "JEM",
-      "historical_trips": 3,
-      "distance_km": 10.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "MUSTAFA CENTRE__HOME": {
-      "origin": "MUSTAFA CENTRE",
-      "destination": "HOME",
-      "historical_trips": 3,
-      "distance_km": 20.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "COMPASSVALE__HOME": {
-      "origin": "COMPASSVALE",
-      "destination": "HOME",
-      "historical_trips": 2,
-      "distance_km": 26.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__COMPASSVALE": {
-      "origin": "HOME",
-      "destination": "COMPASSVALE",
-      "historical_trips": 2,
-      "distance_km": 24.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__SAMY'S CURRY": {
-      "origin": "HOME",
-      "destination": "SAMY'S CURRY",
-      "historical_trips": 2,
-      "distance_km": 20.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__THE STAR VISTA": {
-      "origin": "HOME",
-      "destination": "THE STAR VISTA",
-      "historical_trips": 2,
-      "distance_km": 19.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__WEST COAST PLAZA": {
-      "origin": "HOME",
-      "destination": "WEST COAST PLAZA",
-      "historical_trips": 2,
-      "distance_km": 13.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "OFFICE__CAUSEWAY POINT": {
-      "origin": "OFFICE",
-      "destination": "CAUSEWAY POINT",
-      "historical_trips": 2,
-      "distance_km": 3.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "OFFICE__KUMAR MESS - CLEMENTI": {
-      "origin": "OFFICE",
-      "destination": "KUMAR MESS - CLEMENTI",
-      "historical_trips": 2,
-      "distance_km": 21.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "ANCHORPOINT__HOME": {
-      "origin": "ANCHORPOINT",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 19.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "CAUSEWAY POINT__WEST COAST PLAZA": {
-      "origin": "CAUSEWAY POINT",
-      "destination": "WEST COAST PLAZA",
-      "historical_trips": 1,
-      "distance_km": 20.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "CINELEISURE__HOME": {
-      "origin": "CINELEISURE",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 19.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "CLARKE QUAY CENTRAL__HOME": {
-      "origin": "CLARKE QUAY CENTRAL",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 21.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "CRAFTSMEN COFFEE (THOMSON)__ION ORCHARD": {
-      "origin": "CRAFTSMEN COFFEE (THOMSON)",
-      "destination": "ION ORCHARD",
-      "historical_trips": 1,
-      "distance_km": 3.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "FRASERS HOUSE__HOME": {
-      "origin": "FRASERS HOUSE",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 20.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "FUNAN__HOME": {
-      "origin": "FUNAN",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 21.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "GEORGES MADBAR & GRILL__HOME": {
-      "origin": "GEORGES MADBAR & GRILL",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 27.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__ANNALAKSHMI RESTAURANT": {
-      "origin": "HOME",
-      "destination": "ANNALAKSHMI RESTAURANT",
-      "historical_trips": 1,
-      "distance_km": 24.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__CRAFTSMEN COFFEE (THOMSON)": {
-      "origin": "HOME",
-      "destination": "CRAFTSMEN COFFEE (THOMSON)",
-      "historical_trips": 1,
-      "distance_km": 18.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__DECATHLON - JOO KOON": {
-      "origin": "HOME",
-      "destination": "DECATHLON - JOO KOON",
-      "historical_trips": 1,
-      "distance_km": 13.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__FULLERTON HOTEL": {
-      "origin": "HOME",
-      "destination": "FULLERTON HOTEL",
-      "historical_trips": 1,
-      "distance_km": 23.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__ION ORCHARD": {
-      "origin": "HOME",
-      "destination": "ION ORCHARD",
-      "historical_trips": 1,
-      "distance_km": 20.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__MARINA BAY SANDS": {
-      "origin": "HOME",
-      "destination": "MARINA BAY SANDS",
-      "historical_trips": 1,
-      "distance_km": 24.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__NALAN RESTAURANT CITY HALL": {
-      "origin": "HOME",
-      "destination": "NALAN RESTAURANT CITY HALL",
-      "historical_trips": 1,
-      "distance_km": 22.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__PAN PACIFIC ORCHARD": {
-      "origin": "HOME",
-      "destination": "PAN PACIFIC ORCHARD",
-      "historical_trips": 1,
-      "distance_km": 18.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__PARKROYAL ON BEACH ROAD": {
-      "origin": "HOME",
-      "destination": "PARKROYAL ON BEACH ROAD",
-      "historical_trips": 1,
-      "distance_km": 22.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__SUPER THAI BY SOI AROY @ PASIR": {
-      "origin": "HOME",
-      "destination": "SUPER THAI BY SOI AROY @ PASIR",
-      "historical_trips": 1,
-      "distance_km": 21.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "HOME__V_PLACE": {
-      "origin": "HOME",
-      "destination": "V_PLACE",
-      "historical_trips": 1,
-      "distance_km": 14.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "IKEA ALEXANDRA__HOME": {
-      "origin": "IKEA ALEXANDRA",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 19.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "IMM__HOME": {
-      "origin": "IMM",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 25.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "MADRAS NEW WOODLANDS__FULLERTON BAY HOTEL": {
-      "origin": "MADRAS NEW WOODLANDS",
-      "destination": "FULLERTON BAY HOTEL",
-      "historical_trips": 1,
-      "distance_km": 3.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "MARINA BAY SANDS__HOME": {
-      "origin": "MARINA BAY SANDS",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 22.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "OFFICE__CLEMENTI MALL": {
-      "origin": "OFFICE",
-      "destination": "CLEMENTI MALL",
-      "historical_trips": 1,
-      "distance_km": 21.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "OFFICE__HILLV2": {
-      "origin": "OFFICE",
-      "destination": "HILLV2",
-      "historical_trips": 1,
-      "distance_km": 14.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "OFFICE__YEW TEE POINT": {
-      "origin": "OFFICE",
-      "destination": "YEW TEE POINT",
-      "historical_trips": 1,
-      "distance_km": 14.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "PAN PACIFIC ORCHARD__HOME": {
-      "origin": "PAN PACIFIC ORCHARD",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 17.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "PARADOX SINGAPORE__HOME": {
-      "origin": "PARADOX SINGAPORE",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 21.5,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "ROYAL PLAZA ON SCOTTS__HOME": {
-      "origin": "ROYAL PLAZA ON SCOTTS",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 18.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "THE STAR VISTA__HOME": {
-      "origin": "THE STAR VISTA",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 14.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "THOMSON PLAZA__HOME": {
-      "origin": "THOMSON PLAZA",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 19.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "V_PLACE__HOME": {
-      "origin": "V_PLACE",
-      "destination": "HOME",
-      "historical_trips": 1,
-      "distance_km": 14.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "V_PLACE__VIVOCITY": {
-      "origin": "V_PLACE",
-      "destination": "VIVOCITY",
-      "historical_trips": 1,
-      "distance_km": 12.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
-    },
-    "WEST MALL__VIVOCITY": {
-      "origin": "WEST MALL",
-      "destination": "VIVOCITY",
-      "historical_trips": 1,
-      "distance_km": 16.0,
-      "distance_precision_km": 0.5,
-      "route_type": "drive",
-      "source": "OneMap"
+      "source": "OneMap",
+      "calculated_on": null,
+      "status": "legacy_calculation_date_unknown"
     }
   }
 }

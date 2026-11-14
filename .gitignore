@@ -12,3 +12,14 @@ __pycache__/
 # Local refresh scratch / backup files
 *.tmp
 *.bak
+
+# Local preview only
+.openai/
+
+# Temporary browser QA harness
+docs/qa-mobile.html
+
+docs/qa-fixture/
+
+# Browser QA captures are included in the downloadable review package.
+tests/visual/

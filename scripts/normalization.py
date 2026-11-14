@@ -6,6 +6,18 @@ import re
 
 from pathlib import Path
 
+# Explicit public place allowlist. Private matching fragments remain local-only.
+SAFE_LOCATIONS = {
+    "HOME", "OFFICE", "V_PLACE", "COMPASSVALE", "WEST COAST PLAZA", "VIVOCITY",
+    "CAUSEWAY POINT", "JEM", "ION ORCHARD", "MUSTAFA CENTRE", "PAN PACIFIC ORCHARD",
+    "CHANGI AIRPORT", "MARINA BAY SANDS", "THE STAR VISTA", "CLEMENTI MALL",
+    "MADRAS NEW WOODLANDS", "RENDEZVOUS RESTAURANT", "GAYATHRI LITTLE INDIA",
+    "SAMY'S CURRY", "YEW TEE POINT", "CLARKE QUAY CENTRAL", "DECATHLON - JOO KOON",
+    "ANNALAKSHMI RESTAURANT", "CRAFTSMEN COFFEE (THOMSON)", "GEORGES MADBAR & GRILL",
+    "KUMAR MESS - CLEMENTI", "NALAN RESTAURANT CITY HALL",
+    "SUPER THAI BY SOI AROY @ PASIR PANJANG",
+}
+
 
 def _clean(value: str) -> str:
     """Clean location text before matching."""
@@ -66,7 +78,7 @@ def _matches_private_alias(
         )
 
         if (
-            alias
+            alias.upper() in {"HOME", "OFFICE", "V_PLACE", "COMPASSVALE"}
             and
             any(
                 str(fragment).strip().upper() in upper
@@ -74,7 +86,7 @@ def _matches_private_alias(
                 if str(fragment).strip()
             )
         ):
-            return alias
+            return alias.upper()
 
     return None
 
@@ -107,6 +119,9 @@ def normalize_location(
     if matched_alias:
         return matched_alias
 
+    if upper in SAFE_LOCATIONS:
+        return upper
+
     if upper == "PRIVATE_PLACE_1":
         return "COMPASSVALE"
 
@@ -119,15 +134,8 @@ def normalize_location(
         return upper
 
     # Generic legacy work cleanup without publishing a private workplace address.
-    if (
-        "OFFICE" in upper
-        or "(WORK" in upper
-        or (
-            "SEMICONDUCTOR" in upper
-            and "ASIA" in upper
-        )
-    ):
-        return "OFFICE"
+    # Workplace text must match an explicit private rule; substring matching can
+    # otherwise turn unrelated offices into the user's workplace.
 
     public_rules = [
         ("COMPASSVALE", "COMPASSVALE"),
@@ -157,7 +165,7 @@ def normalize_location(
     ]
 
     for needle, location_label in public_rules:
-        if needle in upper:
+        if re.search(r"(?<!\w)" + re.escape(needle) + r"(?!\w)", upper):
             return location_label
 
     if upper.startswith("PRIVATE_"):
@@ -174,8 +182,5 @@ def normalize_location(
 
         return f"PRIVATE_{digest}"
 
-    return (
-        upper[:80]
-        if upper
-        else "UNKNOWN"
-    )
+    # Unknown readable text is not automatically safe for public publication.
+    return "PRIVATE_" + hashlib.sha256(upper.encode()).hexdigest()[:12].upper()

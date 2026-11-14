@@ -19,6 +19,7 @@ from build_analytics import (
 from import_gojek_pdf import import_gojek_pdf
 from import_grab_pdf import import_grab_pdf
 from normalization import load_aliases, normalize_location
+from journey import pricing_type as classify_pricing, possible_multistop, valid_amount
 
 
 def load_json(path: Path, default):
@@ -137,9 +138,17 @@ def normalize_record(
         or (
             "Gojek"
             if out["provider"] == "Gojek"
-            else "Standard"
+            else "Unknown"
         )
     ).strip()
+
+    if possible_multistop(out.get("origin"), out.get("destination")) and not out.get("stops"):
+        out["route_status"] = "needs_review"
+    if "stops" in out:
+        if not isinstance(out["stops"], list):
+            out["route_status"] = "needs_review"
+        else:
+            out["stops"] = [normalize_location(stop, aliases) for stop in out["stops"]]
 
     out["origin"] = normalize_location(
         out.get("origin") or "UNKNOWN",
@@ -151,13 +160,15 @@ def normalize_record(
         aliases,
     )
 
+    if not valid_amount(out.get("amount")):
+        raise ValueError("Missing or invalid amount; review the private source.")
     out["amount"] = round(
         float(out.get("amount") or 0),
         2,
     )
 
     out["currency"] = str(
-        out.get("currency") or "SGD"
+        out.get("currency") or "UNKNOWN"
     ).strip().upper()
 
     out["id"] = str(
@@ -173,17 +184,7 @@ def normalize_record(
         ).strip()
 
         if not pricing:
-            service_upper = out["service"].upper()
-
-            if "METERED" in service_upper:
-                pricing = "Metered"
-            elif (
-                "PLUS" in service_upper
-                or "PREMIUM" in service_upper
-            ):
-                pricing = "Premium"
-            else:
-                pricing = "Fixed"
+            pricing = classify_pricing(out.get("raw_service") or out["service"])
 
         out["pricing_type"] = pricing
 
@@ -295,6 +296,9 @@ def validate_public_analytics(
     new_data: dict[str, Any],
     current_data: dict[str, Any],
 ) -> None:
+    from validate_public import validate
+    validate(new_data)
+
     summary = new_data.get(
         "summary",
         {},
@@ -359,9 +363,9 @@ def validate_public_analytics(
         [],
     )
 
-    if not isinstance(routes, list) or not routes:
+    if not isinstance(routes, list):
         raise RuntimeError(
-            "Generated analytics contains no publishable routes."
+            "Invalid public route collection."
         )
 
     for route in routes:
@@ -381,6 +385,33 @@ def validate_public_analytics(
                 "Privacy validation failed: an unpublishable route "
                 "survived the analytics build."
             )
+
+
+def merge_records(existing, imported):
+    """Reject ambiguous timestamp collisions instead of guessing corrected fares/stops."""
+    merged = {}
+    identities = {}
+    duplicates = 0
+    added = 0
+    for is_new, rows in ((False, existing), (True, imported)):
+        for row in rows:
+            identity = tuple(row.get(k) for k in ("provider", "datetime", "category"))
+            key = stable_key(row)
+            if identity in identities:
+                old = merged[identities[identity]]
+                differs = key != identities[identity] or any(old.get(k) != row.get(k)
+                    for k in ("origin", "destination", "stops"))
+                pricing_changed = old.get("pricing_type") and row.get("pricing_type") and old["pricing_type"] != row["pricing_type"]
+                if differs or pricing_changed or row.get("route_status") == "needs_review" and old.get("route_status") != "needs_review":
+                    raise ValueError("Overlapping records disagree; resolve the private source before refresh. No amounts or locations logged.")
+                if is_new:
+                    duplicates += 1
+                continue
+            identities[identity] = key
+            merged[key] = row
+            if is_new:
+                added += 1
+    return sorted(merged.values(), key=lambda r: r["datetime"]), duplicates, added
 
 
 def main() -> None:
@@ -495,7 +526,7 @@ def main() -> None:
         )
 
         print(
-            f"Imported {len(rows):4d} rows from Gojek file: {path.name}"
+            f"Imported {len(rows):4d} rows from a local Gojek report"
         )
 
     for path in grab_pdfs:
@@ -523,37 +554,10 @@ def main() -> None:
         )
 
         print(
-            f"Imported {len(rows):4d} rows from Grab file: {path.name}"
+            f"Imported {len(rows):4d} rows from a local Grab report"
         )
 
-    merged: dict[str, dict[str, Any]] = {}
-
-    for row in existing_master:
-        merged[
-            stable_key(row)
-        ] = row
-
-    duplicate_count = 0
-    added_count = 0
-
-    for row in imported:
-        key = stable_key(
-            row
-        )
-
-        if key in merged:
-            duplicate_count += 1
-            continue
-
-        merged[
-            key
-        ] = row
-        added_count += 1
-
-    transactions = sorted(
-        merged.values(),
-        key=lambda row: row["datetime"],
-    )
+    transactions, duplicate_count, added_count = merge_records(existing_master, imported)
 
     distance_data = load_json(
         Path(args.distances),
@@ -622,6 +626,11 @@ def main() -> None:
             analytics_path,
             backup_dir / f"analytics-{stamp}.json",
         )
+
+    if master_path.exists():
+        backup_dir = Path("local_private/backups")
+        backup_dir.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(master_path, backup_dir / f"transactions-{datetime.now():%Y%m%d-%H%M%S}.json")
 
     atomic_write_json(
         master_path,

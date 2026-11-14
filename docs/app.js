@@ -3,7 +3,7 @@ let DATA = null;
 /* =========================================================
    HELPERS
 ========================================================= */
-const money = (value) => `S$${Number(value || 0).toFixed(2)}`;
+const money = (value) => value != null && Number.isFinite(Number(value)) ? `S$${Number(value).toFixed(2)}` : "—";
 
 function label(value) {
   if (!value) return "";
@@ -13,7 +13,7 @@ function label(value) {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
-const routeName = (route) => `${label(route.origin)} → ${label(route.destination)}`;
+const routeName = (route) => (route.stops || [route.origin, route.destination]).map(label).join(" → ");
 
 function formatMonth(value) {
   if (!value) return "";
@@ -59,9 +59,9 @@ const minimumTimingSample = () =>
   Number(DATA?.analysis_config?.timing_minimum_reliable_sample || 5);
 
 function confidenceLevel(count) {
-  if (count >= 30) return { text: "High confidence", className: "confidence-high" };
-  if (count >= 10) return { text: "Good confidence", className: "confidence-medium" };
-  if (count >= 5) return { text: "Early pattern", className: "confidence-low" };
+  if (count >= 30) return { text: "Larger historical sample", className: "confidence-high" };
+  if (count >= 10) return { text: "Historical sample", className: "confidence-medium" };
+  if (count >= 5) return { text: "Low sample · descriptive only", className: "confidence-low" };
   return { text: "Limited history", className: "confidence-low" };
 }
 
@@ -189,10 +189,10 @@ function renderMonthly() {
     ? DATA.monthly
     : [];
 
-  if (!monthly.length) {
+  if (!monthly.length || monthly.some(m => ["Grab rides", "Gojek rides", "GrabFood"].some(k => m[k] == null))) {
     container.innerHTML = `
       <div class="monthly-empty">
-        No monthly data available.
+        Monthly component detail is withheld or unavailable. Missing values are not zero.
       </div>
     `;
 
@@ -1035,7 +1035,7 @@ function showRoute(key) {
 
                 <div>
                   <span>
-                    Data confidence
+                    Sample size
                   </span>
 
                   <strong>
@@ -1055,7 +1055,7 @@ function showRoute(key) {
                       <strong>
                         Lowest historical S$/km
                       </strong>
-                      among reliable options.
+                      among options meeting the sample threshold.
                     </div>
                   `
                   : ""
@@ -1126,14 +1126,14 @@ function showRoute(key) {
               </div>
 
               <div class="muted">
-                Best reliable hour
+                Lowest observed-hour average
               </div>
 
               <div class="provider-detail-grid">
 
                 <div>
                   <span>
-                    Best average
+                    Lowest observed average
                   </span>
 
                   <strong>
@@ -1439,7 +1439,7 @@ function showRoute(key) {
         <div class="recommendation-neutral">
 
           There is not enough service-level
-          history on this route for a reliable
+          history on this route for a descriptive
           comparison between booking options.
 
         </div>
@@ -1865,8 +1865,7 @@ function showRoute(key) {
             An hour needs at least
             ${minimumSample}
             historical trips before it is
-            treated as a reliable timing
-            pattern.
+            shown as a descriptive timing group. This is not evidence of a better booking time.
           </p>
 
         </div>
@@ -1883,7 +1882,7 @@ function showRoute(key) {
         >
 
           <span>
-            Best reliable hour
+            Lowest observed-hour average
           </span>
 
           <strong>
@@ -1932,7 +1931,7 @@ function showRoute(key) {
         >
 
           <span>
-            Highest-cost reliable hour
+            Highest observed-hour average
           </span>
 
           <strong>
@@ -1982,7 +1981,7 @@ function showRoute(key) {
 
               <div class="recommendation-neutral">
 
-                The highest-cost reliable hour
+                The highest observed-hour average
                 has averaged
 
                 <strong>
@@ -1991,7 +1990,7 @@ function showRoute(key) {
                   )}
                 </strong>
 
-                more than the best reliable hour
+                more than the lowest observed-hour average
 
                 ${
                   timingDifferencePercent != null
@@ -2175,8 +2174,7 @@ function showRoute(key) {
 
                 <p>
                   Weekday differences are shown
-                  alongside the stronger hourly
-                  timing patterns.
+                  as separate descriptive groups. Dates, services and trip conditions may differ.
                 </p>
 
               </div>
@@ -2193,7 +2191,7 @@ function showRoute(key) {
               >
 
                 <span>
-                  Lowest reliable weekday
+                  Lowest observed weekday
                 </span>
 
                 <strong>
@@ -2242,7 +2240,7 @@ function showRoute(key) {
               >
 
                 <span>
-                  Highest reliable weekday
+                  Highest observed weekday
                 </span>
 
                 <strong>
@@ -2622,33 +2620,6 @@ function wireTabs() {
 /* =========================================================
    SERVICE + DISTANCE AWARE FARE CHECKER
 ========================================================= */
-function fareScore(
-  amount,
-  stats
-) {
-  if (amount <= Number(stats.p10)) {
-    return [5, "Exceptional value"];
-  }
-
-  if (amount <= Number(stats.p25)) {
-    return [4, "Very good"];
-  }
-
-  if (amount <= Number(stats.median)) {
-    return [3, "Normal to good"];
-  }
-
-  if (amount <= Number(stats.p75)) {
-    return [2, "Somewhat expensive"];
-  }
-
-  if (amount <= Number(stats.p90)) {
-    return [1, "Expensive"];
-  }
-
-  return [0, "Unusually expensive"];
-}
-
 function localDateString(date = new Date()) {
   return (
     `${date.getFullYear()}-` +
@@ -2682,57 +2653,6 @@ function weekdayFromDate(value) {
     "Friday",
     "Saturday"
   ][new Date(year, month - 1, day).getDay()];
-}
-
-function copyStats(stats) {
-  if (!stats) return null;
-
-  return {
-    count: Number(stats.count || 0),
-    average: Number(stats.average || 0),
-    median: Number(stats.median || 0),
-    min: Number(stats.min || 0),
-    max: Number(stats.max || 0),
-    p10: Number(stats.p10 ?? stats.min ?? 0),
-    p25: Number(stats.p25 ?? stats.median ?? 0),
-    p75: Number(stats.p75 ?? stats.median ?? 0),
-    p90: Number(stats.p90 ?? stats.max ?? 0)
-  };
-}
-
-function scaleStats(stats, factor) {
-  const output = copyStats(stats);
-
-  if (!output) return null;
-
-  const safeFactor = Math.max(
-    0.85,
-    Math.min(1.15, Number(factor || 1))
-  );
-
-  [
-    "average",
-    "median",
-    "min",
-    "max",
-    "p10",
-    "p25",
-    "p75",
-    "p90"
-  ].forEach((key) => {
-    output[key] = Number(
-      (output[key] * safeFactor).toFixed(2)
-    );
-  });
-
-  return output;
-}
-
-function reliableStats(stats) {
-  return Boolean(
-    stats &&
-    Number(stats.count || 0) >= minimumTimingSample()
-  );
 }
 
 function getFareContext() {
@@ -2817,333 +2737,8 @@ function updateFarePricingControl() {
   }
 }
 
-function getRouteWeekdayContext(route, weekday) {
-  if (!weekday) return null;
-
-  const stats = route?.weekdays?.[weekday];
-
-  if (!reliableStats(stats)) return null;
-
-  return {
-    stats,
-    source: `All providers + ${weekday}`,
-    baseAverage: Number(route?.overall?.average || 0)
-  };
-}
-
-function getProviderWeekdayContext(route, provider, weekday) {
-  if (!weekday || provider === "Overall") return null;
-
-  const stats = route?.provider_weekdays?.[provider]?.[weekday];
-
-  if (!reliableStats(stats)) return null;
-
-  return {
-    stats,
-    source: `${provider} + ${weekday}`,
-    baseAverage: Number(route?.providers?.[provider]?.average || 0)
-  };
-}
-
-function getGrabPricingWeekdayContext(route, pricingType, weekday) {
-  if (!weekday || !pricingType || pricingType === "Any") return null;
-
-  const stats = route?.grab_pricing_weekdays?.[pricingType]?.[weekday];
-
-  if (!reliableStats(stats)) return null;
-
-  return {
-    stats,
-    source: `${pricingTypeDisplay(pricingType)} + ${weekday}`,
-    baseAverage: Number(
-      route?.grab_pricing_types?.[pricingType]?.average || 0
-    )
-  };
-}
-
-function strongestWeekdayContext(route, provider, pricingType, weekday) {
-  if (provider === "Grab" && pricingType && pricingType !== "Any") {
-    const pricingContext = getGrabPricingWeekdayContext(
-      route,
-      pricingType,
-      weekday
-    );
-
-    if (pricingContext) return pricingContext;
-  }
-
-  const providerContext = getProviderWeekdayContext(
-    route,
-    provider,
-    weekday
-  );
-
-  if (providerContext) return providerContext;
-
-  return getRouteWeekdayContext(route, weekday);
-}
-
-function selectFareBenchmark(
-  route,
-  provider,
-  pricingType,
-  hour,
-  weekday
-) {
-  const minimum = minimumTimingSample();
-
-  let timingStats = null;
-  let source = null;
-  let level = null;
-
-  // 1. Grab pricing type + exact hour.
-  if (
-    provider === "Grab" &&
-    pricingType &&
-    pricingType !== "Any" &&
-    hour
-  ) {
-    const stats = route?.grab_pricing_hourly?.[pricingType]?.[hour];
-
-    if (Number(stats?.count || 0) >= minimum) {
-      timingStats = stats;
-      source = `${pricingTypeDisplay(pricingType)} · ${formatHour(hour)}`;
-      level = "grab-pricing-hour";
-    }
-  }
-
-  // 2. Provider + exact hour.
-  if (!timingStats && provider !== "Overall" && hour) {
-    const stats = route?.provider_hourly?.[provider]?.[hour];
-
-    if (Number(stats?.count || 0) >= minimum) {
-      timingStats = stats;
-      source = `${provider} · ${formatHour(hour)}`;
-      level = "provider-hour";
-    }
-  }
-
-  // 3. Route + exact hour across providers.
-  if (!timingStats && hour) {
-    const stats = route?.hourly?.[hour];
-
-    if (Number(stats?.count || 0) >= minimum) {
-      timingStats = stats;
-      source = `All providers · ${formatHour(hour)}`;
-      level = "route-hour";
-    }
-  }
-
-  const weekdayContext = strongestWeekdayContext(
-    route,
-    provider,
-    pricingType,
-    weekday
-  );
-
-  // Apply a capped weekday adjustment to a reliable hourly benchmark.
-  if (timingStats) {
-    let stats = copyStats(timingStats);
-    let weekdayAdjustment = null;
-
-    if (weekdayContext?.baseAverage > 0) {
-      const rawFactor =
-        Number(weekdayContext.stats.average) /
-        Number(weekdayContext.baseAverage);
-
-      const factor = Math.max(0.85, Math.min(1.15, rawFactor));
-
-      stats = scaleStats(stats, factor);
-
-      weekdayAdjustment = {
-        factor,
-        source: weekdayContext.source,
-        count: Number(weekdayContext.stats.count || 0)
-      };
-    }
-
-    return {
-      stats,
-      source,
-      level,
-      sampleCount: Number(timingStats.count || 0),
-      weekdayAdjustment
-    };
-  }
-
-  // 4. Grab pricing type + weekday.
-  if (
-    provider === "Grab" &&
-    pricingType &&
-    pricingType !== "Any"
-  ) {
-    const pricingDay = getGrabPricingWeekdayContext(
-      route,
-      pricingType,
-      weekday
-    );
-
-    if (pricingDay) {
-      return {
-        stats: copyStats(pricingDay.stats),
-        source: pricingDay.source,
-        level: "grab-pricing-weekday",
-        sampleCount: Number(pricingDay.stats.count || 0),
-        weekdayAdjustment: null
-      };
-    }
-  }
-
-  // 5. Provider + weekday.
-  const providerDay = getProviderWeekdayContext(route, provider, weekday);
-
-  if (providerDay) {
-    return {
-      stats: copyStats(providerDay.stats),
-      source: providerDay.source,
-      level: "provider-weekday",
-      sampleCount: Number(providerDay.stats.count || 0),
-      weekdayAdjustment: null
-    };
-  }
-
-  // 6. Route + weekday.
-  const routeDay = getRouteWeekdayContext(route, weekday);
-
-  if (routeDay) {
-    return {
-      stats: copyStats(routeDay.stats),
-      source: routeDay.source,
-      level: "route-weekday",
-      sampleCount: Number(routeDay.stats.count || 0),
-      weekdayAdjustment: null
-    };
-  }
-
-  // 7. Grab pricing type overall.
-  if (
-    provider === "Grab" &&
-    pricingType &&
-    pricingType !== "Any" &&
-    route?.grab_pricing_types?.[pricingType]
-  ) {
-    const stats = route.grab_pricing_types[pricingType];
-
-    return {
-      stats: copyStats(stats),
-      source: `${pricingTypeDisplay(pricingType)} · route overall`,
-      level: "grab-pricing-route",
-      sampleCount: Number(stats.count || 0),
-      weekdayAdjustment: null
-    };
-  }
-
-  // 8. Provider overall.
-  if (provider !== "Overall" && route?.providers?.[provider]) {
-    const stats = route.providers[provider];
-
-    return {
-      stats: copyStats(stats),
-      source: `${provider} · route overall`,
-      level: "provider-route",
-      sampleCount: Number(stats.count || 0),
-      weekdayAdjustment: null
-    };
-  }
-
-  // 9. Route overall.
-  return {
-    stats: copyStats(route.overall),
-    source: "Route overall",
-    level: "route-overall",
-    sampleCount: Number(route?.overall?.count || 0),
-    weekdayAdjustment: null
-  };
-}
-
-function costPerKmReference(route, provider, pricingType) {
-  if (!route?.cost_per_km) return null;
-
-  if (
-    provider === "Grab" &&
-    pricingType &&
-    pricingType !== "Any"
-  ) {
-    const pricingStats =
-      route.cost_per_km?.grab_pricing_types?.[pricingType];
-
-    if (pricingStats) {
-      return {
-        stats: pricingStats,
-        label: pricingTypeDisplay(pricingType)
-      };
-    }
-  }
-
-  if (provider !== "Overall") {
-    const providerStats = route.cost_per_km?.providers?.[provider];
-
-    if (providerStats) {
-      return {
-        stats: providerStats,
-        label: provider
-      };
-    }
-  }
-
-  if (route.cost_per_km?.overall) {
-    return {
-      stats: route.cost_per_km.overall,
-      label: "Route overall"
-    };
-  }
-
-  return null;
-}
-
-function contextualCostPerKm(stats, distanceKm) {
-  if (!stats || !distanceKm || distanceKm <= 0) return null;
-
-  return {
-    p25: Number(stats.p25 || 0) / distanceKm,
-    median: Number(stats.median || 0) / distanceKm,
-    p75: Number(stats.p75 || 0) / distanceKm,
-    average: Number(stats.average || 0) / distanceKm
-  };
-}
-
-function alternativeBenchmark(route, provider, context) {
-  if (provider === "Grab") {
-    return {
-      label: "Gojek",
-      benchmark: selectFareBenchmark(
-        route,
-        "Gojek",
-        "Any",
-        context.hour,
-        context.weekday
-      )
-    };
-  }
-
-  if (provider === "Gojek") {
-    const grabType = route?.grab_pricing_types?.Fixed
-      ? "Fixed"
-      : "Any";
-
-    return {
-      label: grabType === "Fixed" ? "Grab Fixed" : "Grab",
-      benchmark: selectFareBenchmark(
-        route,
-        "Grab",
-        grabType,
-        context.hour,
-        context.weekday
-      )
-    };
-  }
-
-  return null;
+function selectFareBenchmark(route, provider, pricingType, hour, weekday) {
+  return RideEvidence.select(route, provider, pricingType, hour, weekday);
 }
 
 function ensureFareContextControls() {
@@ -3280,244 +2875,20 @@ function ensureFareContextControls() {
 }
 
 function checkFare() {
-  const route = findRouteByKey(
-    document.querySelector("#fareRoute")?.value
-  );
-
-  const provider =
-    document.querySelector("#fareProvider")?.value || "Overall";
-
-  const pricingType =
-    provider === "Grab"
-      ? document.querySelector("#farePricingType")?.value || "Any"
-      : "Any";
-
-  const amount = Number(
-    document.querySelector("#fareAmount")?.value
-  );
-
-  const resultBox = document.querySelector("#fareResult");
-
-  if (
-    !route ||
-    !resultBox ||
-    !Number.isFinite(amount) ||
-    amount <= 0
-  ) {
-    if (resultBox) {
-      resultBox.innerHTML = "Enter a valid fare amount.";
-    }
-    return;
-  }
-
+  const route = findRouteByKey(document.querySelector("#fareRoute")?.value);
+  const provider = document.querySelector("#fareProvider")?.value || "Overall";
+  const pricing = provider === "Grab" ? document.querySelector("#farePricingType")?.value || "Any" : "Any";
+  const amount = Number(document.querySelector("#fareAmount")?.value);
+  const box = document.querySelector("#fareResult");
+  if (!Number.isFinite(amount) || amount <= 0) { box.textContent = "Enter a valid positive quote."; return; }
   const context = getFareContext();
-
-  const benchmark = selectFareBenchmark(
-    route,
-    provider,
-    pricingType,
-    context.hour,
-    context.weekday
-  );
-
-  if (!benchmark?.stats) {
-    resultBox.innerHTML =
-      "Not enough historical data for that route and context.";
-    return;
-  }
-
-  const stats = benchmark.stats;
-  const [score, description] = fareScore(amount, stats);
-
-  const difference = amount - Number(stats.median);
-
-  const differenceText =
-    difference >= 0
-      ? `${money(difference)} above median`
-      : `${money(Math.abs(difference))} below median`;
-
-  const distanceKm = routeDistanceKm(route);
-  const quoteCostPerKm =
-    distanceKm && distanceKm > 0
-      ? amount / distanceKm
-      : null;
-
-  const contextCostPerKm = contextualCostPerKm(
-    stats,
-    distanceKm
-  );
-
-  const historicEfficiency = costPerKmReference(
-    route,
-    provider,
-    pricingType
-  );
-
-  let weekdayNote = "";
-
-  if (benchmark.weekdayAdjustment) {
-    const percent =
-      (benchmark.weekdayAdjustment.factor - 1) * 100;
-
-    weekdayNote = `
-      <div class="fare-reference">
-        <span class="muted">Weekday adjustment</span>
-        <strong>
-          ${context.weekday} pattern:
-          ${percent >= 0 ? "+" : ""}${percent.toFixed(0)}%
-        </strong>
-      </div>
-    `;
-  }
-
-  let efficiencyNote = "";
-
-  if (
-    quoteCostPerKm != null &&
-    Number(historicEfficiency?.stats?.average || 0) > 0
-  ) {
-    const historical = Number(historicEfficiency.stats.average);
-    const deltaPercent = ((quoteCostPerKm / historical) - 1) * 100;
-
-    let className = "";
-    let wording = "close to";
-
-    if (deltaPercent >= 15) {
-      className = "fare-efficiency-high";
-      wording = "higher than";
-    } else if (deltaPercent <= -10) {
-      className = "fare-efficiency-good";
-      wording = "lower than";
-    }
-
-    efficiencyNote = `
-      <div class="fare-recommendation ${className}">
-        This quote is
-        <strong>${formatCostPerKm(quoteCostPerKm)}</strong>.
-        Your ${escapeHTML(historicEfficiency.label)} historical average is
-        <strong>${formatCostPerKm(historical)}</strong> —
-        ${Math.abs(deltaPercent).toFixed(0)}%
-        ${wording} that benchmark.
-      </div>
-    `;
-  }
-
-  let providerAdvice = "";
-  const alternative = alternativeBenchmark(route, provider, context);
-
-  if (alternative?.benchmark?.stats) {
-    const otherMedian = Number(alternative.benchmark.stats.median);
-    const saving = amount - otherMedian;
-
-    providerAdvice =
-      saving > 1
-        ? `
-          <div class="fare-recommendation">
-            <strong>Check ${escapeHTML(alternative.label)} before booking.</strong>
-            Its historical benchmark for this time/context is about
-            <strong>${money(otherMedian)}</strong>, roughly
-            <strong>${money(saving)}</strong> below this quote.
-          </div>
-        `
-        : `
-          <div class="fare-recommendation">
-            ${escapeHTML(alternative.label)} does not show a meaningful
-            historical saving versus this quote for the selected context.
-          </div>
-        `;
-  } else if (provider === "Overall" && route.provider_comparison) {
-    providerAdvice = `
-      <div class="fare-recommendation">
-        Historically,
-        <strong>${route.provider_comparison.cheaper}</strong>
-        has averaged
-        <strong>${money(route.provider_comparison.average_saving)}</strong>
-        less per trip on this route overall.
-      </div>
-    `;
-  }
-
-  const pricingTypeCard =
-    provider === "Grab"
-      ? `
-        <div class="fare-reference">
-          <span class="muted">Grab pricing type</span>
-          <strong>${escapeHTML(pricingTypeDisplay(pricingType))}</strong>
-        </div>
-      `
-      : "";
-
-  const distanceCards =
-    distanceKm
-      ? `
-        <div class="fare-reference">
-          <span class="muted">Driving distance</span>
-          <strong>${formatDistance(distanceKm)}</strong>
-        </div>
-
-        <div class="fare-reference">
-          <span class="muted">Quote cost per km</span>
-          <strong>${formatCostPerKm(quoteCostPerKm)}</strong>
-        </div>
-
-        ${
-          contextCostPerKm
-            ? `
-              <div class="fare-reference">
-                <span class="muted">Context S$/km range</span>
-                <strong>
-                  ${formatCostPerKm(contextCostPerKm.p25)} –
-                  ${formatCostPerKm(contextCostPerKm.p75)}
-                </strong>
-              </div>
-            `
-            : ""
-        }
-      `
-      : "";
-
-  resultBox.innerHTML = `
-    <div class="fare-result-grid">
-      <div>
-        <div class="score">
-          ${score}<small>/5</small>
-        </div>
-
-        <strong>${description}</strong>
-      </div>
-
-      <div class="fare-result-details">
-        <div class="fare-reference">
-          <span class="muted">Quote</span>
-          <strong>${money(amount)}</strong>
-        </div>
-
-        <div class="fare-reference">
-          <span class="muted">Expected fare range</span>
-          <strong>${money(stats.p25)} – ${money(stats.p75)}</strong>
-        </div>
-
-        <div class="fare-reference">
-          <span class="muted">Context median</span>
-          <strong>${money(stats.median)} · ${differenceText}</strong>
-        </div>
-
-        <div class="fare-reference">
-          <span class="muted">Benchmark used</span>
-          <strong>
-            ${benchmark.source} · ${benchmark.sampleCount} historical trips
-          </strong>
-        </div>
-
-        ${pricingTypeCard}
-        ${distanceCards}
-        ${weekdayNote}
-      </div>
-    </div>
-
-    ${efficiencyNote}
-    ${providerAdvice}
-  `;
+  const b = selectFareBenchmark(route, provider, pricing, context.hour, context.weekday);
+  if (!b.stats) { box.textContent = b.reason; return; }
+  box.innerHTML = `<strong>${RideEvidence.position(amount, b.stats)}</strong>
+    <p>Historical paid-fare middle 50%: ${money(b.stats.p25)} – ${money(b.stats.p75)}.</p>
+    <p>${escapeHTML(b.source)} · ${b.sampleCount} trips. ${b.sampleCount < 10 ? 'Low sample.' : 'Descriptive sample only.'}</p>
+    <p>History refreshed ${escapeHTML(DATA.generated_on)}. Exact comparable-trip dates ${b.dateRange ? escapeHTML(b.dateRange.start + ' to ' + b.dateRange.end) : 'unavailable'}.</p>
+    <p>No live prices are fetched. This is not a prediction or booking recommendation. Fees, tolls, promotions and stops may differ. Older stop coverage is unverified.</p>`;
 }
 
 function wireFareChecker() {
@@ -3667,6 +3038,7 @@ function answer(question) {
       ""
     )
       .toLowerCase()
+      .replace(/\bspent\b/g, "spend")
       .trim();
 
   const homeOffice =
@@ -3710,7 +3082,7 @@ function answer(question) {
 
     if (!top) {
       return (
-        "No food-order data " +
+        "No publishable restaurant detail " +
         "is currently available."
       );
     }
@@ -3820,37 +3192,8 @@ function answer(question) {
     `;
   }
 
-  if (
-    q.includes(
-      "cheaper"
-    )
-    &&
-    homeOffice
-      ?.provider_comparison
-  ) {
-
-    const c =
-      homeOffice
-        .provider_comparison;
-
-    return `
-      For Home → Office,
-
-      <strong>
-        ${c.cheaper}
-      </strong>
-
-      has historically been cheaper
-      on average by about
-
-      <strong>
-        ${money(
-          c.average_saving
-        )}
-      </strong>
-
-      per trip.
-    `;
+  if (q.includes("cheaper")) {
+    return "Past paid fares cannot establish which app is cheaper now. Use the new dashboard for matched service comparisons, then check current quotes in both apps.";
   }
 
   if (

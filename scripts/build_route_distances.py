@@ -10,6 +10,8 @@ from pathlib import Path
 from typing import Any
 
 import requests
+import math
+from normalization import SAFE_LOCATIONS
 
 
 ONEMAP_BASE_URL = "https://www.onemap.gov.sg"
@@ -20,7 +22,7 @@ ROUTE_URL = f"{ONEMAP_BASE_URL}/api/public/routingsvc/route"
 ANALYTICS_FILE = Path("docs/data/analytics.json")
 OUTPUT_FILE = Path("config/route_distances.json")
 
-MIN_ROUTE_COUNT = 1
+MIN_ROUTE_COUNT = 5
 DISTANCE_ROUNDING_KM = 0.5
 REQUEST_PAUSE_SECONDS = 0.20
 
@@ -136,17 +138,7 @@ def load_private_locations() -> dict[str, str]:
 
 
 def safe_public_alias(alias: str) -> bool:
-    text = str(
-        alias or ""
-    ).strip().upper()
-
-    if not text or text == "UNKNOWN":
-        return False
-
-    if text.startswith("PRIVATE_"):
-        return False
-
-    return True
+    return str(alias or "").strip() in SAFE_LOCATIONS
 
 
 def load_routes() -> list[dict[str, Any]]:
@@ -168,6 +160,8 @@ def load_routes() -> list[dict[str, Any]]:
             or 0
         )
 
+        if route.get("journey_type") == "multi_stop":
+            continue  # Endpoint-only routing would underestimate an ordered multi-stop journey.
         if count < MIN_ROUTE_COUNT:
             continue
 
@@ -215,15 +209,8 @@ def response_json(
     description: str,
 ) -> dict[str, Any]:
     if not response.ok:
-        preview = response.text[:500].replace(
-            "\n",
-            " ",
-        )
+        raise RuntimeError(f"{description} failed. HTTP {response.status_code}; response body withheld")
 
-        raise RuntimeError(
-            f"{description} failed. HTTP {response.status_code}. "
-            f"Response: {preview}"
-        )
 
     try:
         data = response.json()
@@ -390,7 +377,7 @@ def calculate_driving_distance(
         total_distance
     ) / 1000
 
-    if distance_km <= 0:
+    if not math.isfinite(distance_km) or distance_km <= 0:
         raise RuntimeError(
             f"Invalid driving distance returned for {route_key}."
         )
@@ -418,17 +405,20 @@ def current_distance_record(
     if not isinstance(record, dict):
         return None
 
-    distance_km = float(
-        record.get("distance_km") or 0
-    )
+    try:
+        distance_km = float(record.get("distance_km") or 0)
+    except (TypeError, ValueError):
+        return None
 
-    if distance_km <= 0:
+    if not math.isfinite(distance_km) or distance_km <= 0:
         return None
 
     return {
         "origin": route["origin"],
         "destination": route["destination"],
-        "historical_trips": route["count"],
+        "calculated_on": record.get("calculated_on"),
+        "last_attempt_on": date.today().isoformat(),
+        "status": "carried_forward",
         "distance_km": distance_km,
         "distance_precision_km": float(
             record.get("distance_precision_km")
@@ -543,7 +533,7 @@ def main() -> int:
             )
 
             print(
-                f"WARNING: Could not resolve {alias}: {exc}"
+                f"WARNING: Could not resolve {alias}: {type(exc).__name__}"
             )
 
         time.sleep(
@@ -612,11 +602,15 @@ def main() -> int:
             public_distance = round_distance(
                 exact_distance
             )
+            if public_distance <= 0:
+                raise ValueError("Rounded distance is too short for a cost/km denominator")
 
             output_routes[key] = {
                 "origin": origin,
                 "destination": destination,
-                "historical_trips": route["count"],
+                "calculated_on": date.today().isoformat(),
+                "last_attempt_on": date.today().isoformat(),
+                "status": "calculated",
                 "distance_km": public_distance,
                 "distance_precision_km": DISTANCE_ROUNDING_KM,
                 "route_type": "drive",
@@ -640,7 +634,7 @@ def main() -> int:
 
                 print(
                     f"WARNING: Routing failed for {key}; carried forward "
-                    f"{old_record['distance_km']:.1f} km. Reason: {exc}"
+                    f"{old_record['distance_km']:.1f} km. Reason: {type(exc).__name__}"
                 )
             else:
                 failed_without_distance.append(
@@ -648,7 +642,7 @@ def main() -> int:
                 )
 
                 print(
-                    f"WARNING: Could not calculate {key}: {exc}"
+                    f"WARNING: Could not calculate {key}: {type(exc).__name__}"
                 )
 
         time.sleep(
@@ -733,7 +727,7 @@ if __name__ == "__main__":
         )
     except Exception as exc:
         print(
-            f"ERROR: {exc}",
+            f"ERROR: {type(exc).__name__}",
             file=sys.stderr,
         )
-        raise
+        raise SystemExit(1) from None
