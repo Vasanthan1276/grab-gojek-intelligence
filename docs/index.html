@@ -1,220 +1,49 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-SG">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ride &amp; Food Intelligence</title>
-  <link rel="stylesheet" href="styles.css?v=5">
-
-  <!-- Monthly-chart safety rules retained from the working site. -->
-  <style>
-    .chart-card { overflow: hidden !important; }
-    .monthly-chart {
-      width: 100% !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-      overflow: hidden !important;
-    }
-    .monthly-bars {
-      width: 100% !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-      display: flex !important;
-      justify-content: space-between !important;
-      align-items: stretch !important;
-      gap: 4px !important;
-      overflow-x: hidden !important;
-      overflow-y: hidden !important;
-      scrollbar-width: none !important;
-    }
-    .monthly-bars::-webkit-scrollbar { display: none !important; }
-    .month-column {
-      flex: 1 1 0 !important;
-      width: auto !important;
-      min-width: 0 !important;
-      max-width: none !important;
-    }
-    .month-bar-area {
-      width: 100% !important;
-      min-width: 0 !important;
-    }
-    .month-stack { width: min(34px,72%) !important; }
-    .month-value {
-      font-size: 9px !important;
-      overflow: hidden !important;
-      white-space: nowrap !important;
-    }
-    .month-label {
-      min-width: 0 !important;
-      font-size: 9px !important;
-      white-space: nowrap !important;
-      overflow: hidden !important;
-    }
-  </style>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <title>Grab &amp; Gojek · Booking intelligence</title>
+  <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-  <header class="hero">
-    <div>
-      <div class="eyebrow">PERSONAL INTELLIGENCE</div>
-      <h1>Ride &amp; Food Intelligence</h1>
-      <p>Historical Grab + Gojek patterns, service-aware fare benchmarking, distance efficiency and food insights.</p>
-    </div>
-    <div class="privacy-pill">Aggregated data only</div>
-  </header>
-
-  <nav class="tabs">
-    <button class="tab active" data-tab="overview">Overview</button>
-    <button class="tab" data-tab="rides">Rides</button>
-    <button class="tab" data-tab="fare">Fare Checker</button>
-    <button class="tab" data-tab="food">Food</button>
-    <button class="tab" data-tab="agent">Ask My Data</button>
-  </nav>
-
-  <main>
-    <section id="overview" class="panel active">
-      <div id="summaryCards" class="cards"></div>
-
-      <div class="grid two">
-        <article class="card chart-card">
-          <h2>Monthly spend</h2>
-          <div id="monthlyChart"></div>
-        </article>
-
-        <article class="card">
-          <h2>Provider snapshot</h2>
-          <div id="providerSnapshot"></div>
-        </article>
-      </div>
-
-      <article class="card">
-        <h2>Core routes</h2>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Route</th>
-                <th>Trips</th>
-                <th>Typical</th>
-                <th>Grab avg</th>
-                <th>Gojek avg</th>
-                <th>Historical edge</th>
-              </tr>
-            </thead>
-            <tbody id="coreRoutes"></tbody>
-          </table>
-        </div>
-      </article>
+  <a class="skip" href="#main">Skip to route comparison</a>
+  <header><a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">R</span><span>GRAB &amp; GOJEK<small>PERSONAL RIDE INTELLIGENCE</small></span></a><a class="old-link" href="old-dashboard.html">Old Dashboard →</a></header>
+  <main id="main">
+    <section class="intro"><div><p class="eyebrow">BEFORE YOU BOOK</p><h1>A little history.<br>A clearer choice.</h1><p class="lead">Compare your current app quotes with past paid fares.<br>Keep the route, direction and service in view.</p></div><div class="truth"><span class="dot"></span> Historical observations<small>No live feed · no predictive model<br>No accounts connected · quotes are not saved</small></div></section>
+    <div id="freshness" class="notice" role="status">Loading historical evidence…</div>
+    <section class="booking-panel section" aria-labelledby="booking-title">
+      <div class="section-head"><div><p class="eyebrow">READY TO GO?</p><h2 id="booking-title">From here to where?</h2></div><span class="pill">Location stays on your device</span></div>
+      <p class="muted">Use your current location or choose a starting place. We’ll look up past paid fares for your destination and the current Singapore time. Available destinations come from your published history.</p>
+      <button id="use-location" class="location-button" type="button">⌖ Use current location</button>
+      <p id="location-status" class="muted" role="status">Location is requested only when you tap. First visit? Identify your places below, or select them manually.</p>
+      <form id="booking-form">
+        <div class="booking-fields"><label>Starting place<select id="booking-origin"><option value="">Choose a place</option></select></label><label>Destination<select id="booking-destination"><option value="">Where are you going?</option></select></label><label id="journey-picker" hidden>Journey &amp; ordered stops<select id="booking-journey"><option value="">Choose journey / stops</option></select></label></div>
+        <button id="show-estimate" class="primary" type="submit" disabled>Show historical fare estimate →</button>
+      </form>
+      <p id="booking-result" class="booking-result" aria-live="polite">Loading available journeys…</p>
+      <details id="place-setup"><summary>Place setup &amp; location privacy</summary>
+        <p>While at a place you use, tap <strong>Use current location</strong>, select its alias below, then identify this spot. The page can recognise it on later checks. Nearby or imprecise matches require manual selection; it does not look up addresses or infer road distance from GPS.</p>
+        <div class="place-fields"><label>Identify this spot as<select id="place-alias"><option value="">Choose a place alias</option></select></label><button id="save-place" class="secondary" type="button" disabled>Set this spot as selected place</button></div>
+        <label class="check-label"><input id="remember-places" type="checkbox">Remember configured places on this device</label>
+        <p class="muted">Off by default: coordinates disappear when you reload. If enabled, only your configured place points are saved in this browser, until you forget them or clear site data. No location trail, quotes or trips are saved. Browser storage is not encrypted by this app and other pages on the same site origin may access it. This dashboard sends no coordinates to a server; your browser or operating system may use its own location service.</p>
+        <p id="saved-places" class="muted"></p><button id="forget-places" class="secondary" type="button">Forget all configured places</button>
+      </details>
     </section>
-
-    <section id="rides" class="panel">
-      <article class="card">
-        <div class="section-head">
-          <div>
-            <h2>Route Explorer</h2>
-            <p>Compare historical fares, Grab booking types, timing, driving distance and S$/km.</p>
-          </div>
-          <select id="routeSelect"></select>
-        </div>
-        <div id="routeDetail"></div>
-      </article>
+    <section aria-labelledby="routes-title" class="section"><div class="section-head"><div><p class="eyebrow">YOUR REGULAR JOURNEYS</p><h2 id="routes-title">Start with a route</h2></div><p id="coverage" class="muted"></p></div><div id="frequent" class="route-grid"></div></section>
+    <section class="workbench" aria-labelledby="compare-title">
+      <div class="section-head"><div><p class="eyebrow">HISTORICAL FARE BENCHMARKS</p><h2 id="compare-title" tabindex="-1">Which option is worth checking?</h2></div><span class="pill">SGD only</span></div>
+      <div class="filters"><label>Route &amp; direction<select id="route"></select></label><label>Time of day (Singapore)<select id="hour"><option value="">All observed hours</option></select></label><label>Day of week<select id="weekday"><option value="">All observed days</option></select></label></div>
+      <div id="route-context" class="context"></div>
+      <div id="options" class="option-grid" aria-live="polite"></div>
+      <div id="comparison" class="comparison"></div>
+      <div class="detail-grid"><article><h3>Distance &amp; fare basis</h3><div id="distance"></div></article><article><h3>Time-of-day evidence</h3><div id="timing"></div></article></div>
     </section>
-
-    <section id="fare" class="panel">
-      <article class="card fare-box">
-        <h2>Is this quoted fare good?</h2>
-        <p>
-          Compare a current quote with your own history using route, provider,
-          Grab pricing type, time of travel, weekday, driving distance and S$/km.
-          The score is from 0 to 5.
-        </p>
-
-        <div class="form-grid">
-          <label>
-            Route
-            <select id="fareRoute"></select>
-          </label>
-
-          <label>
-            Provider
-            <select id="fareProvider">
-              <option>Grab</option>
-              <option>Gojek</option>
-              <option value="Overall">Either / overall</option>
-            </select>
-          </label>
-
-          <label id="farePricingLabel">
-            Grab pricing type
-            <select id="farePricingType">
-              <option value="Any">Not sure / any Grab</option>
-            </select>
-          </label>
-
-          <label>
-            Quoted fare (SGD)
-            <input
-              id="fareAmount"
-              type="number"
-              step="0.01"
-              min="0"
-              placeholder="e.g. 24.90"
-            >
-          </label>
-
-          <button id="checkFare">Check fare</button>
-        </div>
-
-        <div id="fareResult" class="result-box muted">
-          Enter a fare to compare it with your history.
-        </div>
-      </article>
-    </section>
-
-    <section id="food" class="panel">
-      <div class="grid two">
-        <article class="card">
-          <h2>Food overview</h2>
-          <div id="foodSummary"></div>
-        </article>
-
-        <article class="card">
-          <h2>Most ordered</h2>
-          <div id="topFood"></div>
-        </article>
-      </div>
-    </section>
-
-    <section id="agent" class="panel">
-      <article class="card">
-        <h2>Ask My Data</h2>
-        <p>
-          This version answers common questions from the aggregated dataset
-          without sending your data to an external AI service.
-        </p>
-
-        <div class="chips">
-          <button data-q="What is my normal fare from home to office?">Home → Office fare</button>
-          <button data-q="Which is cheaper from home to office?">Cheaper to office</button>
-          <button data-q="How much have I spent on rides?">Ride spend</button>
-          <button data-q="What food do I order most?">Top food</button>
-        </div>
-
-        <div class="ask-row">
-          <input id="agentQuestion" placeholder="Ask about fares, routes, spending or food">
-          <button id="askButton">Ask</button>
-        </div>
-
-        <div id="agentAnswer" class="result-box">
-          Try one of the quick questions above.
-        </div>
-      </article>
-    </section>
-  </main>
-
-  <footer>
-    Based on historical data only. It does not query live Grab or Gojek prices.
-  </footer>
-
-  <script src="app.js?v=14"></script>
-</body>
-</html>
+    <section class="quote-panel" aria-labelledby="quote-title"><div><p class="eyebrow">BRING YOUR OWN QUOTE</p><h2 id="quote-title">How does today's price compare?</h2><p>Enter a price you just saw in the provider app. It stays on this page and disappears when you reload.</p></div><form id="quote-form"><label>Service<select id="quote-service"><option value="Grab|Fixed">Grab Fixed</option><option value="Grab|Metered">Grab Metered</option><option value="Gojek|Any">Gojek</option><option value="Grab|Premium">Grab Premium / Plus</option></select></label><label>Quoted amount (SGD)<input id="quote-amount" type="number" step="0.01" min="0.01" inputmode="decimal" placeholder="e.g. 25.00" required></label><button class="primary" type="submit">Compare with history →</button></form><div id="quote-result" class="quote-result" aria-live="polite">No quote entered. Compare the current prices in both apps before choosing.</div></section>
+    <section class="section" aria-labelledby="history-title"><div class="section-head"><div><p class="eyebrow">THE BIGGER PICTURE</p><h2 id="history-title">Spending &amp; coverage</h2></div><p class="muted">Paid-fare history; different routes and periods are mixed.</p></div><div id="totals" class="totals"></div><div class="detail-grid history"><article><h3>Monthly recorded spend</h3><p class="muted">Partial months and unequal provider coverage limit comparisons.</p><div id="monthly"></div></article><article><h3>What the data can tell you</h3><div id="sources"></div><h3>Food history</h3><div id="food"></div><a href="old-dashboard.html">Open the classic charts &amp; Ask My Data →</a></article></div></section>
+    <section class="method section"><details open><summary>How to read these comparisons</summary><div class="method-grid"><div><h3>History, quotes and predictions</h3><p>Cards show past statement totals. The middle 50% is the 25th–75th percentile of those observations, rounded outwards to whole dollars; it is not a forecast interval. The typical value is the historical median, rounded to a whole dollar.</p><p>A typed quote is an observation supplied by you, not a live connection. No model has been validated and no prediction accuracy is claimed.</p></div><div><h3>Comparable, with limits</h3><p>Provider and Grab service never substitute for one another. We prefer an available hour sample, then weekday, then all observed times within the same service. Hour and weekday are not jointly matched. Cross-provider comparisons use the same available grouping.</p><p>Five observations permit a descriptive comparison, not statistical confidence. Different dates, traffic, route variations, offers and fees may explain differences. Small samples do not establish a cheaper provider or a better booking time.</p></div><div><h3>Multi-stop &amp; private places</h3><p>V Place remains an alias. Reviewed ordered stops can form a separate route; ambiguous imported stops are held for local review. Older aggregates do not establish whether a journey was direct. Endpoint-only distance is never used for a verified multi-stop route.</p><p>Small groups are withheld and only approved place aliases are published. Public aggregates still reveal habits. The Old Dashboard uses the same restricted dataset.</p></div></div></details>
+    <details><summary>Proposed next step: a private manual quote log</summary><p><strong>Proposal only — no quote logger is enabled.</strong> A useful first version would record an alias-only ordered route, service, observation time, quoted range, fee inclusion, chosen option and a separately entered final paid fare. This captures rejected quotes as well as the booked option.</p><p>Preferred pilot: explicit opt-in, on-device storage with delete/export controls, no GPS in log records, no screenshots or receipt uploads, no background sync. Device access and backups can still expose it; browser storage is not encrypted by this app. A paired comparison needs quotes captured close together, and metered estimates must retain their range. Logger storage needs your approval before implementation; the optional place setup above saves only location anchors.</p></details></section>
+  </main><footer>Personal ride intelligence · historical evidence, with its limits visible.</footer>
+  <script src="evidence.js"></script><script src="location.js"></script><script src="booking.js"></script><script src="dashboard.js"></script>
+</body></html>
