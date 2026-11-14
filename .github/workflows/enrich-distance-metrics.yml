@@ -19,13 +19,16 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install calculation dependency
+        run: pip install numpy
+
       - name: Add distance metrics to analytics
         run: |
           python scripts/enrich_distance_metrics.py
 
       - name: Validate analytics JSON
         run: |
-          python -m json.tool docs/data/analytics.json > /dev/null
+          python scripts/validate_public.py
 
       - name: Commit enriched analytics
         run: |
