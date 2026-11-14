@@ -17,3 +17,14 @@ test('unknown per-group dates remain unknown',()=>assert.equal(E.select(route(),
 test('per-km does not turn missing data into zero',()=>{for(const x of [null,undefined,NaN,Infinity,-1])assert.equal(E.perKm(20,x),null);assert.equal(E.perKm(null,10),null);assert.equal(E.perKm(20,10),2)});
 test('position is descriptive and validates input',()=>{assert.match(E.position(10,stats()),/^Below/);assert.equal(E.position(0,stats()),null);assert.equal(E.position(20,{count:1}),null)});
 test('freshness handles unknown dates and explicit clock',()=>{assert.equal(E.stale(null),null);assert.equal(E.stale('not a date'),null);assert.equal(E.stale('2026-08-10',new Date('2026-11-14')),true);assert.equal(E.stale('2026-11-10',new Date('2026-11-14')),false)});
+test('rebuilt history preserves the legacy reconciliation limitation',()=>{
+  const note=E.historyNote({history_basis:'private_source_records',history_reconciliation:{status:'reviewed_legacy_difference'}});
+  assert.match(note,/Rebuilt from available source statements/);assert.match(note,/completeness is not guaranteed/);assert.match(note,/No balancing transactions/);
+});
+test('missing history metadata does not imply a source rebuild',()=>{
+  assert.match(E.historyNote({}),/Legacy aggregate only/);assert.doesNotMatch(E.historyNote({}),/Rebuilt from/);
+});
+test('unknown review status remains unresolved without echoing arbitrary private text',()=>{
+  const note=E.historyNote({history_reconciliation:{status:'private string'}});
+  assert.match(note,/unresolved/);assert.doesNotMatch(note,/private string/);
+});
