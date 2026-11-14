@@ -3,11 +3,13 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import shutil
 import sys
 
 from copy import deepcopy
 from datetime import datetime
+from decimal import Decimal
 from pathlib import Path
 from typing import Any
 
@@ -402,8 +404,21 @@ def merge_records(existing, imported):
                 differs = key != identities[identity] or any(old.get(k) != row.get(k)
                     for k in ("origin", "destination", "stops"))
                 pricing_changed = old.get("pricing_type") and row.get("pricing_type") and old["pricing_type"] != row["pricing_type"]
-                if differs or pricing_changed or row.get("route_status") == "needs_review" and old.get("route_status") != "needs_review":
+                booking_changed = old.get("booking_code") and row.get("booking_code") and old["booking_code"] != row["booking_code"]
+                if differs or pricing_changed or booking_changed or row.get("route_status") == "needs_review" and old.get("route_status") != "needs_review":
                     raise ValueError("Overlapping records disagree; resolve the private source before refresh. No amounts or locations logged.")
+                # Keep additional source evidence when a repeated export agrees.
+                updated = dict(old)
+                references = [dict(ref) for ref in old.get("source_references", [])]
+                for reference in row.get("source_references", []):
+                    if reference not in references:
+                        references.append(dict(reference))
+                if references:
+                    updated["source_references"] = references
+                for field in ("booking_code", "source_datetime"):
+                    if not updated.get(field) and row.get(field):
+                        updated[field] = row[field]
+                merged[identities[identity]] = updated
                 if is_new:
                     duplicates += 1
                 continue
@@ -412,6 +427,36 @@ def merge_records(existing, imported):
             if is_new:
                 added += 1
     return sorted(merged.values(), key=lambda r: r["datetime"]), duplicates, added
+
+
+def historical_coverage_report(transactions, current_data):
+    """Reconcile the old date window; a higher new total can still hide missing history."""
+    results = []
+    for provider, source in current_data.get("source_summary", {}).items():
+        period = re.fullmatch(r"(\d{4}-\d{2}-\d{2}) to (\d{4}-\d{2}-\d{2})", str(source.get("period", "")))
+        if not period:
+            raise ValueError('Existing source period is unknown; reconcile historical coverage privately')
+        start, end = period.groups()
+        rows = [r for r in transactions if r.get('provider') == provider and start <= str(r.get('date', '')) <= end]
+        expected_count = int(source['transactions'])
+        expected_spend = current_data.get('providers', {}).get(provider, {}).get('spend_sgd')
+        actual_spend = sum((Decimal(str(r['amount'])) for r in rows if r['currency'] == 'SGD'), Decimal(0))
+        spend_ok = expected_spend is None or actual_spend == Decimal(str(expected_spend))
+        results.append({'provider': provider, 'period': source['period'],
+                        'expected_count': expected_count, 'recovered_count': len(rows),
+                        'count_difference': expected_count - len(rows),
+                        'expected_spend_sgd': expected_spend, 'recovered_spend_sgd': float(actual_spend),
+                        'matches': len(rows) == expected_count and spend_ok})
+    if not results and current_data.get('summary', {}).get('total_transactions', 0):
+        raise ValueError('Existing history lacks source coverage; reconcile it privately before replacement')
+    return results
+
+
+def require_historical_coverage(transactions, current_data):
+    report = historical_coverage_report(transactions, current_data)
+    if any(not row['matches'] for row in report):
+        raise ValueError('Historical source-window counts or totals do not reconcile. Existing files were not replaced; recover the missing history first.')
+    return report
 
 
 def main() -> None:
@@ -559,6 +604,8 @@ def main() -> None:
 
     transactions, duplicate_count, added_count = merge_records(existing_master, imported)
 
+    historical_coverage = require_historical_coverage(transactions, current_analytics)
+
     distance_data = load_json(
         Path(args.distances),
         {},
@@ -590,6 +637,7 @@ def main() -> None:
         "duplicates_skipped": duplicate_count,
         "new_transactions_added": added_count,
         "master_after": len(transactions),
+        "historical_coverage": historical_coverage,
         "public_routes": len(new_analytics.get("routes", [])),
         "routes_with_distance": int(
             new_analytics.get(
