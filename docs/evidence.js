@@ -67,5 +67,15 @@
     const value = Date.parse(date);
     return Number.isFinite(value) ? Math.floor((today - value) / 86400000) > 30 : null;
   }
-  return { MIN, validStats, groups, select, compare, distance, perKm, position, stale };
+  function historyNote(data) {
+    const source = data?.history_basis === 'private_source_records' ?
+      'Rebuilt from available source statements and the preserved private baseline. Comparable-group dates are shown where supported. Fare components and ordered stops remain unverified; disputed endpoints are excluded from route benchmarks.' :
+      'Legacy aggregate only. Comparable-trip dates and receipt-level provenance are unavailable; a private-source rebuild is needed.';
+    const review = data?.history_reconciliation?.status;
+    if (review === 'reviewed_legacy_difference') return source +
+      ' Historical reconciliation limitation: the earlier published summary differs from the recovered source records. The earlier snapshot and review are preserved privately. No balancing transactions were invented; completeness is not guaranteed.';
+    if (review && review !== 'matched') return source + ' Historical reconciliation is unresolved.';
+    return source;
+  }
+  return { MIN, validStats, groups, select, compare, distance, perKm, position, stale, historyNote };
 });

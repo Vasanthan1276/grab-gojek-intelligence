@@ -108,6 +108,11 @@ async function init() {
   }
 
   DATA = await response.json();
+  const historyReview = document.getElementById('historyReconciliation');
+  if (historyReview && DATA.history_reconciliation) {
+    historyReview.hidden = false;
+    historyReview.textContent = RideEvidence.historyNote(DATA);
+  }
 
   renderSummary();
   renderProviders();

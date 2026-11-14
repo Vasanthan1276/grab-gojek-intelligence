@@ -65,3 +65,11 @@ Browser checks cover the new desktop dashboard, quote comparison, absent-service
 4. Approve the quote logger's storage and retention approach before it is built.
 
 Visual evidence is included in the downloadable review package and uses only the synthetic dataset in `tests/fixtures/dashboard-synthetic.json`; screenshot numbers are illustrative, not personal fares. Browser captures are kept out of the deployed site and source tree.
+
+## Historical rebuild and reconciliation — 14 November 2026
+
+After the initial interface review, the owner supplied newer exports and a longer Grab statement. Available statements were reconciled to their declared counts and SGD totals, merged with the preserved private baseline, and deduplicated using source evidence. The rebuilt dataset contains 446 records through 12 November. Each source document, previous master, source hash and field-resolution audit is retained privately. Native statement labels supersede older generic service text; disputed endpoint labels are excluded from route benchmarks. No ordered stops or fare components were fabricated.
+
+The previous Gojek count and total reconcile. The previous Grab aggregate has a residual difference consistent with legacy food transactions being classified as rides and counted again. This remains an inference because the original August transaction master is unavailable. The owner approved reconciliation and merge on 14 November; the rebuild uses supported source rows and retains the prior snapshot and discrepancy privately. Both layouts show the remaining completeness limitation. The automatic historical guard is retained for future imports.
+
+The refresh adds comparable-group dates, supported monthly totals and nine public route groups. Eight existing distances are retained; no new route-distance measurements or live quotes were fetched. The classic layout and mobile location controls remain available. Tests now also reject category-changing duplicate payments and reused booking references with changed timestamps, while allowing distinct documented food/ride bookings at the same minute.

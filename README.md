@@ -6,20 +6,24 @@ The review branch preserves the classic interface at `docs/old-dashboard.html`, 
 
 ## Current evidence
 
-The checked-in history was last refreshed on **10 August 2026**, covering Grab records from 20 January–9 August 2026 and Gojek records from 30 July 2025–9 August 2026. The review did not import new receipts or change retained observed fares. Per-route/per-group dates, fare components and stop verification are absent from the old aggregates and remain unknown.
+The checked-in history was rebuilt on **14 November 2026** from available statements and the preserved private baseline: 446 records, covering Grab from 20 January–12 November 2026 and Gojek from 30 July 2025–12 November 2026. Comparable groups now include dates and sample counts. Fare components and ordered stops remain unverified; endpoint conflicts are withheld from route benchmarks.
 
-Eight routes meet the new minimum group size. Small route/provider/service/time groups and fare extremes are withheld. Legacy monthly cells lack sample counts, so monthly detail is withheld pending a reviewed private-history rebuild. Raw source files and the private transaction master are not in this repository. See [the review](REVIEW.md) for evidence, limitations and validation.
+Nine routes meet the minimum group size; eight retain existing rounded driving distances. Small route/provider/service/time groups and fare extremes are withheld. Monthly totals have sample counts; unsupported components remain absent. Raw sources, source hashes, previous masters, the rebuilt database and the detailed reconciliation are archived privately.
+
+**Historical reconciliation limitation:** the older published Grab summary does not exactly match the recovered source records. Its differences are consistent with a legacy food/ride classification and duplicate-import problem, but the original August row-level master is unavailable, so this cause remains an inference. The owner approved proceeding with available source records, preserving the previous snapshot and disclosing the difference. No balancing transactions were invented and completeness is not guaranteed. Both layouts display this limitation. This reviewed rebuild does not disable the normal refresh guard. See [the review](REVIEW.md).
 
 ## Receipt processing
 
 1. Keep PDFs under ignored `local_data/grab/` and `local_data/gojek/`. Configure ignored `config/private_aliases.json` with `setup_private_aliases.bat`.
-2. Grab statements are rasterised and parsed with local Tesseract OCR. Row-count mismatches stop the import. Gojek tables are read with pdfplumber; malformed rows stop the import rather than silently dropping transactions.
+2. Text-based Grab statements are read directly with PyMuPDF, including wrapped booking references. Their date window, transaction count and currency total must reconcile exactly. Image-only Grab statements use local Tesseract OCR; row-count mismatches stop the import. Gojek tables are read with pdfplumber; malformed rows stop the import rather than silently dropping transactions.
 3. Normalise approved private aliases (`HOME`, `OFFICE`, `V_PLACE`, `COMPASSVALE`). Unknown location text remains private. Unknown currency or service is not guessed.
-4. Merge with `local_private/transactions.json`. Exact overlapping records are skipped. Conflicting values at the same provider/category/timestamp stop for private reconciliation. The legacy minute timestamp identity can still collide; conflicts must be resolved against source receipts.
+4. Merge with `local_private/transactions.json`. Exact overlaps retain source references without double counting. Conflicting booking references, changed fields for the same booking, or potential duplicates across ride/food categories stop for private review. Distinct documented bookings remain separate. The legacy minute timestamp identity can still collide. Each provider's old date-window count and SGD total must reconcile before automatic replacement; adding newer rides cannot hide missing older history.
 5. Build directional route and provider/service/hour/weekday distributions, then enforce public-label and minimum-sample rules. SGD analytics exclude unknown and non-SGD currencies. Statement totals are not decomposed into invented fees or discounts.
 6. Apply matching rounded route distances, validate public output and back up the existing master and analytics locally before replacement. All validation precedes writes. Multiple output-file replacements are sequential, not one database transaction.
 
 Run `refresh_history.bat`, or `python scripts/refresh_history.py`. The old `process_reports.py` entry point delegates to the same validated pipeline. OCR still needs a local Tesseract installation. Review the private report and public diff before committing. Do not publish private backups, receipt filenames, raw text or coordinates.
+
+Recovered private alias rules may use `equals` for exact, case-insensitive cleaned-text matches. This avoids a recovered place name unintentionally matching a longer unrelated address. Keep any source archive, row-level database and private reconciliation report outside the public repository. Retain original PDFs, source hashes and the earlier master when updating history.
 
 ## Routes and multi-stop journeys
 
