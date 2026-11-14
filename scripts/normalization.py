@@ -77,6 +77,12 @@ def _matches_private_alias(
             or []
         )
 
+        exact_values = rule.get("equals", []) or []
+        if alias.upper() in {"HOME", "OFFICE", "V_PLACE", "COMPASSVALE"} and any(
+            _clean(value).upper() == upper for value in exact_values if _clean(value)
+        ):
+            return alias.upper()
+
         if (
             alias.upper() in {"HOME", "OFFICE", "V_PLACE", "COMPASSVALE"}
             and
